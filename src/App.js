@@ -58,11 +58,17 @@ function App() {
     //console.log(await getNaptanTypes())
 
     const result = await getStopPointsByRadius(stopTypes, latLong, radius)
+    console.log(result)
     const { stopPoints } = result
     //console.log(stopPoints)
-    const commonNames = stopPoints.length > 0 ? stopPoints.map(pt => pt.commonName) : "None found"
+    if (stopPoints.length === 0){
+      setInfo(`No stops found within ${radius} metres of postcode ${postcode}`)
+      return
+    }
+    const summary = stopPoints.map(({commonName, distance}) => ({commonName, distance: Math.round(distance)}))
+    const summaryText = summary.map(({commonName, distance}) => (`${commonName} (${distance}m)`))
     //console.log(commonNames)
-    setInfo(`Stops within ${radius} metres of postcode ${postcode} (${latLong.lat}, ${latLong.lon}): ${commonNames.join(", ")}`)
+    setInfo(`Stops within ${radius} metres of postcode ${postcode} (${latLong.lat}, ${latLong.lon}): ${summaryText.join(", ")}`)
   }
   return (
     <div className="App">
