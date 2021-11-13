@@ -7,10 +7,10 @@ const postcodes = require('node-postcodes.io')
 const TFL_API_URL_ROOT = "https://api.tfl.gov.uk"
 // https://blog.tfl.gov.uk/2015/10/08/unified-api-part-2-lot-location-of-things/
 const NAPTAN_STOPTYPES_DEFAULT = [
-  "NaptanMetroStation",
-  "NaptanRailStation",
-  //"NaptanBusCoachStation",
-  //"NaptanPublicBusCoachTram",
+  //"NaptanMetroStation", // underground, overground
+  //"NaptanRailStation", // national rail
+  "NaptanBusCoachStation", // major bus stations
+  "NaptanPublicBusCoachTram", //minor bus stations
   //"NaptanFerryPort",
 ]
 
@@ -27,7 +27,7 @@ const makeGetRequest = async(route, otherParams) => {
   //const appParams = app_id & app_key ? `?app_id=${process.env.REACT_APP_APP_ID}&app_key=${process.env.REACT_APP_PRIMARY_KEY}&` : "?"
   let app_params = app_id && app_key ? {app_id, app_key} : {}
   const params = new URLSearchParams({...app_params, ...otherParams}).toString();
-  //console.log(params)
+  console.log(params)
   const response = await fetch(`${TFL_API_URL_ROOT}${route}?${params}`);
   return await response.json()
 }
@@ -36,16 +36,29 @@ const makeGetRequest = async(route, otherParams) => {
 //   return await makeGetRequest("/StopPoint/Meta/StopTypes")
 // }
 
+const getStoppointDataCategories = async () => {
+  return await makeGetRequest("/StopPoint/Meta/categories")
+}
+
 const getStopPointsByRadius = async (stopTypes, latLong, radius) => {
   const { lat, lon } = latLong
-  let params = {stopTypes: stopTypes.join(), lat, lon, radius}
+  let params = {stopTypes: stopTypes.join(), lat, lon, radius, returnLines: true}
   return await makeGetRequest("/StopPoint", params)
 }
 
+const filterStopPointsByLineData = (stopPoints) => {
+  return stopPoints.filter(stopPoint => stopPoint.lines.length > 0)
+}
+
 function App() {
+  //const defaultPostcode = "SE1 6TG" // example location in API docs
+  const defaultPostcode = "SE1 9SG" //london bridge bus station
+  const defaultRadius = 300
+
+
   const [info, setInfo] = useState("Waiting for search...")
-  const [postcode, setPostcode] = useState("SE1 6TG")
-  const [radius, setRadius] = useState(200)
+  const [postcode, setPostcode] = useState(defaultPostcode)
+  const [radius, setRadius] = useState(defaultRadius)
 
   const handleButtonClick = async () => {
     const stopTypes = NAPTAN_STOPTYPES_DEFAULT
@@ -56,19 +69,26 @@ function App() {
     //console.log(process.env.REACT_APP_APP_ID)
     //console.log(process.env.REACT_APP_PRIMARY_KEY)
     //console.log(await getNaptanTypes())
-
+    console.log(await getStoppointDataCategories())
     const result = await getStopPointsByRadius(stopTypes, latLong, radius)
-    console.log(result)
-    const { stopPoints } = result
+    const resultLatLong = result.centrePoint
+    //console.log(result)
+    let { stopPoints } = result
     //console.log(stopPoints)
     if (stopPoints.length === 0){
       setInfo(`No stops found within ${radius} metres of postcode ${postcode}`)
       return
     }
+
+    console.log(stopPoints)
+    stopPoints = filterStopPointsByLineData(stopPoints)
+    console.log(stopPoints)
+
     const summary = stopPoints.map(({commonName, distance}) => ({commonName, distance: Math.round(distance)}))
     const summaryText = summary.map(({commonName, distance}) => (`${commonName} (${distance}m)`))
     //console.log(commonNames)
-    setInfo(`Stops within ${radius} metres of postcode ${postcode} (${latLong.lat}, ${latLong.lon}): ${summaryText.join(", ")}`)
+    setInfo(`Stops within ${radius} metres of postcode ${postcode} (${resultLatLong}): ${summaryText.join(", ")}`)
+    
   }
   return (
     <div className="App">
