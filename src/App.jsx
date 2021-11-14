@@ -2,12 +2,11 @@ import React, { useState } from "react";
 
 // import logo from './logo.svg';
 import logo from "./tfl_roundel_no_text.svg";
-
 import "./App.css";
 
-const postcodes = require("node-postcodes.io")
+const postcodes = require("node-postcodes.io");
 
-const TFL_API_URL_ROOT = "https://api.tfl.gov.uk"
+const TFL_API_URL_ROOT = "https://api.tfl.gov.uk";
 // https://blog.tfl.gov.uk/2015/10/08/unified-api-part-2-lot-location-of-things/
 const NAPTAN_STOPTYPES_DEFAULT = [
   // "NaptanMetroStation", // underground, overground
@@ -15,96 +14,111 @@ const NAPTAN_STOPTYPES_DEFAULT = [
   "NaptanBusCoachStation", // major bus stations
   "NaptanPublicBusCoachTram", // minor bus stations
   // "NaptanFerryPort",
-]
+];
 
 const postcodeToLatLong = async (postcode) => {
-  const response = await postcodes.lookup(postcode)
-  const { result } = response
-  const { latitude, longitude } = result
-  return { lat: latitude, lon: longitude }
-}
+  const response = await postcodes.lookup(postcode);
+  const { result } = response;
+  const { latitude, longitude } = result;
+  return { lat: latitude, lon: longitude };
+};
 
 const makeGetRequest = async (route, otherParams) => {
-  const appKey = process.env.REACT_APP_TFL_KEY
-  let params = appKey ? { app_key: appKey, ...otherParams } : { ...otherParams }
+  const appKey = process.env.REACT_APP_TFL_KEY;
+  let params = appKey
+    ? { app_key: appKey, ...otherParams }
+    : { ...otherParams };
   params = new URLSearchParams(params).toString();
-  console.log(params)
+  console.log(params);
   const response = await fetch(`${TFL_API_URL_ROOT}${route}?${params}`);
-  return response.json()
-}
+  return response.json();
+};
 
 // const getNaptanTypes = async () => {
 //   return await makeGetRequest("/StopPoint/Meta/StopTypes")
 // }
 
-const getStoppointDataCategories = async () => makeGetRequest("/StopPoint/Meta/categories")
+const getStoppointDataCategories = async () =>
+  makeGetRequest("/StopPoint/Meta/categories");
 
 const getStopPointsByRadius = async (stopTypes, latLong, radius) => {
-  const { lat, lon } = latLong
+  const { lat, lon } = latLong;
   const params = {
-    stopTypes: stopTypes.join(), lat, lon, radius, returnLines: true,
-  }
-  return makeGetRequest("/StopPoint", params)
-}
+    stopTypes: stopTypes.join(),
+    lat,
+    lon,
+    radius,
+    returnLines: true,
+  };
+  return makeGetRequest("/StopPoint", params);
+};
 
-const filterStopPointsByLineData = (stopPoints) => (
-  stopPoints.filter((stopPoint) => stopPoint.lines.length > 0)
-)
+const filterStopPointsByLineData = (stopPoints) =>
+  stopPoints.filter((stopPoint) => stopPoint.lines.length > 0);
 
 const App = () => {
   // const defaultPostcode = "SE1 6TG" // example location in API docs
-  const defaultPostcode = "SE1 9SG" // london bridge bus station
-  const defaultRadius = 300
+  const defaultPostcode = "SE1 9SG"; // london bridge bus station
+  const defaultRadius = 300;
 
-  const [info, setInfo] = useState("Waiting for search...")
-  const [postcode, setPostcode] = useState(defaultPostcode)
-  const [radius, setRadius] = useState(defaultRadius)
+  const [info, setInfo] = useState("Waiting for search...");
+  const [postcode, setPostcode] = useState(defaultPostcode);
+  const [radius, setRadius] = useState(defaultRadius);
 
   const handleButtonClick = async () => {
-    const stopTypes = NAPTAN_STOPTYPES_DEFAULT
-    setInfo(`Getting latitude/longitude of postcode ${postcode}...`)
-    const latLong = await postcodeToLatLong(postcode)
-    setInfo(`Searching for stops within ${radius} metres of ${postcode} (${JSON.stringify(latLong)})...`)
+    const stopTypes = NAPTAN_STOPTYPES_DEFAULT;
+    setInfo(`Getting latitude/longitude of postcode ${postcode}...`);
+    const latLong = await postcodeToLatLong(postcode);
+    setInfo(
+      `Searching for stops within ${radius} metres of ${postcode} (${JSON.stringify(
+        latLong
+      )})...`
+    );
     // setData(JSON.stringify(latLong))
     // console.log(process.env.REACT_APP_APP_ID)
     // console.log(process.env.REACT_APP_PRIMARY_KEY)
     // console.log(await getNaptanTypes())
-    console.log(await getStoppointDataCategories())
-    const result = await getStopPointsByRadius(stopTypes, latLong, radius)
-    const resultLatLong = result.centrePoint
+    console.log(await getStoppointDataCategories());
+    const result = await getStopPointsByRadius(stopTypes, latLong, radius);
+    const resultLatLong = result.centrePoint;
     // console.log(result)
-    let { stopPoints } = result
+    let { stopPoints } = result;
     // console.log(stopPoints)
     if (stopPoints.length === 0) {
-      setInfo(`No stops found within ${radius} metres of postcode ${postcode}`)
-      return
+      setInfo(`No stops found within ${radius} metres of postcode ${postcode}`);
+      return;
     }
 
-    console.log(stopPoints)
-    stopPoints = filterStopPointsByLineData(stopPoints)
-    console.log(stopPoints)
+    console.log(stopPoints);
+    stopPoints = filterStopPointsByLineData(stopPoints);
+    console.log(stopPoints);
 
-    const summary = stopPoints.map(({ commonName, distance }) => (
-      { commonName, distance: Math.round(distance) }
-    ))
-    const summaryText = summary.map(({ commonName, distance }) => (`${commonName} (${distance}m)`))
+    const summary = stopPoints.map(({ commonName, distance }) => ({
+      commonName,
+      distance: Math.round(distance),
+    }));
+    const summaryText = summary.map(
+      ({ commonName, distance }) => `${commonName} (${distance}m)`
+    );
     // console.log(commonNames)
-    setInfo(`Stops within ${radius} metres of postcode ${postcode} (${resultLatLong}): ${summaryText.join(", ")}`)
-  }
+    setInfo(
+      `Stops within ${radius} metres of postcode ${postcode} (${resultLatLong}): ${summaryText.join(
+        ", "
+      )}`
+    );
+  };
   return (
     <div className="App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          transit-tool
-        </p>
+        <p>transit-tool</p>
         {/* {postcode} */}
         <input value={postcode} onInput={(e) => setPostcode(e.target.value)} />
         <input value={radius} onInput={(e) => setRadius(e.target.value)} />
-        <button type="button" onClick={handleButtonClick}>Get Data</button>
-        <p>
-          {info}
-        </p>
+        <button type="button" onClick={handleButtonClick}>
+          Get Data
+        </button>
+        <p>{info}</p>
         {/* <a
           className="App-link"
           href="https://reactjs.org"
@@ -116,6 +130,6 @@ const App = () => {
       </header>
     </div>
   );
-}
+};
 
 export default App;

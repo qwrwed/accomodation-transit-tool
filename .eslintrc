@@ -2,13 +2,12 @@
   "extends": [
     "react-app",
     "airbnb",
-    "plugin:jsx-a11y/recommended"
-    //"prettier",
-    // "prettier/react"
+    "plugin:jsx-a11y/recommended",
+    "prettier"
   ],
   "plugins": [
-    "jsx-a11y"
-    //"prettier"
+    "jsx-a11y",
+    "prettier"
   ],
   "rules": {
     "semi": 0,
@@ -22,12 +21,12 @@
         "namedComponents": "arrow-function",
         "unnamedComponents": "arrow-function"
       }
+    ],
+    "prettier/prettier": [
+      "error", {
+        "semi": true,
+        "endOfLine": "auto"
+      }
     ]
-    // "prettier/prettier": [
-    //   "error", {
-    //     "semi": false,
-    //     "endOfLine": "auto"
-    //   }
-    // ]
   }
 }
