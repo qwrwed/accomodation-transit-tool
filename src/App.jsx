@@ -1,6 +1,3 @@
-/* eslint-disable react/button-has-type */
-/* eslint-disable react/jsx-filename-extension */
-
 import React, { useState } from "react";
 
 // import logo from './logo.svg';
@@ -28,10 +25,9 @@ const postcodeToLatLong = async (postcode) => {
 }
 
 const makeGetRequest = async (route, otherParams) => {
-  const appId = process.env.REACT_APP_TFL_APP_ID
-  const appKey = process.env.REACT_APP_TFL_PRIMARY_KEYs
-  const appParams = appId && appKey ? { appId, appKey } : {}
-  const params = new URLSearchParams({ ...appParams, ...otherParams }).toString();
+  const appKey = process.env.REACT_APP_TFL_KEY
+  let params = appKey ? { app_key: appKey, ...otherParams } : { ...otherParams }
+  params = new URLSearchParams(params).toString();
   console.log(params)
   const response = await fetch(`${TFL_API_URL_ROOT}${route}?${params}`);
   return response.json()
@@ -105,7 +101,7 @@ const App = () => {
         {/* {postcode} */}
         <input value={postcode} onInput={(e) => setPostcode(e.target.value)} />
         <input value={radius} onInput={(e) => setRadius(e.target.value)} />
-        <button onClick={handleButtonClick}>Get Data</button>
+        <button type="button" onClick={handleButtonClick}>Get Data</button>
         <p>
           {info}
         </p>
