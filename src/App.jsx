@@ -1,15 +1,15 @@
 /* eslint-disable */
 import React, { useState } from "react";
 // import Button from "react-bootstrap/Button";
-// import Button from "@mui/material/Button";
+import Button from "@mui/material/Button";
 // import TextField from "@mui/material/TextField";
-// import InputAdornment from "@mui/material/InputAdornment";
+import InputAdornment from "@mui/material/InputAdornment";
 import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
-// import Box from "@mui/material/Box";
-import { Button, Paper } from "@mui/material/";
-import { Input } from "@mui/material/";
-// import Input from "@mui/material/Input";
+import TextField from "@mui/material/TextField";
+import Box from "@mui/material/Box";
+//import { Button, Paper } from "@mui/material/";
+import Input from "@mui/material/Input";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 
@@ -78,6 +78,12 @@ const App = () => {
   const [postcode, setPostcode] = useState(defaultPostcode);
   const [radius, setRadius] = useState(defaultRadius);
 
+  const handleRadiusChange = (e) => {
+    // https://stackoverflow.com/a/43177957
+    const onlyNums = e.target.value.replace(/[^0-9]/g, "");
+    setRadius(onlyNums);
+  };
+
   const handleButtonClick = async () => {
     const stopTypes = NAPTAN_STOPTYPES_DEFAULT;
     setInfo(`Getting latitude/longitude of postcode ${postcode}...`);
@@ -87,6 +93,7 @@ const App = () => {
         latLong
       )})...`
     );
+
     // setData(JSON.stringify(latLong))
     // console.log(process.env.REACT_APP_APP_ID)
     // console.log(process.env.REACT_APP_PRIMARY_KEY)
@@ -145,21 +152,48 @@ const App = () => {
     // </div>
     <Container maxWidth="sm" className="App">
       {/* <Paper> */}
-        <img src={logo} className="App-logo" alt="logo" />
-        <Typography variant="h4" component="h1" gutterBottom>
-          transit-tool
-        </Typography>
-        <div><Input value={postcode} onInput={(e) => setPostcode(e.target.value)} /></div>
-        <div><Input value={radius} onInput={(e) => setRadius(e.target.value)} endAdornment={"m"} /></div>
-        <div style={{padding:20, margin:20}}>
-        <Button variant="contained" color="primary" onClick={handleButtonClick}>
-          Get Data
-        </Button>
-        <p>{info}</p>
-        {/* <Button variant="contained" color="secondary">
-          Secondary Button
-        </Button> */}
+      <img src={logo} className="App-logo" alt="logo" />
+      <Typography variant="h4" component="h1" gutterBottom>
+        transit-tool
+      </Typography>
+      <Box
+        component="form"
+        sx={{
+          "& .MuiTextField-root": { m: 1, width: "25ch" },
+        }}
+        noValidate
+        autoComplete="off"
+      >
+        <div>
+          <TextField
+            variant="outlined"
+            label="Postcode"
+            value={postcode}
+            onInput={(e) => setPostcode(e.target.value)}
+          />
         </div>
+        <div>
+          <TextField
+            variant="outlined"
+            label="Radius"
+            value={radius}
+            onInput={handleRadiusChange}
+            InputProps={{
+              endAdornment: <InputAdornment position="end">m</InputAdornment>,
+            }}
+          />
+        </div>
+        <div>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={handleButtonClick}
+          >
+            Get Data
+          </Button>
+        </div>
+      </Box>
+      <p>{info}</p>
       {/* </Paper> */}
     </Container>
   );
