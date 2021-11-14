@@ -1,4 +1,17 @@
+/* eslint-disable */
 import React, { useState } from "react";
+// import Button from "react-bootstrap/Button";
+// import Button from "@mui/material/Button";
+// import TextField from "@mui/material/TextField";
+// import InputAdornment from "@mui/material/InputAdornment";
+import Container from "@mui/material/Container";
+import Typography from "@mui/material/Typography";
+// import Box from "@mui/material/Box";
+import { Button, Paper } from "@mui/material/";
+import { Input } from "@mui/material/";
+// import Input from "@mui/material/Input";
+
+import "bootstrap/dist/css/bootstrap.min.css";
 
 // import logo from './logo.svg';
 import logo from "./tfl_roundel_no_text.svg";
@@ -108,28 +121,89 @@ const App = () => {
     );
   };
   return (
-    <div className="App">
-      <header className="App-header">
+    // <div className="App">
+    //   <header className="App-header">
+    //     <img src={logo} className="App-logo" alt="logo" />
+    //     <p>transit-tool</p>
+    //     {/* {postcode} */}
+    //     <input value={postcode} onInput={(e) => setPostcode(e.target.value)} />
+    //     <input value={radius} onInput={(e) => setRadius(e.target.value)} />
+    //     <Input value={radius} onInput={(e) => setRadius(e.target.value)} />
+    //     <Button type="button" onClick={handleButtonClick} variant="contained">
+    //       Get Data
+    //     </Button>
+    //     <p>{info}</p>
+    //     {/* <a
+    //       className="App-link"
+    //       href="https://reactjs.org"
+    //       target="_blank"
+    //       rel="noopener noreferrer"
+    //     >
+    //       Learn React
+    //     </a> */}
+    //   </header>
+    // </div>
+    <Container maxWidth="sm" className="App">
+      {/* <Paper> */}
         <img src={logo} className="App-logo" alt="logo" />
-        <p>transit-tool</p>
-        {/* {postcode} */}
-        <input value={postcode} onInput={(e) => setPostcode(e.target.value)} />
-        <input value={radius} onInput={(e) => setRadius(e.target.value)} />
-        <button type="button" onClick={handleButtonClick}>
+        <Typography variant="h4" component="h1" gutterBottom>
+          transit-tool
+        </Typography>
+        <div><Input value={postcode} onInput={(e) => setPostcode(e.target.value)} /></div>
+        <div><Input value={radius} onInput={(e) => setRadius(e.target.value)} endAdornment={"m"} /></div>
+        <div style={{padding:20, margin:20}}>
+        <Button variant="contained" color="primary" onClick={handleButtonClick}>
           Get Data
-        </button>
+        </Button>
         <p>{info}</p>
-        {/* <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a> */}
-      </header>
-    </div>
+        {/* <Button variant="contained" color="secondary">
+          Secondary Button
+        </Button> */}
+        </div>
+      {/* </Paper> */}
+    </Container>
   );
 };
 
 export default App;
+
+// import Toast from "react-bootstrap/Toast";
+// import Container from "react-bootstrap/Container";
+// import "./App.css";
+
+// // eslint-disable-next-line react/prop-types
+// const ExampleToast = ({ children }) => {
+//   const [show, toggleShow] = useState(true);
+
+//   return (
+//     <>
+//       {!show && (
+//         <Button variant="filled" onClick={() => toggleShow(true)}>
+//           Show Toast
+//         </Button>
+//       )}
+//       <Toast show={show} onClose={() => toggleShow(false)}>
+//         <Toast.Header>
+//           <strong className="mr-auto">React-Bootstrap</strong>
+//         </Toast.Header>
+//         <Toast.Body>{children}</Toast.Body>
+//       </Toast>
+//     </>
+//   );
+// };
+
+// const App = () => (
+//   <Container className="p-3">
+//     <div className="jumbotron">
+//       <h1 className="header">Welcome To React-Bootstrap</h1>
+//       <ExampleToast>
+//         We now have Toasts
+//         <span role="img" aria-label="tada">
+//           🎉
+//         </span>
+//       </ExampleToast>
+//     </div>
+//   </Container>
+// );
+
+// export default App;
