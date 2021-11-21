@@ -4,13 +4,11 @@ import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
 // import Box from "@mui/material/Box";
 import { Button, Paper } from "@mui/material";
-
+import { objectToList } from "../utils"
 
 import CheckBoxList from "./CheckBoxList";
 import logo from "../logo.svg";
 import "./App/App.css";
-
-
 
 const sampleListLabels = {
   "NaptanMetroStation": "Underground/Overground",
@@ -20,15 +18,6 @@ const sampleListLabels = {
   "NaptanFerryPort": "River Transport",
 };
 // https://www.freecodecamp.org/news/how-to-work-with-multiple-checkboxes-in-react/
-
-const objectToList = (obj) => {
-  // remove pairs where value is false, then extract only keys to list
-  return Object.entries(obj)
-    .filter(([key, value]) => value)
-    .map(([key, value]) => key)
-    .join();
-};
-
 
 
 const App = () => {

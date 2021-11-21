@@ -12,23 +12,33 @@ import Paper from "@mui/material/Paper";
 //import { Button, Paper } from "@mui/material/";
 import Input from "@mui/material/Input";
 
+import CheckBoxList from "../CheckBoxList";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 // import logo from './logo.svg';
 import logo from "../../tfl_roundel_no_text.svg";
 import "./App.css";
+import { objectToList } from "../../utils";
 
 const postcodes = require("node-postcodes.io");
 
 const TFL_API_URL_ROOT = "https://api.tfl.gov.uk";
 // https://blog.tfl.gov.uk/2015/10/08/unified-api-part-2-lot-location-of-things/
-const NAPTAN_STOPTYPES_DEFAULT = [
-  // "NaptanMetroStation", // underground, overground
-  // "NaptanRailStation", // national rail
-  "NaptanBusCoachStation", // major bus stations
-  "NaptanPublicBusCoachTram", // minor bus stations
-  // "NaptanFerryPort",
-];
+
+const NAPTAN_STOPTYPES_LABELS = {
+  NaptanMetroStation: "Underground/Overground",
+  NaptanRailStation: "National Rail",
+  NaptanBusCoachStation: "Bus Stations",
+  NaptanPublicBusCoachTram: "Bus/Tram Stops",
+  NaptanFerryPort: "River Transport",
+};
+const NAPTAN_STOPTYPES_DEFAULT = {
+  NaptanMetroStation: true,
+  NaptanRailStation: true,
+  NaptanBusCoachStation: true,
+  NaptanPublicBusCoachTram: true,
+  NaptanFerryPort: false,
+};
 
 const postcodeToLatLong = async (postcode) => {
   const response = await postcodes.lookup(postcode);
@@ -78,6 +88,9 @@ const App = () => {
   const [info, setInfo] = useState("Waiting for search...");
   const [postcode, setPostcode] = useState(defaultPostcode);
   const [radius, setRadius] = useState(defaultRadius);
+  const [chosenStoptypes, setChosenStoptypes] = useState(
+    NAPTAN_STOPTYPES_DEFAULT
+  );
 
   const handleRadiusChange = (e) => {
     // https://stackoverflow.com/a/43177957
@@ -86,7 +99,8 @@ const App = () => {
   };
 
   const handleButtonClick = async () => {
-    const stopTypes = NAPTAN_STOPTYPES_DEFAULT;
+    const stopTypes = objectToList(chosenStoptypes);
+    console.log(stopTypes)
     setInfo(`Getting latitude/longitude of postcode ${postcode}...`);
     const latLong = await postcodeToLatLong(postcode);
     setInfo(
@@ -105,7 +119,7 @@ const App = () => {
     // console.log(result)
     let { stopPoints } = result;
     // console.log(stopPoints)
-    if (stopPoints.length === 0) {
+    if (stopPoints === undefined || stopPoints.length === 0) {
       setInfo(`No stops found within ${radius} metres of postcode ${postcode}`);
       return;
     }
@@ -153,48 +167,53 @@ const App = () => {
     // </div>
     <Container maxWidth="sm" className="App">
       <Paper>
-      <img src={logo} className="App-logo" alt="logo" />
-      <Typography variant="h4" component="h1" gutterBottom>
-        transit-tool
-      </Typography>
-      <Box
-        component="form"
-        sx={{
-          "& .MuiTextField-root": { m: 1, width: "25ch" },
-        }}
-        noValidate
-        autoComplete="off"
-      >
-        <div>
-          <TextField
-            variant="outlined"
-            label="Postcode"
-            value={postcode}
-            onInput={(e) => setPostcode(e.target.value)}
-          />
-        </div>
-        <div>
-          <TextField
-            variant="outlined"
-            label="Radius"
-            value={radius}
-            onInput={handleRadiusChange}
-            InputProps={{
-              endAdornment: <InputAdornment position="end">m</InputAdornment>,
-            }}
-          />
-        </div>
-        <div>
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={handleButtonClick}
-          >
-            Get Data
-          </Button>
-        </div>
-      </Box>
-      <p>{info}</p>
+        <img src={logo} className="App-logo" alt="logo" />
+        <Typography variant="h4" component="h1" gutterBottom>
+          transit-tool
+        </Typography>
+        <CheckBoxList
+          listState={chosenStoptypes}
+          setListState={setChosenStoptypes}
+          listLabels={NAPTAN_STOPTYPES_LABELS}
+        />
+        <Box
+          component="form"
+          sx={{
+            "& .MuiTextField-root": { m: 1, width: "25ch" },
+          }}
+          noValidate
+          autoComplete="off"
+        >
+          <div>
+            <TextField
+              variant="outlined"
+              label="Postcode"
+              value={postcode}
+              onInput={(e) => setPostcode(e.target.value)}
+            />
+          </div>
+          <div>
+            <TextField
+              variant="outlined"
+              label="Radius"
+              value={radius}
+              onInput={handleRadiusChange}
+              InputProps={{
+                endAdornment: <InputAdornment position="end">m</InputAdornment>,
+              }}
+            />
+          </div>
+          <div>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={handleButtonClick}
+            >
+              Get Data
+            </Button>
+          </div>
+        </Box>
+        <p>{info}</p>
       </Paper>
     </Container>
   );
