@@ -8,13 +8,14 @@ import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
 import Box from "@mui/material/Box";
+import Paper from "@mui/material/Paper";
 //import { Button, Paper } from "@mui/material/";
 import Input from "@mui/material/Input";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 
 // import logo from './logo.svg';
-import logo from "./tfl_roundel_no_text.svg";
+import logo from "../../tfl_roundel_no_text.svg";
 import "./App.css";
 
 const postcodes = require("node-postcodes.io");
@@ -151,7 +152,7 @@ const App = () => {
     //   </header>
     // </div>
     <Container maxWidth="sm" className="App">
-      {/* <Paper> */}
+      <Paper>
       <img src={logo} className="App-logo" alt="logo" />
       <Typography variant="h4" component="h1" gutterBottom>
         transit-tool
@@ -194,7 +195,7 @@ const App = () => {
         </div>
       </Box>
       <p>{info}</p>
-      {/* </Paper> */}
+      </Paper>
     </Container>
   );
 };

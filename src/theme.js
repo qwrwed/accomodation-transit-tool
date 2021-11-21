@@ -21,17 +21,21 @@ const theme = createTheme({
       default: "#282c34",
     },
   },
-  overrides: {
+  components: {
     MuiPaper: {
-      root: {
-        padding: "20px 10px",
-        margin: "10px",
-        backgroundColor: "#fff", // 5d737e
+      styleOverrides: {
+        root: {
+          padding: "20px 10px",
+          margin: "10px",
+          // backgroundColor: "#fff", // 5d737e
+        },
       },
     },
     MuiButton: {
-      root: {
-        margin: "5px",
+      styleOverrides: {
+        root: {
+          margin: "5px",
+        },
       },
     },
   },
