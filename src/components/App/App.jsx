@@ -2,14 +2,14 @@
 import React, { useState } from "react";
 // import Button from "react-bootstrap/Button";
 import Button from "@mui/material/Button";
-// import TextField from "@mui/material/TextField";
+
 import InputAdornment from "@mui/material/InputAdornment";
 import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
 import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
-//import { Button, Paper } from "@mui/material/";
+
 import Input from "@mui/material/Input";
 
 import CheckBoxList from "../CheckBoxList";
@@ -18,7 +18,11 @@ import "bootstrap/dist/css/bootstrap.min.css";
 // import logo from './logo.svg';
 import logo from "../../tfl_roundel_no_text.svg";
 import "./App.css";
-import { objectToList } from "../../utils";
+import {
+  objectToList,
+  getDistanceFromLatLonInKm,
+  getUniqueListBy,
+} from "../../utils";
 
 const postcodes = require("node-postcodes.io");
 
@@ -40,29 +44,6 @@ const NAPTAN_STOPTYPES_DEFAULT = {
   NaptanFerryPort: false,
 };
 
-//function getDistanceFromLatLonInKm(lat1, lon1, lat2, lon2) {
-function getDistanceFromLatLonInKm(loc1, loc2) {
-  const { lat: lat1, lon: lon1 } = loc1;
-  const { lat: lat2, lon: lon2 } = loc2;
-  // https://stackoverflow.com/q/18883601
-  var R = 6371; // Radius of the earth in km
-  var dLat = deg2rad(lat2 - lat1); // deg2rad below
-  var dLon = deg2rad(lon2 - lon1);
-  var a =
-    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-    Math.cos(deg2rad(lat1)) *
-      Math.cos(deg2rad(lat2)) *
-      Math.sin(dLon / 2) *
-      Math.sin(dLon / 2);
-  var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-  var d = R * c; // Distance in km
-  return d;
-}
-
-function deg2rad(deg) {
-  return deg * (Math.PI / 180);
-}
-
 const postcodeToLatLong = async (postcode) => {
   const response = await postcodes.lookup(postcode);
   const { result } = response;
@@ -76,7 +57,7 @@ const makeGetRequest = async (route, otherParams) => {
     ? { app_key: appKey, ...otherParams }
     : { ...otherParams };
   params = new URLSearchParams(params).toString();
-  console.log(params);
+  //console.log(params);
   const response = await fetch(`${TFL_API_URL_ROOT}${route}?${params}`);
   return await response.json();
 };
@@ -102,11 +83,6 @@ const getStopPointsByRadius = async (stopTypes, latLong, radius) => {
 
 const filterStopPointsByLineData = (stopPoints) =>
   stopPoints.filter((stopPoint) => stopPoint.lines.length > 0);
-
-function getUniqueListBy(arr, key) {
-  // https://stackoverflow.com/a/56768137
-  return [...new Map(arr.map((item) => [item[key], item])).values()];
-}
 
 const filterStopPointsByTopLevel = async (stopPoints) => {
   let res = await Promise.all(
@@ -135,20 +111,19 @@ const App = () => {
 
   const handleButtonClick = async () => {
     const stopTypes = objectToList(chosenStoptypes);
-    console.log(stopTypes);
+
     setInfo(`Getting latitude/longitude of postcode ${postcode}...`);
+
     const latLong = await postcodeToLatLong(postcode);
+
     setInfo(
       `Searching for stops within ${radius} metres of ${postcode} (${JSON.stringify(
         latLong
       )})...`
     );
 
-    // setData(JSON.stringify(latLong))
-    // console.log(process.env.REACT_APP_APP_ID)
-    // console.log(process.env.REACT_APP_PRIMARY_KEY)
     // console.log(await getNaptanTypes())
-    console.log(await getStoppointDataCategories());
+    // console.log(await getStoppointDataCategories());
     const result = await getStopPointsByRadius(stopTypes, latLong, radius);
     const resultLatLong = result.centrePoint;
     // console.log(result)
@@ -170,35 +145,16 @@ const App = () => {
 
     //console.log(stopPointIDs);
     const summary = stopPoints.map(
-      ({
+      ({ commonName, id, stopType, lat, lon }) => ({
         commonName,
-        distance,
-        hubNaptanCode,
-        id,
-        naptanId,
-        stationNaptan,
-        stopType,
-        lat,
-        lon,
-      }) => ({
-        commonName,
-        //distance: Math.round(distance),
         distance: Math.round(
           getDistanceFromLatLonInKm(latLong, { lat, lon }) * 1000
         ),
-        // stopType,
-
-        //hubNaptanCode,
-        //id
-        //naptanId,
-        //stationNaptan,
-        // idnaptanId: id === naptanId,
-        // naptanIdstationNaptan: naptanId === stationNaptan,
-        // stationNaptanid:stationNaptan===id,
       })
     );
     summary.sort((a, b) => (a.distance > b.distance ? 1 : -1));
-    console.log(summary);
+
+    //console.log(summary);
     const summaryText = summary.map(
       ({ commonName, distance }) => `${commonName} (${distance}m)`
     );
