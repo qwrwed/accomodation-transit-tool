@@ -27,11 +27,19 @@ const getDistanceFromLatLonInKm = (loc1, loc2) => {
   var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
   var d = R * c; // Distance in km
   return d;
-}
+};
 
 const getUniqueListBy = (arr, key) => {
   // https://stackoverflow.com/a/56768137
   return [...new Map(arr.map((item) => [item[key], item])).values()];
-}
+};
 
-export { objectToList, getDistanceFromLatLonInKm, getUniqueListBy };
+const kvArrayToObject = (arr) => {
+  return arr.reduce(function (result, item) {
+    var key = Object.keys(item)[0]; //first property: a, b, c
+    result[key] = item[key];
+    return result;
+  }, {});
+};
+
+export { objectToList, getDistanceFromLatLonInKm, getUniqueListBy, kvArrayToObject };

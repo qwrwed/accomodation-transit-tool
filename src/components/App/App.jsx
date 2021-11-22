@@ -22,6 +22,7 @@ import {
   objectToList,
   getDistanceFromLatLonInKm,
   getUniqueListBy,
+  kvArrayToObject,
 } from "../../utils";
 
 const postcodes = require("node-postcodes.io");
@@ -68,6 +69,8 @@ const makeGetRequest = async (route, otherParams) => {
 
 const getStoppointDataCategories = async () =>
   makeGetRequest("/StopPoint/Meta/categories");
+
+const getTransportModes = async () => makeGetRequest("/Line/Meta/Modes");
 
 const getStopPointsByRadius = async (stopTypes, latLong, radius) => {
   const { lat, lon } = latLong;
@@ -135,6 +138,21 @@ const App = () => {
     }
 
     console.log(stopPoints);
+
+    let stopTypeModes = {};
+    stopPoints.forEach((stopPoint) => {
+      const stopType = stopPoint.stopType
+      if (!stopTypeModes.hasOwnProperty(stopType)) {
+        stopTypeModes[stopType] = new Set();
+      }
+      stopPoint.modes.forEach(
+        stopTypeModes[stopType].add,
+        stopTypeModes[stopType]
+      );
+    });
+
+    
+    console.log(stopTypeModes);
     stopPoints = filterStopPointsByLineData(stopPoints);
     stopPoints = await filterStopPointsByTopLevel(stopPoints);
     //stopPoints = stopPoints.filter(({hubNaptanCode}) => hubNaptanCode !== "HUBLBG")
