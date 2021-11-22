@@ -42,4 +42,12 @@ const kvArrayToObject = (arr) => {
   }, {});
 };
 
-export { objectToList, getDistanceFromLatLonInKm, getUniqueListBy, kvArrayToObject };
+const objectMap = (obj, fn) =>
+// https://stackoverflow.com/a/14810722
+  Object.fromEntries(
+    Object.entries(obj).map(
+      ([k, v], i) => [k, fn(v, k, i)]
+    )
+  )
+
+export { objectToList, getDistanceFromLatLonInKm, getUniqueListBy, kvArrayToObject, objectMap };

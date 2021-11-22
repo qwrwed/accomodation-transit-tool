@@ -23,6 +23,7 @@ import {
   getDistanceFromLatLonInKm,
   getUniqueListBy,
   kvArrayToObject,
+  objectMap,
 } from "../../utils";
 
 const postcodes = require("node-postcodes.io");
@@ -30,29 +31,39 @@ const postcodes = require("node-postcodes.io");
 const TFL_API_URL_ROOT = "https://api.tfl.gov.uk";
 // https://blog.tfl.gov.uk/2015/10/08/unified-api-part-2-lot-location-of-things/
 
-const NAPTAN_STOPTYPES_LABELS = {
-  NaptanMetroStation: "Underground/Overground",
-  NaptanRailStation: "National Rail",
-  NaptanBusCoachStation: "Bus Stations",
-  NaptanPublicBusCoachTram: "Bus/Tram Stops",
-  NaptanFerryPort: "River Transport",
-};
-const NAPTAN_STOPTYPES_DEFAULT = {
-  NaptanMetroStation: true,
-  NaptanRailStation: true,
-  NaptanBusCoachStation: true,
-  NaptanPublicBusCoachTram: true,
-  NaptanFerryPort: true,
+const NAPTAN_STOPTYPES_INFO = {
+  NaptanMetroStation: {
+    label: "Underground/Overground",
+    modes: ["dlr", "overground", "tube"],
+    defaultValue: true,
+  },
+  NaptanRailStation: {
+    label: "National Rail",
+    modes: ["national-rail", "tflrail"],
+    defaultValue: true,
+  },
+  NaptanBusCoachStation: {
+    label: "Bus Stations",
+    modes: ["bus", "coach"],
+    defaultValue: true,
+  },
+  NaptanPublicBusCoachTram: {
+    label: "Bus/Tram Stops",
+    modes: ["bus", "coach", "tram"],
+    defaultValue: true,
+  },
+  NaptanFerryPort: {
+    label: "River Transport",
+    modes: ["river-bus"],
+    defaultValue: true,
+  },
 };
 
 // unused modes: ["cable-car","cycle","cycle-hire","interchange-keep-sitting","interchange-secure","replacement-bus","river-tour","taxi", "walking"]
-const NAPTAN_MODES = {
-  NaptanMetroStation: ["dlr", "overground", "tube"],
-  NaptanRailStation: ["national-rail", "tflrail"],
-  NaptanBusCoachStation: ["bus", "coach"],
-  NaptanPublicBusCoachTram: ["bus", "coach", "tram"],
-  NaptanFerryPort: ["river-bus"],
-};
+
+const NAPTAN_STOPTYPES_LABELS = objectMap(NAPTAN_STOPTYPES_INFO, ({label}) => label)
+const NAPTAN_STOPTYPES_DEFAULT = objectMap(NAPTAN_STOPTYPES_INFO, ({defaultValue}) => defaultValue)
+const NAPTAN_MODES = objectMap(NAPTAN_STOPTYPES_INFO, ({modes}) => modes)
 
 const getLatLonFromPostCode = async (postcode) => {
   const {
@@ -128,9 +139,9 @@ const App = () => {
 
   const handleButtonClick = async () => {
     // convert key:bool pairs to list of selected keys
-    
+
     const stopTypes = objectToList(chosenStopTypes);
-    
+
     // convert postcode to latitude, longitude
     setInfo(`Getting latitude/longitude of postcode ${postcode}...`);
     const latLong = await getLatLonFromPostCode(postcode);
@@ -160,14 +171,14 @@ const App = () => {
     //NAPTAN_MODES.forEach(({ modes }) => {modes.forEach(chosenModes.add, chosenModes)});
 
     // get chosen modes (e.g. ["tube", "national-rail"]) from chosen stopTypes using predetermined dictionary
-    
+
     let chosenModes = new Set(
       Object.entries(NAPTAN_MODES)
         .filter(([k, v]) => stopTypes.includes(k))
         .map(([k, v]) => v)
         .flat()
     );
-    
+
     console.log(chosenModes);
     
     // remove stopPoints with no line data
@@ -207,81 +218,36 @@ const App = () => {
       ({ commonName, distance }) => `${commonName} (${distance}m)`
     );
     // console.log(commonNames)
-    setInfo(
-      `Stops within ${radius} metres of postcode ${postcode} (${centrePoint}): ${summaryText.join(
-        ", "
-      )}`
-    );
-
-    // let   s = (await makeTFLGetRequest(`/StopPoint/490000139S/CanReachOnLine/47`)).map(({ id }) => id);
-    // let   r = (await makeTFLGetRequest(`/StopPoint/490000139R/CanReachOnLine/47`)).map(({ id }) => id);
-    // let sr1 = (await makeTFLGetRequest(`/StopPoint/490G00139R/CanReachOnLine/47`)).map(({ id }) => id).sort();
-    // let sr2 = s.concat(r).sort();
-    // //console.log(s)
-    // //console.log(r)
-    // sr1 = JSON.stringify(sr1)
-    // sr2 = JSON.stringify(sr2)
-    // console.log(sr1)
-    // console.log(sr2);
-    // console.log(JSON.stringify(sr1)===JSON.stringify(sr2))
+    setInfo(`Stops within ${radius} metres of postcode ${postcode} (${centrePoint}): ${summaryText.join(", ")}`);
 
     let count = 0;
 
     let reachableStops = [];
     stopPoints.forEach(({ commonName, stationNaptan, lineModeGroups }) => {
       //console.log(commonName, stationNaptan, lineModeGroups.map(({ modeName }) => modeName));
-      
+
       lineModeGroups
         .filter(({ modeName }) => chosenModes.has(modeName))
         .forEach(({ modeName, lineIdentifier }) => {
           //console.log(commonName, id, modeName, lineIdentifier)
           lineIdentifier.forEach((line) => {
             //console.log(commonName, id, modeName, line)
-            console.log(
-              `${commonName}, ${modeName}, ${line}: GET https://api.tfl.gov.uk/StopPoint/${stationNaptan}/CanReachOnLine/${line}`
-            );
+
+            console.log(`${commonName}, ${modeName}, ${line}: GET https://api.tfl.gov.uk/StopPoint/${stationNaptan}/CanReachOnLine/${line}`);
             let res = makeTFLGetRequest(`/StopPoint/${stationNaptan}/CanReachOnLine/${line}`);
             reachableStops.push(res);
             // console.log(res)
             count += 1;
           });
         });
-      // modes.push("AAA");
-      // modes
-      //   .filter((mode) => chosenModes.has(mode))
-      //   .forEach((mode) => {
-      //     console.log(id, mode)
-      //     console.log(`https://api.tfl.gov.uk/StopPoint/${id}/CanReachOnLine/northern`)
-      //   });
+
     });
     console.log(count);
     reachableStops = await Promise.all(reachableStops); // duplicates not yet removed
-    console.log(responses);
+    console.log(reachableStops);
   };
 
   return (
-    // <div className="App">
-    //   <header className="App-header">
-    //     <img src={logo} className="App-logo" alt="logo" />
-    //     <p>transit-tool</p>
-    //     {/* {postcode} */}
-    //     <input value={postcode} onInput={(e) => setPostcode(e.target.value)} />
-    //     <input value={radius} onInput={(e) => setRadius(e.target.value)} />
-    //     <Input value={radius} onInput={(e) => setRadius(e.target.value)} />
-    //     <Button type="button" onClick={handleButtonClick} variant="contained">
-    //       Get Data
-    //     </Button>
-    //     <p>{info}</p>
-    //     {/* <a
-    //       className="App-link"
-    //       href="https://reactjs.org"
-    //       target="_blank"
-    //       rel="noopener noreferrer"
-    //     >
-    //       Learn React
-    //     </a> */}
-    //   </header>
-    // </div>
     <Container maxWidth="sm" className="App">
       <Paper>
         <img src={logo} className="App-logo" alt="logo" />
