@@ -40,6 +40,29 @@ const NAPTAN_STOPTYPES_DEFAULT = {
   NaptanFerryPort: false,
 };
 
+//function getDistanceFromLatLonInKm(lat1, lon1, lat2, lon2) {
+function getDistanceFromLatLonInKm(loc1, loc2) {
+  const { lat: lat1, lon: lon1 } = loc1;
+  const { lat: lat2, lon: lon2 } = loc2;
+  // https://stackoverflow.com/q/18883601
+  var R = 6371; // Radius of the earth in km
+  var dLat = deg2rad(lat2 - lat1); // deg2rad below
+  var dLon = deg2rad(lon2 - lon1);
+  var a =
+    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+    Math.cos(deg2rad(lat1)) *
+      Math.cos(deg2rad(lat2)) *
+      Math.sin(dLon / 2) *
+      Math.sin(dLon / 2);
+  var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  var d = R * c; // Distance in km
+  return d;
+}
+
+function deg2rad(deg) {
+  return deg * (Math.PI / 180);
+}
+
 const postcodeToLatLong = async (postcode) => {
   const response = await postcodes.lookup(postcode);
   const { result } = response;
@@ -55,7 +78,7 @@ const makeGetRequest = async (route, otherParams) => {
   params = new URLSearchParams(params).toString();
   console.log(params);
   const response = await fetch(`${TFL_API_URL_ROOT}${route}?${params}`);
-  return response.json();
+  return await response.json();
 };
 
 // const getNaptanTypes = async () => {
@@ -80,6 +103,18 @@ const getStopPointsByRadius = async (stopTypes, latLong, radius) => {
 const filterStopPointsByLineData = (stopPoints) =>
   stopPoints.filter((stopPoint) => stopPoint.lines.length > 0);
 
+function getUniqueListBy(arr, key) {
+  // https://stackoverflow.com/a/56768137
+  return [...new Map(arr.map((item) => [item[key], item])).values()];
+}
+
+const filterStopPointsByTopLevel = async (stopPoints) => {
+  let res = await Promise.all(
+    stopPoints.map(async ({ id }) => makeGetRequest(`/StopPoint/${id}`))
+  );
+  return getUniqueListBy(res, "id");
+};
+
 const App = () => {
   // const defaultPostcode = "SE1 6TG" // example location in API docs
   const defaultPostcode = "SE1 9SG"; // london bridge bus station
@@ -100,7 +135,7 @@ const App = () => {
 
   const handleButtonClick = async () => {
     const stopTypes = objectToList(chosenStoptypes);
-    console.log(stopTypes)
+    console.log(stopTypes);
     setInfo(`Getting latitude/longitude of postcode ${postcode}...`);
     const latLong = await postcodeToLatLong(postcode);
     setInfo(
@@ -126,12 +161,44 @@ const App = () => {
 
     console.log(stopPoints);
     stopPoints = filterStopPointsByLineData(stopPoints);
+    stopPoints = await filterStopPointsByTopLevel(stopPoints);
+    //stopPoints = stopPoints.filter(({hubNaptanCode}) => hubNaptanCode !== "HUBLBG")
     console.log(stopPoints);
 
-    const summary = stopPoints.map(({ commonName, distance }) => ({
-      commonName,
-      distance: Math.round(distance),
-    }));
+    //const stopPointIDs = stopPoints.map(({ id }) => id);
+    //getTopLevelStopPointsFromIDs(stopPoints);
+
+    //console.log(stopPointIDs);
+    const summary = stopPoints.map(
+      ({
+        commonName,
+        distance,
+        hubNaptanCode,
+        id,
+        naptanId,
+        stationNaptan,
+        stopType,
+        lat,
+        lon,
+      }) => ({
+        commonName,
+        //distance: Math.round(distance),
+        distance: Math.round(
+          getDistanceFromLatLonInKm(latLong, { lat, lon }) * 1000
+        ),
+        // stopType,
+
+        //hubNaptanCode,
+        //id
+        //naptanId,
+        //stationNaptan,
+        // idnaptanId: id === naptanId,
+        // naptanIdstationNaptan: naptanId === stationNaptan,
+        // stationNaptanid:stationNaptan===id,
+      })
+    );
+    summary.sort((a, b) => (a.distance > b.distance ? 1 : -1));
+    console.log(summary);
     const summaryText = summary.map(
       ({ commonName, distance }) => `${commonName} (${distance}m)`
     );
@@ -214,6 +281,11 @@ const App = () => {
           </div>
         </Box>
         <p>{info}</p>
+        <p>
+          Disclaimer: This app calculates which stops are reachable FROM the
+          postcode you input, not the other way round.
+        </p>
+        <p>There may be one-way routes this method does not account for.</p>
       </Paper>
     </Container>
   );
