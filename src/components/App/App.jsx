@@ -42,35 +42,47 @@ const NAPTAN_STOPTYPES_DEFAULT = {
   NaptanRailStation: true,
   NaptanBusCoachStation: true,
   NaptanPublicBusCoachTram: true,
-  NaptanFerryPort: false,
+  NaptanFerryPort: true,
 };
 
-const postcodeToLatLong = async (postcode) => {
-  const response = await postcodes.lookup(postcode);
-  const { result } = response;
-  const { latitude, longitude } = result;
+// unused modes: ["cable-car","cycle","cycle-hire","interchange-keep-sitting","interchange-secure","replacement-bus","river-tour","taxi", "walking"]
+const NAPTAN_MODES = {
+  NaptanMetroStation: ["dlr", "overground", "tube"],
+  NaptanRailStation: ["national-rail", "tflrail"],
+  NaptanBusCoachStation: ["bus", "coach"],
+  NaptanPublicBusCoachTram: ["bus", "coach", "tram"],
+  NaptanFerryPort: ["river-bus"],
+};
+
+const getLatLonFromPostCode = async (postcode) => {
+  const {
+    result: { latitude, longitude },
+  } = await postcodes.lookup(postcode);
   return { lat: latitude, lon: longitude };
 };
 
-const makeGetRequest = async (route, otherParams) => {
-  const appKey = process.env.REACT_APP_TFL_KEY;
+const getTFLApiKey = () => {
+  return process.env.REACT_APP_TFL_KEY;
+};
+
+const makeTFLGetRequest = async (route, otherParams) => {
+  const appKey = getTFLApiKey();
   let params = appKey
     ? { app_key: appKey, ...otherParams }
     : { ...otherParams };
   params = new URLSearchParams(params).toString();
-  //console.log(params);
   const response = await fetch(`${TFL_API_URL_ROOT}${route}?${params}`);
   return await response.json();
 };
 
-// const getNaptanTypes = async () => {
-//   return await makeGetRequest("/StopPoint/Meta/StopTypes")
-// }
+const getNaptanTypes = async () => {
+  return await makeGetRequest("/StopPoint/Meta/StopTypes");
+};
 
 const getStoppointDataCategories = async () =>
-  makeGetRequest("/StopPoint/Meta/categories");
+  makeTFLGetRequest("/StopPoint/Meta/categories");
 
-const getTransportModes = async () => makeGetRequest("/Line/Meta/Modes");
+const getTransportModes = async () => makeTFLGetRequest("/Line/Meta/Modes");
 
 const getStopPointsByRadius = async (stopTypes, latLong, radius) => {
   const { lat, lon } = latLong;
@@ -81,17 +93,19 @@ const getStopPointsByRadius = async (stopTypes, latLong, radius) => {
     radius,
     returnLines: true,
   };
-  return makeGetRequest("/StopPoint", params);
+  return makeTFLGetRequest("/StopPoint", params);
 };
 
 const filterStopPointsByLineData = (stopPoints) =>
   stopPoints.filter((stopPoint) => stopPoint.lines.length > 0);
 
-const filterStopPointsByTopLevel = async (stopPoints) => {
+const filterStopPointsByTopLevel = async (stopPoints, key = "id") => {
   let res = await Promise.all(
-    stopPoints.map(async ({ id }) => makeGetRequest(`/StopPoint/${id}`))
+    stopPoints.map(async (stopPoint) =>
+      makeTFLGetRequest(`/StopPoint/${stopPoint[key]}`)
+    )
   );
-  return getUniqueListBy(res, "id");
+  return getUniqueListBy(res, key);
 };
 
 const App = () => {
@@ -102,7 +116,7 @@ const App = () => {
   const [info, setInfo] = useState("Waiting for search...");
   const [postcode, setPostcode] = useState(defaultPostcode);
   const [radius, setRadius] = useState(defaultRadius);
-  const [chosenStoptypes, setChosenStoptypes] = useState(
+  const [chosenStopTypes, setChosenStoptypes] = useState(
     NAPTAN_STOPTYPES_DEFAULT
   );
 
@@ -113,51 +127,67 @@ const App = () => {
   };
 
   const handleButtonClick = async () => {
-    const stopTypes = objectToList(chosenStoptypes);
-
+    // convert key:bool pairs to list of selected keys
+    
+    const stopTypes = objectToList(chosenStopTypes);
+    
+    // convert postcode to latitude, longitude
     setInfo(`Getting latitude/longitude of postcode ${postcode}...`);
+    const latLong = await getLatLonFromPostCode(postcode);
 
-    const latLong = await postcodeToLatLong(postcode);
-
+    // get list of stopPoints within radius
     setInfo(
       `Searching for stops within ${radius} metres of ${postcode} (${JSON.stringify(
         latLong
       )})...`
     );
+    let { stopPoints, centrePoint } = await getStopPointsByRadius(
+      stopTypes,
+      latLong,
+      radius
+    );
+    console.log(stopPoints);
 
-    // console.log(await getNaptanTypes())
-    // console.log(await getStoppointDataCategories());
-    const result = await getStopPointsByRadius(stopTypes, latLong, radius);
-    const resultLatLong = result.centrePoint;
-    // console.log(result)
-    let { stopPoints } = result;
-    // console.log(stopPoints)
+    // check for no result
     if (stopPoints === undefined || stopPoints.length === 0) {
       setInfo(`No stops found within ${radius} metres of postcode ${postcode}`);
       return;
     }
 
-    console.log(stopPoints);
+    // get e.g. ["tube", "national-rail"] from ["NaptanMetroStation", "NaptanRailStation"], dynamically
+    //let chosenModes = new Set();
+    // stopPoints.forEach(({ modes }) => {modes.forEach(chosenModes.add, chosenModes)});
+    //NAPTAN_MODES.forEach(({ modes }) => {modes.forEach(chosenModes.add, chosenModes)});
 
-    let stopTypeModes = {};
-    stopPoints.forEach((stopPoint) => {
-      const stopType = stopPoint.stopType
-      if (!stopTypeModes.hasOwnProperty(stopType)) {
-        stopTypeModes[stopType] = new Set();
-      }
-      stopPoint.modes.forEach(
-        stopTypeModes[stopType].add,
-        stopTypeModes[stopType]
-      );
-    });
-
+    // get chosen modes (e.g. ["tube", "national-rail"]) from chosen stopTypes using predetermined dictionary
     
-    console.log(stopTypeModes);
+    let chosenModes = new Set(
+      Object.entries(NAPTAN_MODES)
+        .filter(([k, v]) => stopTypes.includes(k))
+        .map(([k, v]) => v)
+        .flat()
+    );
+    
+    console.log(chosenModes);
+    
+    // remove stopPoints with no line data
     stopPoints = filterStopPointsByLineData(stopPoints);
-    stopPoints = await filterStopPointsByTopLevel(stopPoints);
-    //stopPoints = stopPoints.filter(({hubNaptanCode}) => hubNaptanCode !== "HUBLBG")
     console.log(stopPoints);
 
+    // remove duplicate stopPoints
+    // stopPoints = await filterStopPointsByTopLevel(stopPoints, "stationNaptan");
+
+    // id, naptanId refers to a single bus stop; stationNaptan can refer to a cluster of stops (e.g. one on each side of the road)
+
+    // using CanReachOnLine route on each of a cluster of naptanIds...
+    // gives same stops as using using CanReachOnLine once on corresponding stationNaptan...
+    // albeit with different commonNames/id
+    stopPoints = getUniqueListBy(stopPoints, "stationNaptan");
+
+    console.log(stopPoints);
+
+    // const tmpModes = (await getTransportModes()).map(({ modeName }) => modeName)
+    // console.log(JSON.stringify(tmpModes));
     //const stopPointIDs = stopPoints.map(({ id }) => id);
     //getTopLevelStopPointsFromIDs(stopPoints);
 
@@ -178,11 +208,57 @@ const App = () => {
     );
     // console.log(commonNames)
     setInfo(
-      `Stops within ${radius} metres of postcode ${postcode} (${resultLatLong}): ${summaryText.join(
+      `Stops within ${radius} metres of postcode ${postcode} (${centrePoint}): ${summaryText.join(
         ", "
       )}`
     );
+
+    // let   s = (await makeTFLGetRequest(`/StopPoint/490000139S/CanReachOnLine/47`)).map(({ id }) => id);
+    // let   r = (await makeTFLGetRequest(`/StopPoint/490000139R/CanReachOnLine/47`)).map(({ id }) => id);
+    // let sr1 = (await makeTFLGetRequest(`/StopPoint/490G00139R/CanReachOnLine/47`)).map(({ id }) => id).sort();
+    // let sr2 = s.concat(r).sort();
+    // //console.log(s)
+    // //console.log(r)
+    // sr1 = JSON.stringify(sr1)
+    // sr2 = JSON.stringify(sr2)
+    // console.log(sr1)
+    // console.log(sr2);
+    // console.log(JSON.stringify(sr1)===JSON.stringify(sr2))
+
+    let count = 0;
+
+    let reachableStops = [];
+    stopPoints.forEach(({ commonName, stationNaptan, lineModeGroups }) => {
+      //console.log(commonName, stationNaptan, lineModeGroups.map(({ modeName }) => modeName));
+      
+      lineModeGroups
+        .filter(({ modeName }) => chosenModes.has(modeName))
+        .forEach(({ modeName, lineIdentifier }) => {
+          //console.log(commonName, id, modeName, lineIdentifier)
+          lineIdentifier.forEach((line) => {
+            //console.log(commonName, id, modeName, line)
+            console.log(
+              `${commonName}, ${modeName}, ${line}: GET https://api.tfl.gov.uk/StopPoint/${stationNaptan}/CanReachOnLine/${line}`
+            );
+            let res = makeTFLGetRequest(`/StopPoint/${stationNaptan}/CanReachOnLine/${line}`);
+            reachableStops.push(res);
+            // console.log(res)
+            count += 1;
+          });
+        });
+      // modes.push("AAA");
+      // modes
+      //   .filter((mode) => chosenModes.has(mode))
+      //   .forEach((mode) => {
+      //     console.log(id, mode)
+      //     console.log(`https://api.tfl.gov.uk/StopPoint/${id}/CanReachOnLine/northern`)
+      //   });
+    });
+    console.log(count);
+    reachableStops = await Promise.all(reachableStops); // duplicates not yet removed
+    console.log(responses);
   };
+
   return (
     // <div className="App">
     //   <header className="App-header">
@@ -213,7 +289,7 @@ const App = () => {
           transit-tool
         </Typography>
         <CheckBoxList
-          listState={chosenStoptypes}
+          listState={chosenStopTypes}
           setListState={setChosenStoptypes}
           listLabels={NAPTAN_STOPTYPES_LABELS}
         />
