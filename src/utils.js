@@ -50,4 +50,18 @@ const objectMap = (obj, fn) =>
     )
   )
 
-export { objectToList, getDistanceFromLatLonInKm, getUniqueListBy, kvArrayToObject, objectMap };
+var getDescendants = (obj, keyForChildIds, descendantIds=new Set(), level=0) => {
+  // console.log(`getDescendants(L${level}: ${obj}, ${keyForChildIds}, ${descendantIds})`)
+  // console.log(descendantIds)
+  for (const id of descendantIds){
+    let descendants = obj[id][keyForChildIds]
+    if (descendants.length > 0){
+      let res = getDescendants(obj, keyForChildIds, descendants, level+1)
+      descendantIds = new Set([...descendantIds, ...res].map(id => id.toString()))
+    }
+  }
+  return descendantIds
+}
+
+
+export { objectToList, getDistanceFromLatLonInKm, getUniqueListBy, kvArrayToObject, objectMap, getDescendants };

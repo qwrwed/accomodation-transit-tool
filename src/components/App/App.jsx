@@ -24,6 +24,7 @@ import {
   getUniqueListBy,
   kvArrayToObject,
   objectMap,
+  getDescendants,
 } from "../../utils";
 
 const postcodes = require("node-postcodes.io");
@@ -40,7 +41,7 @@ const NAPTAN_STOPTYPES_INFO = {
   NaptanRailStation: {
     label: "National Rail",
     modes: ["national-rail", "tflrail"],
-    defaultValue: true,
+    defaultValue: false,
   },
   NaptanBusCoachStation: {
     label: "Bus Stations",
@@ -107,6 +108,7 @@ const getStopPointsByRadius = async (stopTypes, latLong, radius) => {
     lat,
     lon,
     radius,
+    //useStopPointHierarchy: true,
     returnLines: true,
   };
   return makeTFLGetRequest("/StopPoint", params);
@@ -124,6 +126,73 @@ const filterStopPointsByTopLevel = async (stopPoints, key = "id") => {
   return getUniqueListBy(res, key);
 };
 
+const getBranchData = async (stopLineData) => {
+  let branchData = {}
+  for (const modeName in stopLineData) {
+    branchData[modeName] = branchData[modeName] || {}
+    for (const line in stopLineData[modeName]) {
+      const res = await makeTFLGetRequest(`/Line/${line}/Route/Sequence/all`)
+      if (typeof (res) !== "undefined") {
+        branchData[modeName][line] = {}
+        // branchData[modeName][line].inbound = res.stopPointSequences.filter(({direction}) => direction == "inbound")
+        // branchData[modeName][line].outbound = res.stopPointSequences.filter(({direction}) => direction == "outbound")
+        //console.log(res.stopPointSequences)
+        for (const direction of ["inbound", "outbound"]) {
+          branchData[modeName][line][direction] = {}
+          for (let branchWithId of res.stopPointSequences) {
+            //console.log(line, branchWithId.direction, direction)
+            if (!(branchWithId.direction === direction))
+              continue
+            const { branchId, ...branch } = branchWithId
+            branchData[modeName][line][direction][branchId] = branch
+          }
+        }
+      }
+    }
+  }
+  return branchData
+}
+
+const filterBranchData = (branchData, stopLineData) => {
+  // TODO: only show stations ahead of identified station on branch?
+  let nearbyBranchData = {}
+  for (const lineMode in branchData) {
+    for (const line in branchData[lineMode]) {
+      for (const direction of ["inbound", "outbound"]) {
+        let branchesInDirection = branchData[lineMode][line][direction]
+        let availableBranchIds = new Set()
+        let checkedBranchIds = new Set()
+        //console.log(branchesInDirection)
+        for (const branchId in branchesInDirection) {
+          const stationIdsOnBranch = new Set(branchData[lineMode][line][direction][branchId].stopPoint.map(({ topMostParentId }) => topMostParentId))
+          for (const { naptanId } of stopLineData[lineMode][line]) {
+            if (stationIdsOnBranch.has(naptanId)) {
+              //console.log(`${naptanId} is in branch ${branchId} of ${lineMode} ${line} (${direction})`)
+              availableBranchIds.add(branchId)
+              break
+            }
+          }
+          if (!(availableBranchIds.has(branchId)))
+            continue
+          //console.log(`Checking for branches accessible from ${branchId}`)
+          //console.log(branchData[lineMode][line][direction])
+          if (checkedBranchIds.has(branchId))
+            continue
+          checkedBranchIds.add(branchId)
+          let branchesAheadIds = getDescendants(branchesInDirection, "nextBranchIds", new Set([branchId]))
+          nearbyBranchData[lineMode] = nearbyBranchData[lineMode] || {}
+          nearbyBranchData[lineMode][line] = nearbyBranchData[lineMode][line] || {}
+          nearbyBranchData[lineMode][line][direction] = nearbyBranchData[lineMode][line][direction] || {}
+          //console.log(branchesAheadIds)
+          for (const id of branchesAheadIds) {
+            nearbyBranchData[lineMode][line][direction][id] = branchesInDirection[id]
+          }
+        }
+      }
+    }
+  }
+  return nearbyBranchData
+}
 const App = () => {
   // const defaultPostcode = "SE1 6TG" // example location in API docs
   const defaultPostcode = "SE1 9SG"; // london bridge bus station
@@ -186,6 +255,15 @@ const App = () => {
 
     //console.log(chosenModes);
 
+    //console.log(stopPoints)
+    // stopPoints.forEach(({ commonName, stationNaptan, lineModeGroups }) => {
+    //   makeTFLGetRequest(`/StopPoint/${stationNaptan}/Route`).then(res => {
+    //     console.log(stationNaptan)
+    //     console.log(res)
+    //     console.log()
+    //   })
+    // })
+    //return
     // remove stopPoints with no line data
     stopPoints = filterStopPointsByLineData(stopPoints);
     //console.log(stopPoints);
@@ -198,14 +276,16 @@ const App = () => {
     // using CanReachOnLine route on each of a cluster of naptanIds...
     // gives same stops as using using CanReachOnLine once on corresponding stationNaptan...
     // albeit with different commonNames/id
-    stopPoints = getUniqueListBy(stopPoints, "stationNaptan");
+    //stopPoints = getUniqueListBy(stopPoints, "stationNaptan");
 
     //console.log(stopPoints);
 
     // const tmpModes = (await getTransportModes()).map(({ modeName }) => modeName)
     // console.log(JSON.stringify(tmpModes));
     //const stopPointIDs = stopPoints.map(({ id }) => id);
-    //getTopLevelStopPointsFromIDs(stopPoints);
+    //console.log(stopPoints)
+    stopPoints = await filterStopPointsByTopLevel(stopPoints);
+    console.log(stopPoints)
 
     //console.log(stopPointIDs);
     const summary = stopPoints.map(
@@ -224,13 +304,33 @@ const App = () => {
     );
     // console.log(commonNames)
     setInfo(`Stops within ${radius} metres of postcode ${postcode} (${centrePoint}): ${summaryText.join(", ")}`);
+
+    let stopLineData = {}
+    for (const stopPoint of stopPoints) {
+      for (const { modeName, lineIdentifier } of stopPoint.lineModeGroups) {
+        if (!chosenModes.has(modeName))
+          continue
+        stopLineData[modeName] = stopLineData[modeName] || {}
+        for (const line of lineIdentifier) {
+          stopLineData[modeName][line] = stopLineData[modeName][line] || new Set()
+          stopLineData[modeName][line].add(stopPoint)
+        }
+      }
+    }
+    console.log(stopLineData)
+    let branchData = await getBranchData(stopLineData)
+    console.log(branchData)
+    let nearbyBranchData = filterBranchData(branchData, stopLineData)
+
+    console.log(nearbyBranchData)
+    return
     let reachableStops = {};
     let linesRequested = new Set()
     stopPoints.forEach(({ commonName, stationNaptan, lineModeGroups }) => {
       for (const { modeName, lineIdentifier } of lineModeGroups) {
-        reachableStops[modeName] = reachableStops[modeName] || {}
         if (!chosenModes.has(modeName))
           continue
+        reachableStops[modeName] = reachableStops[modeName] || {}
         for (const line of lineIdentifier) {
           if (linesRequested.has(line))
             continue
