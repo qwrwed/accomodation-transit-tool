@@ -83,7 +83,12 @@ const makeTFLGetRequest = async (route, otherParams) => {
     : { ...otherParams };
   params = new URLSearchParams(params).toString();
   const response = await fetch(`${TFL_API_URL_ROOT}${route}?${params}`);
-  return await response.json();
+  if (response.ok){
+    return await response.json();
+  } else {
+    const {exceptionType, httpStatusCode, httpStatus, message} = await response.json()
+    console.error(`${exceptionType}: ${httpStatusCode} (${httpStatus})\n${message} (from ${TFL_API_URL_ROOT}${route})`)
+  }
 };
 
 const getNaptanTypes = async () => {
@@ -157,7 +162,7 @@ const App = () => {
       latLong,
       radius
     );
-    console.log(stopPoints);
+    //console.log(stopPoints);
 
     // check for no result
     if (stopPoints === undefined || stopPoints.length === 0) {
@@ -179,11 +184,11 @@ const App = () => {
         .flat()
     );
 
-    console.log(chosenModes);
+    //console.log(chosenModes);
     
     // remove stopPoints with no line data
     stopPoints = filterStopPointsByLineData(stopPoints);
-    console.log(stopPoints);
+    //console.log(stopPoints);
 
     // remove duplicate stopPoints
     // stopPoints = await filterStopPointsByTopLevel(stopPoints, "stationNaptan");
@@ -195,7 +200,7 @@ const App = () => {
     // albeit with different commonNames/id
     stopPoints = getUniqueListBy(stopPoints, "stationNaptan");
 
-    console.log(stopPoints);
+    //console.log(stopPoints);
 
     // const tmpModes = (await getTransportModes()).map(({ modeName }) => modeName)
     // console.log(JSON.stringify(tmpModes));
@@ -219,32 +224,26 @@ const App = () => {
     );
     // console.log(commonNames)
     setInfo(`Stops within ${radius} metres of postcode ${postcode} (${centrePoint}): ${summaryText.join(", ")}`);
-
-    let count = 0;
-
-    let reachableStops = [];
+    let reachableStops = {};
+    let linesRequested = new Set()
     stopPoints.forEach(({ commonName, stationNaptan, lineModeGroups }) => {
-      //console.log(commonName, stationNaptan, lineModeGroups.map(({ modeName }) => modeName));
-
-      lineModeGroups
-        .filter(({ modeName }) => chosenModes.has(modeName))
-        .forEach(({ modeName, lineIdentifier }) => {
-          //console.log(commonName, id, modeName, lineIdentifier)
-          lineIdentifier.forEach((line) => {
-            //console.log(commonName, id, modeName, line)
-
-            console.log(`${commonName}, ${modeName}, ${line}: GET https://api.tfl.gov.uk/StopPoint/${stationNaptan}/CanReachOnLine/${line}`);
-            let res = makeTFLGetRequest(`/StopPoint/${stationNaptan}/CanReachOnLine/${line}`);
-            reachableStops.push(res);
-            // console.log(res)
-            count += 1;
-          });
-        });
-
+      for (const {modeName, lineIdentifier} of lineModeGroups) {
+        reachableStops[modeName] = reachableStops[modeName] || {}
+        if (!chosenModes.has(modeName))
+          continue
+        for (const line of lineIdentifier){
+          if (linesRequested.has(line))
+            continue
+          linesRequested.add(line)
+          makeTFLGetRequest(`/StopPoint/${stationNaptan}/CanReachOnLine/${line}`)
+          .then(res => {
+            if (typeof(res) !== "undefined")
+              reachableStops[modeName][line] = res
+          })
+        }
+      }
     });
-    console.log(count);
-    reachableStops = await Promise.all(reachableStops); // duplicates not yet removed
-    console.log(reachableStops);
+    console.log(reachableStops)
   };
 
   return (
