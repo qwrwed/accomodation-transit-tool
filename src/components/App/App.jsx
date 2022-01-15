@@ -61,9 +61,9 @@ const NAPTAN_STOPTYPES_INFO = {
 
 // unused modes: ["cable-car","cycle","cycle-hire","interchange-keep-sitting","interchange-secure","replacement-bus","river-tour","taxi", "walking"]
 
-const NAPTAN_STOPTYPES_LABELS = objectMap(NAPTAN_STOPTYPES_INFO, ({label}) => label)
-const NAPTAN_STOPTYPES_DEFAULT = objectMap(NAPTAN_STOPTYPES_INFO, ({defaultValue}) => defaultValue)
-const NAPTAN_MODES = objectMap(NAPTAN_STOPTYPES_INFO, ({modes}) => modes)
+const NAPTAN_STOPTYPES_LABELS = objectMap(NAPTAN_STOPTYPES_INFO, ({ label }) => label)
+const NAPTAN_STOPTYPES_DEFAULT = objectMap(NAPTAN_STOPTYPES_INFO, ({ defaultValue }) => defaultValue)
+const NAPTAN_MODES = objectMap(NAPTAN_STOPTYPES_INFO, ({ modes }) => modes)
 
 const getLatLonFromPostCode = async (postcode) => {
   const {
@@ -83,10 +83,10 @@ const makeTFLGetRequest = async (route, otherParams) => {
     : { ...otherParams };
   params = new URLSearchParams(params).toString();
   const response = await fetch(`${TFL_API_URL_ROOT}${route}?${params}`);
-  if (response.ok){
+  if (response.ok) {
     return await response.json();
   } else {
-    const {exceptionType, httpStatusCode, httpStatus, message} = await response.json()
+    const { exceptionType, httpStatusCode, httpStatus, message } = await response.json()
     console.error(`${exceptionType}: ${httpStatusCode} (${httpStatus})\n${message} (from ${TFL_API_URL_ROOT}${route})`)
   }
 };
@@ -185,7 +185,7 @@ const App = () => {
     );
 
     //console.log(chosenModes);
-    
+
     // remove stopPoints with no line data
     stopPoints = filterStopPointsByLineData(stopPoints);
     //console.log(stopPoints);
@@ -227,19 +227,19 @@ const App = () => {
     let reachableStops = {};
     let linesRequested = new Set()
     stopPoints.forEach(({ commonName, stationNaptan, lineModeGroups }) => {
-      for (const {modeName, lineIdentifier} of lineModeGroups) {
+      for (const { modeName, lineIdentifier } of lineModeGroups) {
         reachableStops[modeName] = reachableStops[modeName] || {}
         if (!chosenModes.has(modeName))
           continue
-        for (const line of lineIdentifier){
+        for (const line of lineIdentifier) {
           if (linesRequested.has(line))
             continue
           linesRequested.add(line)
           makeTFLGetRequest(`/StopPoint/${stationNaptan}/CanReachOnLine/${line}`)
-          .then(res => {
-            if (typeof(res) !== "undefined")
-              reachableStops[modeName][line] = res
-          })
+            .then(res => {
+              if (typeof (res) !== "undefined")
+                reachableStops[modeName][line] = res
+            })
         }
       }
     });
