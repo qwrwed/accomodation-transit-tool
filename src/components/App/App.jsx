@@ -25,8 +25,9 @@ import {
   kvArrayToObject,
   objectMap,
   getDescendants,
+  roundAccurately,
 } from "../../utils";
-
+import Map from "../Map/Map"
 const postcodes = require("node-postcodes.io");
 
 const TFL_API_URL_ROOT = "https://api.tfl.gov.uk";
@@ -46,31 +47,29 @@ const NAPTAN_STOPTYPES_INFO = {
   NaptanBusCoachStation: {
     label: "Bus Stations",
     modes: ["bus", "coach"],
-    defaultValue: true,
+    defaultValue: false,
   },
   NaptanPublicBusCoachTram: {
     label: "Bus/Tram Stops",
     modes: ["bus", "coach", "tram"],
-    defaultValue: true,
+    defaultValue: false,
   },
   NaptanFerryPort: {
     label: "River Transport",
     modes: ["river-bus"],
-    defaultValue: true,
+    defaultValue: false,
   },
 };
 
 // unused modes: ["cable-car","cycle","cycle-hire","interchange-keep-sitting","interchange-secure","replacement-bus","river-tour","taxi", "walking"]
-
 const NAPTAN_STOPTYPES_LABELS = objectMap(NAPTAN_STOPTYPES_INFO, ({ label }) => label)
 const NAPTAN_STOPTYPES_DEFAULT = objectMap(NAPTAN_STOPTYPES_INFO, ({ defaultValue }) => defaultValue)
 const NAPTAN_MODES = objectMap(NAPTAN_STOPTYPES_INFO, ({ modes }) => modes)
 
 const getLatLonFromPostCode = async (postcode) => {
-  const {
-    result: { latitude, longitude },
-  } = await postcodes.lookup(postcode);
-  return { lat: latitude, lon: longitude };
+  let { result: res } = await postcodes.lookup(postcode);
+  res = objectMap(res, (v => roundAccurately(v, 3)))
+  return { lat: res.latitude, lon: res.longitude };
 };
 
 const getTFLApiKey = () => {
@@ -111,7 +110,10 @@ const getStopPointsByRadius = async (stopTypes, latLong, radius) => {
     //useStopPointHierarchy: true,
     returnLines: true,
   };
-  return makeTFLGetRequest("/StopPoint", params);
+  const res = await makeTFLGetRequest("/StopPoint", params);
+  if (typeof (res) !== "undefined")
+    return res.stopPoints
+  return []
 };
 
 const filterStopPointsByLineData = (stopPoints) =>
@@ -167,14 +169,14 @@ const filterBranchData = (branchData, stopLineData) => {
           const stationIdsOnBranch = new Set(branchData[lineMode][line][direction][branchId].stopPoint.map(({ topMostParentId }) => topMostParentId))
           for (const { naptanId } of stopLineData[lineMode][line]) {
             if (stationIdsOnBranch.has(naptanId)) {
-              //console.log(`${naptanId} is in branch ${branchId} of ${lineMode} ${line} (${direction})`)
+              console.log(`${naptanId} is in branch ${branchId} of ${lineMode} ${line} (${direction})`)
               availableBranchIds.add(branchId)
               break
             }
           }
           if (!(availableBranchIds.has(branchId)))
             continue
-          //console.log(`Checking for branches accessible from ${branchId}`)
+          console.log(`Checking for branches accessible from ${branchId}`)
           //console.log(branchData[lineMode][line][direction])
           if (checkedBranchIds.has(branchId))
             continue
@@ -186,6 +188,10 @@ const filterBranchData = (branchData, stopLineData) => {
           //console.log(branchesAheadIds)
           for (const id of branchesAheadIds) {
             nearbyBranchData[lineMode][line][direction][id] = branchesInDirection[id]
+            const branchStopPoints = branchesInDirection[id].stopPoint
+            console.log(`${id}: ${branchStopPoints[0].name} -> ${branchStopPoints[branchStopPoints.length - 1].name}`)
+
+
           }
         }
       }
@@ -204,21 +210,22 @@ const App = () => {
   const [chosenStopTypes, setChosenStoptypes] = useState(
     NAPTAN_STOPTYPES_DEFAULT
   );
+  const [postcodeInfo, setPostcodeInfo] = useState();
 
   const handleRadiusChange = (e) => {
     // https://stackoverflow.com/a/43177957
-    const onlyNums = e.target.value.replace(/[^0-9]/g, "");
-    setRadius(onlyNums);
+    const onlyInts = e.target.value.replace(/[^0-9]/g, "");
+    setRadius(+onlyInts);
   };
 
   const handleButtonClick = async () => {
     // convert key:bool pairs to list of selected keys
-
     const stopTypes = objectToList(chosenStopTypes);
 
     // convert postcode to latitude, longitude
     setInfo(`Getting latitude/longitude of postcode ${postcode}...`);
-    const latLong = await getLatLonFromPostCode(postcode);
+    let latLong = await getLatLonFromPostCode(postcode);
+    setPostcodeInfo({ postcode, latLong: [latLong.lat, latLong.lon] })
 
     // get list of stopPoints within radius
     setInfo(
@@ -226,12 +233,11 @@ const App = () => {
         latLong
       )})...`
     );
-    let { stopPoints, centrePoint } = await getStopPointsByRadius(
+    let stopPoints = await getStopPointsByRadius(
       stopTypes,
       latLong,
       radius
     );
-    //console.log(stopPoints);
 
     // check for no result
     if (stopPoints === undefined || stopPoints.length === 0) {
@@ -303,7 +309,7 @@ const App = () => {
       ({ commonName, distance }) => `${commonName} (${distance}m)`
     );
     // console.log(commonNames)
-    setInfo(`Stops within ${radius} metres of postcode ${postcode} (${centrePoint}): ${summaryText.join(", ")}`);
+    setInfo(`Stops within ${radius} metres of postcode ${postcode} (${JSON.stringify(latLong)}): ${summaryText.join(", ")}`);
 
     let stopLineData = {}
     for (const stopPoint of stopPoints) {
@@ -322,7 +328,6 @@ const App = () => {
     console.log(branchData)
     let nearbyBranchData = filterBranchData(branchData, stopLineData)
 
-    console.log(nearbyBranchData)
     return
     let reachableStops = {};
     let linesRequested = new Set()
@@ -383,6 +388,7 @@ const App = () => {
               InputProps={{
                 endAdornment: <InputAdornment position="end">m</InputAdornment>,
               }}
+              error={radius === 0}
             />
           </div>
           <div>
@@ -390,6 +396,7 @@ const App = () => {
               variant="contained"
               color="primary"
               onClick={handleButtonClick}
+              disabled={radius === 0}
             >
               Get Data
             </Button>
@@ -401,6 +408,9 @@ const App = () => {
           postcode you input, not the other way round.
         </p>
         <p>There may be one-way routes this method does not account for.</p>
+        <Map
+          postcodeInfo={postcodeInfo}
+        />
       </Paper>
     </Container>
   );

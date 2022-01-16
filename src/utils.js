@@ -50,18 +50,27 @@ const objectMap = (obj, fn) =>
     )
   )
 
-var getDescendants = (obj, keyForChildIds, descendantIds=new Set(), level=0) => {
-  // console.log(`getDescendants(L${level}: ${obj}, ${keyForChildIds}, ${descendantIds})`)
+var getDescendants = (obj, key, currentDescendantIds = new Set(), level = 0) => {
+  // console.log(`getDescendants(L${level}: ${obj}, ${key}, ${JSON.stringify(currentDescendantIds)})`)
   // console.log(descendantIds)
-  for (const id of descendantIds){
-    let descendants = obj[id][keyForChildIds]
-    if (descendants.length > 0){
-      let res = getDescendants(obj, keyForChildIds, descendants, level+1)
-      descendantIds = new Set([...descendantIds, ...res].map(id => id.toString()))
+  for (const id of currentDescendantIds) {
+    let newDescendantIds = new Set(obj[id][key].map(id => id.toString()))
+    newDescendantIds = setDifference(newDescendantIds, currentDescendantIds)
+    if (newDescendantIds.length > 0) {
+      let res = getDescendants(obj, key, newDescendantIds, level + 1)
+      currentDescendantIds = new Set([...currentDescendantIds, ...res].map(id => id.toString()))
     }
   }
-  return descendantIds
+  return currentDescendantIds
 }
 
+const setDifference = (a, b) =>
+  new Set(
+    Array.from(a).filter(x => !b.has(x))
+  );
 
-export { objectToList, getDistanceFromLatLonInKm, getUniqueListBy, kvArrayToObject, objectMap, getDescendants };
+
+const roundAccurately = (number, decimalPlaces=1) => Number(Math.round(number + "e" + decimalPlaces) + "e-" + decimalPlaces)
+// https://gist.github.com/djD-REK/068cba3d430cf7abfddfd32a5d7903c3
+
+export { roundAccurately, setDifference, objectToList, getDistanceFromLatLonInKm, getUniqueListBy, kvArrayToObject, objectMap, getDescendants };
