@@ -10,6 +10,7 @@
     "@testing-library/react": "^11.2.7",
     "@testing-library/user-event": "^12.8.3",
     "bootstrap": "^5.1.3",
+    "color": "^4.2.0",
     "leaflet": "^1.7.1",
     "node-postcodes.io": "^1.0.3",
     "react": "^17.0.2",
@@ -35,9 +36,9 @@
   },
   "browserslist": [
     ">0.2%",
-   "not dead",
-   "not op_mini all"
- ],
+    "not dead",
+    "not op_mini all"
+  ],
   "devDependencies": {
     "eslint-config-airbnb": "^19.0.0",
     "eslint-config-prettier": "^8.3.0",

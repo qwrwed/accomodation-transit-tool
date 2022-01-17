@@ -50,6 +50,13 @@ const objectMap = (obj, fn) =>
     )
   )
 
+const objectFilter = (obj, fn) =>
+  Object.fromEntries(
+    Object.entries(obj).filter(
+      ([k, v], i) => fn(v, k, i)
+    )
+  );
+
 var getDescendants = (obj, key, currentDescendantIds = new Set(), level = 0) => {
   // console.log(`getDescendants(L${level}: ${obj}, ${key}, ${JSON.stringify(currentDescendantIds)})`)
   // console.log(descendantIds)
@@ -69,8 +76,13 @@ const setDifference = (a, b) =>
     Array.from(a).filter(x => !b.has(x))
   );
 
+const setIntersection = (a, b) => new Set(
+  Array.from(a).filter(x => b.has(x))
+);
 
-const roundAccurately = (number, decimalPlaces=1) => Number(Math.round(number + "e" + decimalPlaces) + "e-" + decimalPlaces)
+const setUnion = (a, b) => new Set([...a, ...b]);
+
+const roundAccurately = (number, decimalPlaces = 1) => Number(Math.round(number + "e" + decimalPlaces) + "e-" + decimalPlaces)
 // https://gist.github.com/djD-REK/068cba3d430cf7abfddfd32a5d7903c3
 
-export { roundAccurately, setDifference, objectToList, getDistanceFromLatLonInKm, getUniqueListBy, kvArrayToObject, objectMap, getDescendants };
+export { setIntersection, setUnion, objectFilter, roundAccurately, setDifference, objectToList, getDistanceFromLatLonInKm, getUniqueListBy, kvArrayToObject, objectMap, getDescendants };
