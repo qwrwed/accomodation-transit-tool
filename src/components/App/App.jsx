@@ -49,11 +49,12 @@ const NAPTAN_STOPTYPES = [
 ]
 
 // only scheduled modes
-let MODES_INFO = {
+export let MODES_INFO = {
   "bus": {
     label: "London Buses",
     color: pantonePalette["485"],
     selectedByDefault: false,
+    icon: "fa-bus"
   },
   "cable-car": { hidden: true },
   "coach": {
@@ -65,31 +66,40 @@ let MODES_INFO = {
     label: "Docklands Light Railway",
     color: pantonePalette["326"],
     selectedByDefault: true,
+    icon: "fa-subway",
   },
   "national-rail": {
     label: "National Rail",
+    icon: "fa-train",
   },
   "overground": {
     label: "London Overground",
     color: pantonePalette["158"],
     selectedByDefault: true,
+    icon: "fa-subway"
   },
   "replacement-bus": { hidden: false },
   "river-bus": {
     label: "London River Services",
     color: pantonePalette["299"],
     hidden: true,
+    icon: "fa-ship"
   },
   "river-tour": { hidden: true },
-  "tflrail": { hidden: true },
+  "tflrail": { 
+    hidden: true,
+    icon: "fa-train",
+  },
   "tram": {
     label: "London Tramlink",
     color: pantonePalette["368"],
+    icon: "fa-subway"
   },
   "tube": {
     label: "London Underground",
     color: pantonePalette["158"],
     selectedByDefault: true,
+    icon: "fa-subway"
   }
 }
 MODES_INFO = objectFilter(MODES_INFO, (({ hidden }) => (!hidden)))
@@ -260,7 +270,10 @@ const App = () => {
   const [postcode, setPostcode] = useState(defaultPostcode);
   const [radius, setRadius] = useState(defaultRadius);
   const [chosenModes, setChosenModes] = useState(MODES_DEFAULT);
+  
+  // map data
   const [postcodeInfo, setPostcodeInfo] = useState();
+  const [nearbyStopPoints, setNearbyStopPoints] = useState([])
 
   const handleRadiusChange = (e) => {
     // https://stackoverflow.com/a/43177957
@@ -324,7 +337,7 @@ const App = () => {
     //console.log(stopPoints)
     stopPoints = await filterStopPointsByTopLevel(stopPoints);
     console.log(stopPoints)
-
+    setNearbyStopPoints(stopPoints)
     //console.log(stopPointIDs);
     const summary = stopPoints.map(
       ({ commonName, id, stopType, lat, lon }) => ({
@@ -355,6 +368,7 @@ const App = () => {
         }
       }
     }
+    return
     console.log(stopLineData)
     let branchData = await getBranchData(stopLineData)
     console.log(branchData)
@@ -444,6 +458,7 @@ const App = () => {
         <p>There may be one-way routes this method does not account for.</p>
         <Map
           postcodeInfo={postcodeInfo}
+          nearbyStopPoints={nearbyStopPoints}
         />
       </Paper>
     </Container>

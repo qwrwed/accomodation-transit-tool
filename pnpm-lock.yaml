@@ -3,6 +3,7 @@ lockfileVersion: 5.3
 specifiers:
   '@emotion/react': ^11.5.0
   '@emotion/styled': ^11.3.0
+  '@fortawesome/fontawesome-free': ^5.15.4
   '@mui/material': ^5.1.0
   '@testing-library/jest-dom': ^5.15.0
   '@testing-library/react': ^11.2.7
@@ -14,6 +15,7 @@ specifiers:
   eslint-plugin-jsx-a11y: ^6.5.1
   eslint-plugin-prettier: ^4.0.0
   leaflet: ^1.7.1
+  leaflet-extra-markers: ^1.2.1
   node-postcodes.io: ^1.0.3
   prettier: ^2.4.1
   react: ^17.0.2
@@ -26,6 +28,7 @@ specifiers:
 dependencies:
   '@emotion/react': 11.7.1_react@17.0.2
   '@emotion/styled': 11.6.0_79c1490562c3c65ef55eb132a37e39b4
+  '@fortawesome/fontawesome-free': 5.15.4
   '@mui/material': 5.2.5_c84e354a724f4213aa6539fdea9d08aa
   '@testing-library/jest-dom': 5.16.1
   '@testing-library/react': 11.2.7_react-dom@17.0.2+react@17.0.2
@@ -33,6 +36,7 @@ dependencies:
   bootstrap: 5.1.3
   color: 4.2.0
   leaflet: 1.7.1
+  leaflet-extra-markers: 1.2.1_leaflet@1.7.1
   node-postcodes.io: 1.0.3
   react: 17.0.2
   react-bootstrap: 2.0.4_react-dom@17.0.2+react@17.0.2
@@ -2512,6 +2516,12 @@ packages:
       strip-json-comments: 3.1.1
     transitivePeerDependencies:
       - supports-color
+    dev: false
+
+  /@fortawesome/fontawesome-free/5.15.4:
+    resolution: {integrity: sha512-eYm8vijH/hpzr/6/1CJ/V/Eb1xQFW2nnUKArb3z+yUWv7HTwj6M7SP957oMjfZjAHU6qpoNc2wQvIxBLWYa/Jg==}
+    engines: {node: '>=6'}
+    requiresBuild: true
     dev: false
 
   /@gar/promisify/1.1.2:
@@ -8747,6 +8757,14 @@ packages:
     dependencies:
       lodash: 4.17.21
       webpack-sources: 1.4.3
+    dev: false
+
+  /leaflet-extra-markers/1.2.1_leaflet@1.7.1:
+    resolution: {integrity: sha512-k3mGGBJg5wr4LY89MyLHcWCol3yNC9qcK1+5os+HjBk09RlxmqsywNSBwmpP1WKnkKCIgofnOFOhdM5GeK0kHQ==}
+    peerDependencies:
+      leaflet: '>= 0.5 < 2'
+    dependencies:
+      leaflet: 1.7.1
     dev: false
 
   /leaflet/1.7.1:
