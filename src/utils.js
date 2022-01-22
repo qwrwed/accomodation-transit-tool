@@ -12,8 +12,8 @@ function deg2rad(deg) {
 }
 
 const getDistanceFromLatLonInKm = (loc1, loc2) => {
-  const { lat: lat1, lon: lon1 } = loc1;
-  const { lat: lat2, lon: lon2 } = loc2;
+  const [lat1, lon1] = loc1;
+  const [lat2, lon2] = loc2;
   // https://stackoverflow.com/q/18883601
   var R = 6371; // Radius of the earth in km
   var dLat = deg2rad(lat2 - lat1);

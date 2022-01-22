@@ -71,8 +71,6 @@ const Map = ({ postcodeInfo, nearbyStopPoints }) => {
         position={[stopPoint.lat, stopPoint.lon]}
         key={stopPoint.naptanId}
         icon={stopPointIcon(getIconName(stopPoint.modes))}
-        //icon={stopPointMarker(stop)}
-      // icon={<DivIcon></DivIcon>}
       >
         <Popup>
           {stopPoint.commonName}

@@ -86,7 +86,7 @@ export let MODES_INFO = {
     icon: "fa-ship"
   },
   "river-tour": { hidden: true },
-  "tflrail": { 
+  "tflrail": {
     hidden: true,
     icon: "fa-train",
   },
@@ -162,20 +162,29 @@ const getStopPointsByRadius = async (stopTypes, latLong, radius) => {
   return []
 };
 
-const filterStopPointsByModes = (stopPoints, chosenModesSet) =>
-  stopPoints.filter(({ modes }) => setIntersection(new Set(modes), chosenModesSet).size > 0)
+const filterStopPoints = async (stopPoints, chosenModesSet, topLevelKey, origin) => {
+  // remove stopPoints with no line data
+  stopPoints = stopPoints.filter(({ lines }) => lines.length > 0);
 
-const filterStopPointsByLineData = (stopPoints) =>
-  stopPoints.filter((stopPoint) => stopPoint.lines.length > 0);
+  // remove stopPoints that don't serve the chosen modes
+  if (typeof (chosenModesSet) !== "undefined")
+    stopPoints = stopPoints.filter(({ modes }) => setIntersection(new Set(modes), chosenModesSet).size > 0)
 
-const filterStopPointsByTopLevel = async (stopPoints, key = "id") => {
-  let res = await Promise.all(
-    stopPoints.map(async (stopPoint) =>
-      makeTFLGetRequest(`/StopPoint/${stopPoint[key]}`)
+  // remove duplicate stopPoints
+  if (typeof (topLevelKey) === "undefined") {
+    return stopPoints
+  } else {
+    stopPoints = await Promise.all(
+      stopPoints.map(async (stopPoint) =>
+        makeTFLGetRequest(`/StopPoint/${stopPoint[topLevelKey]}`)
+      )
     )
-  );
-  return getUniqueListBy(res, key);
-};
+    stopPoints = stopPoints.map(
+      stopPoint => { return { ...stopPoint, distance: !origin ? undefined : getDistanceFromLatLonInKm(origin, [stopPoint.lat, stopPoint.lon]) } }
+    )
+    return getUniqueListBy(stopPoints, topLevelKey)
+  }
+}
 
 // get all branches
 const getBranchData = async (stopLineData) => {
@@ -206,7 +215,7 @@ const getBranchData = async (stopLineData) => {
 }
 
 // only keep branches with nearby stopPoints
-const filterBranchData = (branchData, stopLineData) => {
+const filterBranchData = (branchData, stopLineData, branchDataKey="id", stopLineDataKey="id") => {
   // TODO: only show stations ahead of identified station on branch?
   let allLines = new Set()
   let filteredLines = new Set()
@@ -224,12 +233,13 @@ const filterBranchData = (branchData, stopLineData) => {
         // console.log(branchesInDirection)
         for (const branchId in branchesInDirection) {
           // console.log(lineMode, line, direction, branchId)
-          const stationIdsOnBranch = new Set(branchData[lineMode][line][direction][branchId].stopPoint.map(({ topMostParentId }) => topMostParentId))
+          const stopPointsOnBranch = branchesInDirection[branchId].stopPoint
+          const stationIdsOnBranch = new Set(stopPointsOnBranch.map((sp) => sp[branchDataKey]))
           // console.log(stationIdsOnBranch)
-          for (const { naptanId } of stopLineData[lineMode][line]) {
-            // console.log(lineMode, line, direction, branchId, naptanId)
-            if (stationIdsOnBranch.has(naptanId)) {
-              // console.log(`${naptanId} is in branch ${branchId} of ${lineMode} ${line} (${direction})`)
+          // console.log(stopPointsOnBranch[0], stopPointsOnBranch[stopPointsOnBranch.length - 1])
+          for (const sp of stopLineData[lineMode][line]) {
+            // console.log(lineMode, line, direction, branchId, id)
+            if (stationIdsOnBranch.has(sp[stopLineDataKey])) {
               availableBranchIds.add(branchId)
               filteredLines.add(line)
               break
@@ -270,7 +280,7 @@ const App = () => {
   const [postcode, setPostcode] = useState(defaultPostcode);
   const [radius, setRadius] = useState(defaultRadius);
   const [chosenModes, setChosenModes] = useState(MODES_DEFAULT);
-  
+
   // map data
   const [postcodeInfo, setPostcodeInfo] = useState();
   const [nearbyStopPoints, setNearbyStopPoints] = useState([])
@@ -291,17 +301,9 @@ const App = () => {
     setPostcodeInfo({ postcode, latLong: [latLong.lat, latLong.lon] })
 
     // get list of stopPoints within radius
-    setInfo(
-      `Searching for stops within ${radius} metres of ${postcode} (${JSON.stringify(
-        latLong
-      )})...`
-    );
-    let stopPoints = await getStopPointsByRadius(
-      NAPTAN_STOPTYPES,
-      latLong,
-      radius
-    );
-
+    setInfo(`Searching for stops within ${radius} metres of ${postcode} (${JSON.stringify(latLong)})...`);
+    let stopPoints = await getStopPointsByRadius(NAPTAN_STOPTYPES, latLong, radius);
+    console.log(stopPoints)
 
     // check for no result
     if (stopPoints === undefined || stopPoints.length === 0) {
@@ -310,50 +312,20 @@ const App = () => {
     }
 
     let chosenModesSet = new Set(objectToList(chosenModes))
-    // console.log(chosenModesSet);
-
-    // remove stopPoints with no line data for chosen modes
-    console.log(stopPoints)
-    stopPoints = filterStopPointsByModes(stopPoints, chosenModesSet)
-    console.log(stopPoints)
-    stopPoints = filterStopPointsByLineData(stopPoints);
-    console.log(stopPoints);
-
-    // remove duplicate stopPoints
-    // stopPoints = await filterStopPointsByTopLevel(stopPoints, "stationNaptan");
-
-    // id, naptanId refers to a single bus stop; stationNaptan can refer to a cluster of stops (e.g. one on each side of the road)
-
-    // using CanReachOnLine route on each of a cluster of naptanIds...
-    // gives same stops as using using CanReachOnLine once on corresponding stationNaptan...
-    // albeit with different commonNames/id
-    //stopPoints = getUniqueListBy(stopPoints, "stationNaptan");
-
-    //console.log(stopPoints);
-
-    // const tmpModes = (await getTransportModes()).map(({ modeName }) => modeName)
-    // console.log(JSON.stringify(tmpModes));
-    //const stopPointIDs = stopPoints.map(({ id }) => id);
-    //console.log(stopPoints)
-    stopPoints = await filterStopPointsByTopLevel(stopPoints);
-    console.log(stopPoints)
+    stopPoints = await filterStopPoints(stopPoints, chosenModesSet, undefined)
     setNearbyStopPoints(stopPoints)
-    //console.log(stopPointIDs);
+    console.log(stopPoints)
+
     const summary = stopPoints.map(
-      ({ commonName, id, stopType, lat, lon }) => ({
+      ({ commonName, distance }) => ({
         commonName,
-        distance: Math.round(
-          getDistanceFromLatLonInKm(latLong, { lat, lon }) * 1000
-        ),
+        distance: typeof (distance) !== "undefined" ? Math.round(distance) : "???",
       })
     );
     summary.sort((a, b) => (a.distance > b.distance ? 1 : -1));
-
-    //console.log(summary);
     const summaryText = summary.map(
       ({ commonName, distance }) => `${commonName} (${distance}m)`
     );
-    // console.log(commonNames)
     setInfo(`Stops within ${radius} metres of postcode ${postcode} (${JSON.stringify(latLong)}): ${summaryText.join(", ")}`);
 
     let stopLineData = {}
@@ -368,11 +340,12 @@ const App = () => {
         }
       }
     }
-    return
     console.log(stopLineData)
+
     let branchData = await getBranchData(stopLineData)
     console.log(branchData)
-    let [nearbyBranchData, missingLines] = filterBranchData(branchData, stopLineData)
+
+    let [nearbyBranchData, missingLines] = filterBranchData(branchData, stopLineData, "icsId", "icsCode")
     if (missingLines.length > 0)
       console.error(`WARNING: Could not find route data for lines ${JSON.stringify(missingLines)}. This is likely a problem with the TFL API.`)
     console.log(nearbyBranchData)
