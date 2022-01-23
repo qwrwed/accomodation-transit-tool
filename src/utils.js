@@ -1,7 +1,7 @@
 /* eslint-disable */
 
 // remove pairs where value is false, then extract only keys to list
-const objectToList = (obj) =>
+export const objectToList = (obj) =>
   Object.entries(obj)
     .filter(([key, value]) => value)
     .map(([key, value]) => key);
@@ -11,7 +11,7 @@ function deg2rad(deg) {
   return deg * (Math.PI / 180);
 }
 
-const getDistanceFromLatLonInKm = (loc1, loc2) => {
+export const getDistanceFromLatLonInKm = (loc1, loc2) => {
   const [lat1, lon1] = loc1;
   const [lat2, lon2] = loc2;
   // https://stackoverflow.com/q/18883601
@@ -29,12 +29,12 @@ const getDistanceFromLatLonInKm = (loc1, loc2) => {
   return d;
 };
 
-const getUniqueListBy = (arr, key) => {
+export const getUniqueListBy = (arr, key) => {
   // https://stackoverflow.com/a/56768137
   return [...new Map(arr.map((item) => [item[key], item])).values()];
 };
 
-const kvArrayToObject = (arr) => {
+export const kvArrayToObject = (arr) => {
   return arr.reduce(function (result, item) {
     var key = Object.keys(item)[0]; //first property: a, b, c
     result[key] = item[key];
@@ -42,7 +42,7 @@ const kvArrayToObject = (arr) => {
   }, {});
 };
 
-const objectMap = (obj, fn) =>
+export const objectMap = (obj, fn) =>
   // https://stackoverflow.com/a/14810722
   Object.fromEntries(
     Object.entries(obj).map(
@@ -50,14 +50,14 @@ const objectMap = (obj, fn) =>
     )
   )
 
-const objectFilter = (obj, fn) =>
+export const objectFilter = (obj, fn) =>
   Object.fromEntries(
     Object.entries(obj).filter(
       ([k, v], i) => fn(v, k, i)
     )
   );
 
-var getDescendants = (obj, key, currentDescendantIds = new Set(), level = 0) => {
+export var getDescendants = (obj, key, currentDescendantIds = new Set(), level = 0) => {
   // console.log(`getDescendants(L${level}: ${obj}, ${key}, ${JSON.stringify(currentDescendantIds)})`)
   // console.log(descendantIds)
   for (const id of currentDescendantIds) {
@@ -71,18 +71,45 @@ var getDescendants = (obj, key, currentDescendantIds = new Set(), level = 0) => 
   return currentDescendantIds
 }
 
-const setDifference = (a, b) =>
+export const setDifference = (a, b) =>
   new Set(
     Array.from(a).filter(x => !b.has(x))
   );
 
-const setIntersection = (a, b) => new Set(
+export const setIntersection = (a, b) => new Set(
   Array.from(a).filter(x => b.has(x))
 );
 
-const setUnion = (a, b) => new Set([...a, ...b]);
+export const setUnion = (a, b) => new Set([...a, ...b]);
 
-const roundAccurately = (number, decimalPlaces = 1) => Number(Math.round(number + "e" + decimalPlaces) + "e-" + decimalPlaces)
+export const roundAccurately = (number, decimalPlaces = 1) => Number(Math.round(number + "e" + decimalPlaces) + "e-" + decimalPlaces)
 // https://gist.github.com/djD-REK/068cba3d430cf7abfddfd32a5d7903c3
 
-export { setIntersection, setUnion, objectFilter, roundAccurately, setDifference, objectToList, getDistanceFromLatLonInKm, getUniqueListBy, kvArrayToObject, objectMap, getDescendants };
+
+/**
+ * Function: createNestedObject( base, names[, value] )
+ * @param {*} base The object on which to create the hierarchy.
+ * @param {*} names An array of strings (or dot-separated string) contaning the names of the objects
+ * @param {*} value (optional) if given, will be the last object in the hierarchy.
+ * @returns The last object in the hierarchy.
+ */
+export const setNestedObject = function( base, names, value ) {
+  // https://stackoverflow.com/a/11433067
+  if (typeof(names) === "string")
+    names = names.split(".")
+
+  // If a value is given, remove the last name and keep it for later:
+  var lastName = arguments.length === 3 ? names.pop() : false;
+
+  // Walk the hierarchy, creating new objects where needed.
+  // If the lastName was removed, then the last object is not set yet:
+  for( var i = 0; i < names.length; i++ ) {
+      base = base[ names[i] ] = base[ names[i] ] || {};
+  }
+
+  // If a value was given, set it to the last name:
+  if( lastName ) base = base[ lastName ] = value;
+
+  // Return the last object in the hierarchy:
+  return base;
+};

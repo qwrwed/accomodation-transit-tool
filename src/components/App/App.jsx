@@ -12,8 +12,7 @@ import Paper from "@mui/material/Paper";
 
 import Input from "@mui/material/Input";
 
-
-import { pantonePalette } from "../../colors"
+import { MODES_INFO_ALL, TFL_API_URL_ROOT, NAPTAN_STOPTYPES, DEFAULT_POSTCODE, DEFAULT_RADIUS,  }  from "../../constants"
 
 import CheckBoxList from "../CheckBoxList";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -31,78 +30,13 @@ import {
   roundAccurately,
   objectFilter,
   setIntersection,
-  setDifference
+  setDifference,
+  setNestedObject,
 } from "../../utils";
 import Map from "../Map/Map"
 const postcodes = require("node-postcodes.io");
 
-
-const TFL_API_URL_ROOT = "https://api.tfl.gov.uk";
-// https://blog.tfl.gov.uk/2015/10/08/unified-api-part-2-lot-location-of-things/
-
-const NAPTAN_STOPTYPES = [
-  "NaptanMetroStation",
-  "NaptanRailStation",
-  "NaptanBusCoachStation",
-  "NaptanPublicBusCoachTram",
-  "NaptanFerryPort",
-]
-
-// only scheduled modes
-export let MODES_INFO = {
-  "bus": {
-    label: "London Buses",
-    color: pantonePalette["485"],
-    selectedByDefault: false,
-    icon: "fa-bus"
-  },
-  "cable-car": { hidden: true },
-  "coach": {
-    label: "Victoria Coach Station",
-    color: pantonePalette["130"],
-    hidden: true,
-  },
-  "dlr": {
-    label: "Docklands Light Railway",
-    color: pantonePalette["326"],
-    selectedByDefault: true,
-    icon: "fa-subway",
-  },
-  "national-rail": {
-    label: "National Rail",
-    icon: "fa-train",
-  },
-  "overground": {
-    label: "London Overground",
-    color: pantonePalette["158"],
-    selectedByDefault: true,
-    icon: "fa-subway"
-  },
-  "replacement-bus": { hidden: false },
-  "river-bus": {
-    label: "London River Services",
-    color: pantonePalette["299"],
-    hidden: true,
-    icon: "fa-ship"
-  },
-  "river-tour": { hidden: true },
-  "tflrail": {
-    hidden: true,
-    icon: "fa-train",
-  },
-  "tram": {
-    label: "London Tramlink",
-    color: pantonePalette["368"],
-    icon: "fa-subway"
-  },
-  "tube": {
-    label: "London Underground",
-    color: pantonePalette["158"],
-    selectedByDefault: true,
-    icon: "fa-subway"
-  }
-}
-MODES_INFO = objectFilter(MODES_INFO, (({ hidden }) => (!hidden)))
+let MODES_INFO = objectFilter(MODES_INFO_ALL, (({ hidden }) => (!hidden)))
 const MODES_LABELS = objectMap(MODES_INFO, ({ label }) => label)
 const MODES_DEFAULT = objectMap(MODES_INFO, ({ selectedByDefault }) => selectedByDefault || false)
 
@@ -133,7 +67,7 @@ const makeTFLGetRequest = async (route, otherParams) => {
 };
 
 const getNaptanTypes = async () => {
-  return await makeGetRequest("/StopPoint/Meta/StopTypes");
+  return await makeTFLGetRequest("/StopPoint/Meta/StopTypes");
 };
 
 const getStoppointDataCategories = async () =>
@@ -187,25 +121,21 @@ const filterStopPoints = async (stopPoints, chosenModesSet, topLevelKey, origin)
 }
 
 // get all branches
-const getBranchData = async (stopLineData) => {
+const getBranchData = async (stopPointsOnLines) => {
   let branchData = {}
-  for (const modeName in stopLineData) {
-    branchData[modeName] = branchData[modeName] || {}
-    for (const line in stopLineData[modeName]) {
-      const res = await makeTFLGetRequest(`/Line/${line}/Route/Sequence/all`)
-      if (typeof (res) !== "undefined") {
-        branchData[modeName][line] = {}
-        // branchData[modeName][line].inbound = res.stopPointSequences.filter(({direction}) => direction == "inbound")
-        // branchData[modeName][line].outbound = res.stopPointSequences.filter(({direction}) => direction == "outbound")
-        //console.log(res.stopPointSequences)
+  for (const modeName in stopPointsOnLines) {
+    for (const line in stopPointsOnLines[modeName]) {
+      const receivedRouteSequence = await makeTFLGetRequest(`/Line/${line}/Route/Sequence/all`)
+      if (typeof (receivedRouteSequence) !== "undefined") {
+        // console.log(res.stopPointSequences)
         for (const direction of ["inbound", "outbound"]) {
-          branchData[modeName][line][direction] = {}
-          for (let branchWithId of res.stopPointSequences) {
-            //console.log(line, branchWithId.direction, direction)
+          for (const branchWithId of receivedRouteSequence.stopPointSequences) {
             if (!(branchWithId.direction === direction))
               continue
+            //const branchIdUnique = `${line}-${branchWithId.branchId}`
+            //console.log("found", branchIdUnique, branchWithId.direction)
             const { branchId, ...branch } = branchWithId
-            branchData[modeName][line][direction][branchId] = branch
+            setNestedObject(branchData, [modeName, line, direction, branchId], branch)
           }
         }
       }
@@ -214,71 +144,94 @@ const getBranchData = async (stopLineData) => {
   return branchData
 }
 
+// stopLineData:
+//   object has modes;
+//     mode has lines;
+//       line has set of stopPoints
 // only keep branches with nearby stopPoints
-const filterBranchData = (branchData, stopLineData, branchDataKey="id", stopLineDataKey="id") => {
+const filterBranchData = (branchData, stopPointsOnLines, branchDataKey = "id", stopLineDataKey = "id", toOrFromLocalStopPoints = "to") => {
+  if (!["to", "from"].includes(toOrFromLocalStopPoints))
+    throw new Error(`toOrFromLocalStopPoints must be "to" or "from"`)
   // TODO: only show stations ahead of identified station on branch?
-  let allLines = new Set()
-  let filteredLines = new Set()
+  let allLines = []
+  let filteredLines = []
   let nearbyBranchData = {}
   for (const lineMode in branchData) {
     // console.log(lineMode)
     for (const line in branchData[lineMode]) {
-      allLines.add(line)
+      allLines.push(line)
       // console.log(lineMode, line)
       for (const direction of ["inbound", "outbound"]) {
         // console.log(lineMode, line, direction)
         let branchesInDirection = branchData[lineMode][line][direction]
-        let availableBranchIds = new Set()
-        let checkedBranchIds = new Set()
+        // let availableBranchIds = new Set()
+        let availableBranchIds = []
+        let availableBranches = {}
+        // let checkedBranchIds = new Set()
+        let checkedBranchIds = []
         // console.log(branchesInDirection)
         for (const branchId in branchesInDirection) {
           // console.log(lineMode, line, direction, branchId)
           const stopPointsOnBranch = branchesInDirection[branchId].stopPoint
-          const stationIdsOnBranch = new Set(stopPointsOnBranch.map((sp) => sp[branchDataKey]))
+          const stopPointsOnLine = stopPointsOnLines[lineMode][line]
+          const stationIdsOnBranch = stopPointsOnBranch.map((sp) => sp[branchDataKey])
           // console.log(stationIdsOnBranch)
           // console.log(stopPointsOnBranch[0], stopPointsOnBranch[stopPointsOnBranch.length - 1])
-          for (const sp of stopLineData[lineMode][line]) {
+          // console.log(stopPointsOnBranch)
+          // console.log(stopPointsOnLine)
+          for (const sp of stopPointsOnLines[lineMode][line]) {
+            const stopPointChosenId = sp[stopLineDataKey]
+            const indexOnBranch = stationIdsOnBranch.indexOf(stopPointChosenId)
             // console.log(lineMode, line, direction, branchId, id)
-            if (stationIdsOnBranch.has(sp[stopLineDataKey])) {
-              availableBranchIds.add(branchId)
-              filteredLines.add(line)
-              break
+            if (indexOnBranch > -1) {
+              console.log(`${stopPointChosenId} (${sp.commonName}) on ${line}-${branchId} (${direction}) at ${indexOnBranch}`)
+              if (!availableBranchIds.includes(branchId)) {
+                console.log("Branch not yet added!")
+                availableBranchIds.push(branchId)
+                availableBranches[branchId] = { ...branchesInDirection[branchId], startOrEndIndex: indexOnBranch }
+                filteredLines.push(line)
+              } else {
+                console.log("Branch already added!")
+                switch (toOrFromLocalStopPoints) {
+                  case "to":   { availableBranches[branchId].startOrEndIndex = Math.max(indexOnBranch, availableBranches[branchId].startOrEndIndex); break}
+                  case "from": { availableBranches[branchId].startOrEndIndex = Math.min(indexOnBranch, availableBranches[branchId].startOrEndIndex); break}
+                }
+              }
             }
           }
-          if (!(availableBranchIds.has(branchId)))
+
+          if (!(availableBranchIds.includes(branchId)))
             continue
           // get connected branches ahead
-          // console.log(`Checking for branches accessible from ${branchId}`)
-          // console.log(branchData[lineMode][line][direction])
-          if (checkedBranchIds.has(branchId))
+          console.log(`Checking for branches accessible from ${line}-${branchId} (${direction})`)
+          console.log(JSON.parse(JSON.stringify({branchesInDirection})))
+          console.log(JSON.parse(JSON.stringify({availableBranchIds})))
+          console.log(JSON.parse(JSON.stringify({availableBranches})))
+          if (checkedBranchIds.includes(branchId))
             continue
-          checkedBranchIds.add(branchId)
+          checkedBranchIds.push(branchId)
           let branchesAheadIds = getDescendants(branchesInDirection, "nextBranchIds", new Set([branchId]))
-          nearbyBranchData[lineMode] = nearbyBranchData[lineMode] || {}
-          nearbyBranchData[lineMode][line] = nearbyBranchData[lineMode][line] || {}
-          nearbyBranchData[lineMode][line][direction] = nearbyBranchData[lineMode][line][direction] || {}
+          console.log({branchesAheadIds})
           // console.log(branchesAheadIds)
           for (const id of branchesAheadIds) {
-            nearbyBranchData[lineMode][line][direction][id] = branchesInDirection[id]
+            setNestedObject(nearbyBranchData, [lineMode, line, direction, id], branchesInDirection[id])
+            //nearbyBranchData[lineMode][line][direction][id] = branchesInDirection[id]
             const branchStopPoints = branchesInDirection[id].stopPoint
             // console.log(`${id}: ${branchStopPoints[0].name} -> ${branchStopPoints[branchStopPoints.length - 1].name}`)
           }
         }
+        // console.log(availableBranches)
       }
     }
   }
-  let missingLines = [...setDifference(allLines, filteredLines)]
+  let missingLines = [...setDifference(new Set(allLines), new Set(filteredLines))]
   return [nearbyBranchData, missingLines]
 }
 const App = () => {
-  // const defaultPostcode = "SE1 6TG" // example location in API docs
-  const defaultPostcode = "SE1 9SG"; // london bridge bus station
-  // const defaultPostcode = "SW1A 2JR" // westminster tube station
-  const defaultRadius = 300;
 
   const [info, setInfo] = useState("Waiting for search...");
-  const [postcode, setPostcode] = useState(defaultPostcode);
-  const [radius, setRadius] = useState(defaultRadius);
+  const [postcode, setPostcode] = useState(DEFAULT_POSTCODE);
+  const [radius, setRadius] = useState(DEFAULT_RADIUS);
   const [chosenModes, setChosenModes] = useState(MODES_DEFAULT);
 
   // map data
@@ -303,7 +256,7 @@ const App = () => {
     // get list of stopPoints within radius
     setInfo(`Searching for stops within ${radius} metres of ${postcode} (${JSON.stringify(latLong)})...`);
     let stopPoints = await getStopPointsByRadius(NAPTAN_STOPTYPES, latLong, radius);
-    console.log(stopPoints)
+    console.log(JSON.parse(JSON.stringify({stopPoints})))
 
     // check for no result
     if (stopPoints === undefined || stopPoints.length === 0) {
@@ -314,7 +267,7 @@ const App = () => {
     let chosenModesSet = new Set(objectToList(chosenModes))
     stopPoints = await filterStopPoints(stopPoints, chosenModesSet, undefined)
     setNearbyStopPoints(stopPoints)
-    console.log(stopPoints)
+    console.log(JSON.parse(JSON.stringify({stopPoints})))
 
     const summary = stopPoints.map(
       ({ commonName, distance }) => ({
@@ -328,27 +281,27 @@ const App = () => {
     );
     setInfo(`Stops within ${radius} metres of postcode ${postcode} (${JSON.stringify(latLong)}): ${summaryText.join(", ")}`);
 
-    let stopLineData = {}
+    let stopPointsOnLines = {}
     for (const stopPoint of stopPoints) {
       for (const { modeName, lineIdentifier } of stopPoint.lineModeGroups) {
         if (!chosenModesSet.has(modeName))
           continue
-        stopLineData[modeName] = stopLineData[modeName] || {}
         for (const line of lineIdentifier) {
-          stopLineData[modeName][line] = stopLineData[modeName][line] || new Set()
-          stopLineData[modeName][line].add(stopPoint)
+          if (typeof(stopPointsOnLines?.[modeName]?.[line]) === "undefined")
+            setNestedObject(stopPointsOnLines, [modeName, line], [])
+          stopPointsOnLines[modeName][line].push(stopPoint)
         }
       }
     }
-    console.log(stopLineData)
+    console.log(JSON.parse(JSON.stringify({stopPointsOnLines})))
 
-    let branchData = await getBranchData(stopLineData)
-    console.log(branchData)
+    let branchData = await getBranchData(stopPointsOnLines)
+    console.log(JSON.parse(JSON.stringify({branchData})))
 
-    let [nearbyBranchData, missingLines] = filterBranchData(branchData, stopLineData, "icsId", "icsCode")
+    let [nearbyBranchData, missingLines] = filterBranchData(branchData, stopPointsOnLines, "stationId", "stationNaptan")
     if (missingLines.length > 0)
       console.error(`WARNING: Could not find route data for lines ${JSON.stringify(missingLines)}. This is likely a problem with the TFL API.`)
-    console.log(nearbyBranchData)
+    console.log(JSON.parse(JSON.stringify({nearbyBranchData})))
     return
     let reachableStops = {};
     let linesRequested = new Set()

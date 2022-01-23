@@ -74,6 +74,8 @@ const Map = ({ postcodeInfo, nearbyStopPoints }) => {
       >
         <Popup>
           {stopPoint.commonName}
+          <br/>
+          Lines: {stopPoint.lines.map(({name}) => name).join(", ")}
         </Popup>
       </Marker>)}
     </MapContainer>
