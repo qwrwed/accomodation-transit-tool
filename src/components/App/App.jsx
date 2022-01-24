@@ -211,8 +211,7 @@ const filterBranchData = (branchData, stopPointsOnLines, branchDataKey = "id", s
             continue
           checkedBranchIds.push(branchId)
           let branchesAheadIds = getDescendants(branchesInDirection, "nextBranchIds", new Set([branchId]))
-          console.log({branchesAheadIds})
-          // console.log(branchesAheadIds)
+          console.log(JSON.parse(JSON.stringify({branchesAheadIds: [...branchesAheadIds]})))
           for (const id of branchesAheadIds) {
             setNestedObject(nearbyBranchData, [lineMode, line, direction, id], branchesInDirection[id])
             //nearbyBranchData[lineMode][line][direction][id] = branchesInDirection[id]
