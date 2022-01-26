@@ -18,8 +18,8 @@ export const MODES_INFO_ALL = {
   dlr: {
     label: "Docklands Light Railway",
     color: pantonePalette["326"],
-    selectedByDefault: true,
     icon: "fa-subway",
+    selectedByDefault: true,
   },
   "national-rail": {
     label: "National Rail",
@@ -56,8 +56,8 @@ export const MODES_INFO_ALL = {
   tube: {
     label: "London Underground",
     color: pantonePalette["158"],
-    selectedByDefault: true,
     icon: "fa-subway",
+    selectedByDefault: true,
   },
 };
 

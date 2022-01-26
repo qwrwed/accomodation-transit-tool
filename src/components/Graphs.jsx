@@ -10,45 +10,36 @@ import { objectToList } from "../utils";
 
 const defaultSigmaContainerStyle = { height: "500px", width: "100%" };
 
-const BaseGraphFunction = ({ inputGraph, sigmaGraph }) => {
+export const mergeGraph = (inputGraph, outputGraph) => {
   if (typeof inputGraph !== "undefined") {
     inputGraph.forEachNode((node, attributes) => {
-      sigmaGraph.mergeNode(node, attributes);
+      outputGraph.mergeNode(node, attributes);
     });
     inputGraph.forEachEdge((edge, attributes, fromNode, toNode) => {
-      sigmaGraph.mergeEdge(fromNode, toNode, attributes);
+      outputGraph.mergeEdge(fromNode, toNode, attributes);
     });
   }
-  return null;
 };
 
-const SingleGraphFunction = ({ graph, resetOnChange = true }) => {
+export const mergeGraphList = (graphList) => {
+  const outputGraph = new Graph();
+  for (const graph of graphList) {
+    mergeGraph(graph, outputGraph);
+  }
+  return outputGraph;
+};
+
+const GraphFunction = ({ graph, resetOnChange = true }) => {
   const sigma = useSigma();
   const sigmaGraph = sigma.getGraph();
   if (resetOnChange) sigmaGraph.clear();
-  BaseGraphFunction({ inputGraph: graph, sigmaGraph });
+  mergeGraph(graph, sigmaGraph);
   return null;
 };
 
-const MultipleGraphFunction = ({ graphs }) => {
-  const sigma = useSigma();
-  const sigmaGraph = sigma.getGraph();
-  sigmaGraph.clear();
-  for (const graph of graphs) {
-    BaseGraphFunction({ inputGraph: graph, sigmaGraph });
-  }
-  return null;
-};
-
-export const SingleGraph = ({ graph, style }) => (
+export const GraphComponent = ({ graph, style }) => (
   <SigmaContainer style={{ ...defaultSigmaContainerStyle, ...style }}>
-    <SingleGraphFunction graph={graph} />
-  </SigmaContainer>
-);
-
-export const MultipleGraph = ({ graphs, style }) => (
-  <SigmaContainer style={{ ...defaultSigmaContainerStyle, ...style }}>
-    <MultipleGraphFunction graphs={graphs} />
+    <GraphFunction graph={graph} />
   </SigmaContainer>
 );
 

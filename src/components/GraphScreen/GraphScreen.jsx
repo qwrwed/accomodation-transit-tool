@@ -6,7 +6,11 @@ import { Paper } from "@mui/material";
 import "../App/App.css";
 import { MODES_DEFAULT, MODES_LABELS } from "../../constants";
 import CheckBoxList from "../CheckBoxList";
-import { setGraphListFromChosenModes, MultipleGraph } from "../Graphs";
+import {
+  setGraphListFromChosenModes,
+  GraphComponent,
+  mergeGraphList,
+} from "../Graphs";
 
 const App = () => {
   const [chosenModes, setChosenModes] = useState(MODES_DEFAULT);
@@ -26,8 +30,7 @@ const App = () => {
           listLabels={MODES_LABELS}
         />
         <Container>===</Container>
-        {/* <SingleGraph graph={graphInfo} /> */}
-        <MultipleGraph graphs={graphList} />
+        <GraphComponent graph={mergeGraphList(graphList)} />
         <Container>===</Container>
         <Typography variant="h4" component="h1" gutterBottom>
           Create React App + Material-UI + Graphology + Sigma.js
