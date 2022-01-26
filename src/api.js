@@ -37,9 +37,9 @@ export const getLinesFromModes = async (modesList) => {
   return linesList;
 };
 
-export const getRoutesOnLine = async (line) => {
+export const getRoutesOnLine = async (lineId) => {
   const routeSequence = await makeTFLGetRequest(
-    `/Line/${line.id}/Route/Sequence/all`
+    `/Line/${lineId}/Route/Sequence/all`
   );
   routeSequence.lineStrings = routeSequence.lineStrings.map(
     (lineString) => JSON.parse(lineString)[0]

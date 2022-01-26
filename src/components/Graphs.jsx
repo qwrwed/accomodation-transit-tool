@@ -53,12 +53,14 @@ export const MultipleGraph = ({ graphs, style }) => (
 );
 
 export const getLineGraphFromLine = async ({
-  line,
+  lineId,
   direction,
   branchDataKey = "stationId",
 }) => {
-  const lineColor = LINE_COLORS[line.id] || MODES_INFO_ALL[line.modeName].color;
-  const routeSequence = await getRoutesOnLine(line);
+  const routeSequence = await getRoutesOnLine(lineId);
+  const lineColor =
+    LINE_COLORS[routeSequence.lineId] ||
+    MODES_INFO_ALL[routeSequence.mode].color;
   const lineGraph = new Graph();
   for (const stopPointSequence of routeSequence.stopPointSequences) {
     if (stopPointSequence.direction === direction) {
@@ -95,14 +97,14 @@ export const getLineGraphFromLine = async ({
   return lineGraph;
 };
 
-export const getLineGraphsFromLineList = async ({
-  lineList,
+export const getLineGraphsFromLineIdList = async ({
+  lineIdList,
   directionList,
 }) => {
   const lineGraphList = [];
-  for (const line of lineList) {
+  for (const lineId of lineIdList) {
     for (const direction of directionList) {
-      const lineGraph = await getLineGraphFromLine({ line, direction });
+      const lineGraph = await getLineGraphFromLine({ lineId, direction });
       lineGraphList.push(lineGraph);
     }
   }
@@ -115,8 +117,8 @@ export const setGraphListFromChosenModes = async (
 ) => {
   const modesList = objectToList(chosenModes);
   if (modesList.length === 0) return;
-  const lineGraphList = await getLineGraphsFromLineList({
-    lineList: await getLinesFromModes(modesList),
+  const lineGraphList = await getLineGraphsFromLineIdList({
+    lineIdList: (await getLinesFromModes(modesList)).map(({ id }) => id),
     directionList: ["outbound"],
     branchDataKey: "stationId",
   });
