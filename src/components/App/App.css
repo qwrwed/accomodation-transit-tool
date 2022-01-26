@@ -42,3 +42,7 @@
     outline: none;
     box-shadow:none;
 } */
+
+.sigma-edges, .sigma-edgeLabels, .sigma-nodes, .sigma-labels, .sigma-hovers, .sigma-hoverNodes, .sigma-mouse {
+  left: 0;
+}
