@@ -5,7 +5,12 @@ import React from "react";
 import { SigmaContainer, useSigma } from "react-sigma-v2/lib/esm";
 import "react-sigma-v2/lib/react-sigma-v2.css";
 import { getLinesFromModes, getRoutesOnLine } from "../api";
-import { GRAPH_NODE_SIZE, LINE_COLORS, MODES_INFO_ALL } from "../constants";
+import {
+  EDGE_TYPE,
+  GRAPH_NODE_SIZE,
+  LINE_COLORS,
+  MODES_INFO_ALL,
+} from "../constants";
 import { objectToList } from "../utils";
 
 const defaultSigmaContainerStyle = { height: "500px", width: "100%" };
@@ -78,7 +83,8 @@ export const getLineGraphFromLine = async ({
           size: GRAPH_NODE_SIZE,
         });
         lineGraph.mergeEdge(spFrom[branchDataKey], spTo[branchDataKey], {
-          type: "line",
+          lineId,
+          type: EDGE_TYPE,
           size: 2,
           color: lineColor,
         });
@@ -88,10 +94,10 @@ export const getLineGraphFromLine = async ({
   return lineGraph;
 };
 
-export const getLineGraphsFromLineIdList = async ({
+export const getLineGraphsFromLineIdList = async (
   lineIdList,
-  directionList,
-}) => {
+  directionList = ["outbound"]
+) => {
   const lineGraphList = [];
   for (const lineId of lineIdList) {
     for (const direction of directionList) {
@@ -104,14 +110,15 @@ export const getLineGraphsFromLineIdList = async ({
 
 export const setGraphListFromChosenModes = async (
   chosenModes,
-  graphListSetter
+  graphListSetter,
+  directionList = ["outbound"]
 ) => {
   const modesList = objectToList(chosenModes);
   if (modesList.length === 0) return;
-  const lineGraphList = await getLineGraphsFromLineIdList({
-    lineIdList: (await getLinesFromModes(modesList)).map(({ id }) => id),
-    directionList: ["outbound"],
-    branchDataKey: "stationId",
-  });
+  const lineGraphList = await getLineGraphsFromLineIdList(
+    (await getLinesFromModes(modesList)).map(({ id }) => id),
+    directionList,
+    "stationId"
+  );
   graphListSetter(lineGraphList);
 };
