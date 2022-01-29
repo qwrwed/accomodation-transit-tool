@@ -65,7 +65,7 @@ export const MODES_INFO = objectFilter(MODES_INFO_ALL, ({ hidden }) => !hidden);
 export const MODES_LABELS = objectMap(MODES_INFO, ({ label }) => label);
 export const MODES_DEFAULT = objectMap(
   MODES_INFO,
-  ({ selectedByDefault }) => selectedByDefault || false
+  ({ selectedByDefault }) => selectedByDefault || false,
 );
 
 const LONDON_UNDERGROUND_LINE_COLORS = {

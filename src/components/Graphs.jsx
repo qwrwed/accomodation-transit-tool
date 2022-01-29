@@ -104,7 +104,7 @@ export const getLineGraphFromLine = async ({
 
 export const getLineGraphObjectFromLineIdList = async (
   lineIdList,
-  directionList = ["outbound"]
+  directionList = ["outbound"],
 ) => {
   const lineGraphObject = {};
   for (const lineId of lineIdList) {
@@ -118,23 +118,23 @@ export const getLineGraphObjectFromLineIdList = async (
 
 export const getLineGraphListFromLineIdList = async (
   lineIdList,
-  directionList = ["outbound"]
+  directionList = ["outbound"],
 ) =>
   Object.values(
-    await getLineGraphObjectFromLineIdList(lineIdList, directionList)
+    await getLineGraphObjectFromLineIdList(lineIdList, directionList),
   );
 
 export const setGraphListFromChosenModes = async (
   chosenModes,
   graphListSetter,
-  directionList = ["outbound"]
+  directionList = ["outbound"],
 ) => {
   const modesList = objectKeysToList(chosenModes);
   if (modesList.length === 0) return;
   const lineGraphList = await getLineGraphListFromLineIdList(
     (await getLinesFromModes(modesList)).map(({ id }) => id),
     directionList,
-    "stationId"
+    "stationId",
   );
   graphListSetter(lineGraphList);
 };

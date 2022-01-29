@@ -7,7 +7,7 @@ const postcodes = require("node-postcodes.io");
 export const getLatLonFromPostCode = async (postcode) => {
   let { result: res } = await postcodes.lookup(postcode);
   res = objectMap(res, (v) => roundAccurately(v, 3));
-  return { lat: res.latitude, lon: res.longitude };
+  return [res.latitude, res.longitude];
 };
 
 export const getTFLApiKey = () => process.env.REACT_APP_TFL_KEY;
@@ -23,10 +23,11 @@ export const makeTFLGetRequest = async (route, otherParams) => {
   if (response.ok) {
     return response.json();
   }
-  const { exceptionType, httpStatusCode, httpStatus, message } =
-    await response.json();
+  const {
+    exceptionType, httpStatusCode, httpStatus, message,
+  } = await response.json();
   console.error(
-    `${exceptionType}: ${httpStatusCode} (${httpStatus})\n${message} (from ${TFL_API_URL_ROOT}${route})`
+    `${exceptionType}: ${httpStatusCode} (${httpStatus})\n${message} (from ${TFL_API_URL_ROOT}${route})`,
   );
   return null;
 };
@@ -39,10 +40,21 @@ export const getLinesFromModes = async (modesList) => {
 
 export const getRoutesOnLine = async (lineId) => {
   const routeSequence = await makeTFLGetRequest(
-    `/Line/${lineId}/Route/Sequence/all`
+    `/Line/${lineId}/Route/Sequence/all`,
   );
   routeSequence.lineStrings = routeSequence.lineStrings.map(
-    (lineString) => JSON.parse(lineString)[0]
+    (lineString) => JSON.parse(lineString)[0],
   );
   return routeSequence;
+};
+
+export const getNaptanTypes = async () => makeTFLGetRequest("/StopPoint/Meta/StopTypes");
+
+export const getStoppointDataCategories = async () => makeTFLGetRequest("/StopPoint/Meta/categories");
+
+export const getTransportModes = async () => {
+  let res = await makeTFLGetRequest("/Line/Meta/Modes");
+  res = res.filter((mode) => mode.isScheduledService);
+  res = Object.values(objectMap(res, (v) => v.modeName));
+  return res;
 };
