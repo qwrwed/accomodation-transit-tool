@@ -133,10 +133,10 @@ export const GRAPH_NODE_SIZE = 2;
 export const DEFAULT_RADIUS = 500;
 
 // export const DEFAULT_POSTCODE = "SE1 6TG"; // example location in API docs
-export const DEFAULT_POSTCODE = "SE1 9SG"; // london bridge bus station
+// export const DEFAULT_POSTCODE = "SE1 9SG"; // london bridge bus station
 // export const DEFAULT_POSTCODE = "SW1A 2JR"; // westminster tube station
 // export const DEFAULT_POSTCODE = "E14 0AF"; // poplar DLR station
-// export const DEFAULT_POSTCODE = "EC2M 7PY"; // liverpool street
+export const DEFAULT_POSTCODE = "EC2M 7PY"; // liverpool street
 // export const DEFAULT_POSTCODE = "CR0 2AF"; // west croydon (trams)
 
 // export const EDGE_TYPE = "line";

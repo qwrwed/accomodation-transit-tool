@@ -11,7 +11,7 @@ import {
   LINE_COLORS,
   MODES_INFO_ALL,
 } from "../constants";
-import { objectToList } from "../utils";
+import { objectKeysToList } from "../utils";
 
 const defaultSigmaContainerStyle = { height: "500px", width: "100%" };
 
@@ -29,6 +29,14 @@ export const mergeGraph = (inputGraph, outputGraph) => {
 export const mergeGraphList = (graphList) => {
   const outputGraph = new Graph();
   for (const graph of graphList) {
+    mergeGraph(graph, outputGraph);
+  }
+  return outputGraph;
+};
+
+export const mergeGraphObject = (graphObject) => {
+  const outputGraph = new Graph();
+  for (const graph of Object.values(graphObject)) {
     mergeGraph(graph, outputGraph);
   }
   return outputGraph;
@@ -94,28 +102,36 @@ export const getLineGraphFromLine = async ({
   return lineGraph;
 };
 
-export const getLineGraphsFromLineIdList = async (
+export const getLineGraphObjectFromLineIdList = async (
   lineIdList,
   directionList = ["outbound"]
 ) => {
-  const lineGraphList = [];
+  const lineGraphObject = {};
   for (const lineId of lineIdList) {
     for (const direction of directionList) {
       const lineGraph = await getLineGraphFromLine({ lineId, direction });
-      lineGraphList.push(lineGraph);
+      lineGraphObject[lineId] = lineGraph;
     }
   }
-  return lineGraphList;
+  return lineGraphObject;
 };
+
+export const getLineGraphListFromLineIdList = async (
+  lineIdList,
+  directionList = ["outbound"]
+) =>
+  Object.values(
+    await getLineGraphObjectFromLineIdList(lineIdList, directionList)
+  );
 
 export const setGraphListFromChosenModes = async (
   chosenModes,
   graphListSetter,
   directionList = ["outbound"]
 ) => {
-  const modesList = objectToList(chosenModes);
+  const modesList = objectKeysToList(chosenModes);
   if (modesList.length === 0) return;
-  const lineGraphList = await getLineGraphsFromLineIdList(
+  const lineGraphList = await getLineGraphListFromLineIdList(
     (await getLinesFromModes(modesList)).map(({ id }) => id),
     directionList,
     "stationId"

@@ -4,7 +4,7 @@ import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
 // import Box from "@mui/material/Box";
 import { Button, Paper } from "@mui/material";
-import { objectToList } from "../utils"
+import { objectKeysToList } from "../utils"
 
 import CheckBoxList from "./CheckBoxList";
 import logo from "../logo.svg";
@@ -40,7 +40,7 @@ const App = () => {
           setListState={setSampleListState}
           listLabels={sampleListLabels}
         />
-        <Container>{objectToList(sampleListState)}</Container>
+        <Container>{objectKeysToList(sampleListState)}</Container>
         <Container>===</Container>
 
         <Typography variant="h4" component="h1" gutterBottom>

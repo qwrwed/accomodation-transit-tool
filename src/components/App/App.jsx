@@ -1,8 +1,15 @@
 /* eslint-disable */
 import React, { useState } from "react";
 // import Button from "react-bootstrap/Button";
-import Button from "@mui/material/Button";
 
+import Graph from 'graphology';
+import { dfsFromNode } from 'graphology-traversal/dfs';
+import subgraph from 'graphology-operators/subgraph';
+
+import { SigmaContainer, useSigma } from "react-sigma-v2";
+import "react-sigma-v2/lib/react-sigma-v2.css";
+
+import Button from "@mui/material/Button";
 import InputAdornment from "@mui/material/InputAdornment";
 import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
@@ -12,7 +19,7 @@ import Paper from "@mui/material/Paper";
 
 import Input from "@mui/material/Input";
 
-import { MODES_INFO_ALL, TFL_API_URL_ROOT, NAPTAN_STOPTYPES, DEFAULT_POSTCODE, DEFAULT_RADIUS,  }  from "../../constants"
+import { MODES_INFO_ALL, NAPTAN_STOPTYPES, DEFAULT_POSTCODE, DEFAULT_RADIUS, LINE_COLORS } from "../../constants"
 
 import CheckBoxList from "../CheckBoxList";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -21,7 +28,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import logo from "../../tfl_roundel_no_text.svg";
 import "./App.css";
 import {
-  objectToList,
+  objectKeysToList,
   getDistanceFromLatLonInKm,
   getUniqueListBy,
   kvArrayToObject,
@@ -32,39 +39,17 @@ import {
   setIntersection,
   setDifference,
   setNestedObject,
+  mapArrayToObject,
 } from "../../utils";
 import Map from "../Map/Map"
-const postcodes = require("node-postcodes.io");
+
+import { getLatLonFromPostCode, makeTFLGetRequest } from "../../api"
+import { getLineGraphObjectFromLineIdList, getLineGraphListFromLineIdList, GraphComponent, mergeGraphList, mergeGraphObject, mergeGraph } from "../Graphs";
 
 let MODES_INFO = objectFilter(MODES_INFO_ALL, (({ hidden }) => (!hidden)))
 const MODES_LABELS = objectMap(MODES_INFO, ({ label }) => label)
 const MODES_DEFAULT = objectMap(MODES_INFO, ({ selectedByDefault }) => selectedByDefault || false)
 
-const getLatLonFromPostCode = async (postcode) => {
-  let { result: res } = await postcodes.lookup(postcode);
-  res = objectMap(res, (v => roundAccurately(v, 3)))
-  return { lat: res.latitude, lon: res.longitude };
-};
-
-const getTFLApiKey = () => {
-  return process.env.REACT_APP_TFL_KEY;
-};
-
-const makeTFLGetRequest = async (route, otherParams) => {
-  const appKey = getTFLApiKey();
-  let params = appKey
-    ? { app_key: appKey, ...otherParams }
-    : { ...otherParams };
-  params = new URLSearchParams(params).toString();
-  // console.log(`GET ${TFL_API_URL_ROOT}${route}?${params}`)
-  const response = await fetch(`${TFL_API_URL_ROOT}${route}?${params}`);
-  if (response.ok) {
-    return await response.json();
-  } else {
-    const { exceptionType, httpStatusCode, httpStatus, message } = await response.json()
-    console.error(`${exceptionType}: ${httpStatusCode} (${httpStatus})\n${message} (from ${TFL_API_URL_ROOT}${route})`)
-  }
-};
 
 const getNaptanTypes = async () => {
   return await makeTFLGetRequest("/StopPoint/Meta/StopTypes");
@@ -122,28 +107,71 @@ const filterStopPoints = async (stopPoints, chosenModesSet, topLevelKey, origin)
 
 // get all branches
 const getBranchData = async (stopPointsOnLines) => {
+  const branchDataKey = "stationId"
   let branchData = {}
+  let lineGraphs = {}
   for (const modeName in stopPointsOnLines) {
     for (const line in stopPointsOnLines[modeName]) {
-      const receivedRouteSequence = await makeTFLGetRequest(`/Line/${line}/Route/Sequence/all`)
-      if (typeof (receivedRouteSequence) !== "undefined") {
-        // console.log(res.stopPointSequences)
-        for (const direction of ["inbound", "outbound"]) {
-          for (const branchWithId of receivedRouteSequence.stopPointSequences) {
-            if (!(branchWithId.direction === direction))
-              continue
-            //const branchIdUnique = `${line}-${branchWithId.branchId}`
-            //console.log("found", branchIdUnique, branchWithId.direction)
-            const { branchId, ...branch } = branchWithId
-            setNestedObject(branchData, [modeName, line, direction, branchId], branch)
+      const receivedRouteSequence = await makeTFLGetRequest(`/Line/${line}/Route/Sequence/inbound`)
+      //if (typeof (receivedRouteSequence) !== "undefined") {
+      // console.log(res.stopPointSequences)
+      for (const direction of ["inbound", "outbound"]) {
+        //for (const direction of ["outbound", "inbound"]) {
+        //for (const direction of ["inbound"]) {
+        //for (const direction of ["outbound"]) {
+        let { stopPointSequences } = receivedRouteSequence
+        // !! overground has multiple branches with same id
+        // const stopPointSequencesWithBranchIdAsKey = {}
+        // for (const stopPointSequence of stopPointSequences) {
+        //   stopPointSequencesWithBranchIdAsKey[stopPointSequence.branchId] = stopPointSequence
+        // }
+        // console.log(stopPointSequences)
+        // stopPointSequences = stopPointSequencesWithBranchIdAsKey
+        console.log(stopPointSequences)
+        const lineGraph = new Graph()
+        //let receivedRouteSequence = await makeTFLGetRequest(`/Line/${line}/Route/Sequence/${direction}`)
+        //console.log(receivedRouteSequence)
+        for (const id in stopPointSequences) {
+          let stopPointSequence = stopPointSequences[id]
+          if (stopPointSequence.direction !== direction)
+            continue
+          // console.log(stopPointSequence)
+          const stopPointArray = stopPointSequence.stopPoint
+          console.log(stopPointArray)
+          for (let i = 0; i < stopPointArray.length - 1; i++) {
+            const spFrom = stopPointArray[i]
+            const spTo = stopPointArray[i + 1]
+            lineGraph.mergeNode(spFrom[branchDataKey], { ...spFrom, x: spFrom.lon, y: spFrom.lat, label: spFrom.name, color: LINE_COLORS[line] })
+            lineGraph.mergeNode(spTo[branchDataKey], { ...spTo, x: spTo.lon, y: spTo.lat, label: spTo.name, color: LINE_COLORS[line] })
+            lineGraph.mergeEdge(spFrom[branchDataKey], spTo[branchDataKey], { type: "arrow", size: 2, color: LINE_COLORS[line] })
+            // console.log(`ADD EDGE ${line} ${direction} ${spFrom.name}->${spTo.name}`)
           }
         }
+        console.log(lineGraph)
+        console.log(receivedRouteSequence)
+        setNestedObject(lineGraphs, [modeName, line, direction], lineGraph)
+
+        // for (const branchWithId of receivedRouteSequence.stopPointSequences) {
+        //   if (!(branchWithId.direction === direction))
+        //     continue
+        //   //const branchIdUnique = `${line}-${branchWithId.branchId}`
+        //   //console.log("found", branchIdUnique, branchWithId.direction)
+        //   const { branchId, ...branch } = branchWithId
+        //   setNestedObject(branchData, [modeName, line, direction, branchId], branch)
+        // }
       }
+      //}
     }
   }
-  return branchData
+  //return branchData
+  return lineGraphs
 }
 
+const mergeStopPoint = (graph, stopPoint, lineName) => {
+  const branchDataKey = "stationId";
+  // console.log(stopPoint)
+  graph.mergeNode(stopPoint[branchDataKey], { ...stopPoint, x: stopPoint.lon, y: stopPoint.lat, label: stopPoint.name, color: LINE_COLORS[lineName] })
+}
 // stopLineData:
 //   object has modes;
 //     mode has lines;
@@ -193,8 +221,8 @@ const filterBranchData = (branchData, stopPointsOnLines, branchDataKey = "id", s
               } else {
                 console.log("Branch already added!")
                 switch (toOrFromLocalStopPoints) {
-                  case "to":   { availableBranches[branchId].startOrEndIndex = Math.max(indexOnBranch, availableBranches[branchId].startOrEndIndex); break}
-                  case "from": { availableBranches[branchId].startOrEndIndex = Math.min(indexOnBranch, availableBranches[branchId].startOrEndIndex); break}
+                  case "to": { availableBranches[branchId].startOrEndIndex = Math.max(indexOnBranch, availableBranches[branchId].startOrEndIndex); break }
+                  case "from": { availableBranches[branchId].startOrEndIndex = Math.min(indexOnBranch, availableBranches[branchId].startOrEndIndex); break }
                 }
               }
             }
@@ -204,14 +232,14 @@ const filterBranchData = (branchData, stopPointsOnLines, branchDataKey = "id", s
             continue
           // get connected branches ahead
           console.log(`Checking for branches accessible from ${line}-${branchId} (${direction})`)
-          console.log(JSON.parse(JSON.stringify({branchesInDirection})))
-          console.log(JSON.parse(JSON.stringify({availableBranchIds})))
-          console.log(JSON.parse(JSON.stringify({availableBranches})))
+          console.log(JSON.parse(JSON.stringify({ branchesInDirection })))
+          console.log(JSON.parse(JSON.stringify({ availableBranchIds })))
+          console.log(JSON.parse(JSON.stringify({ availableBranches })))
           if (checkedBranchIds.includes(branchId))
             continue
           checkedBranchIds.push(branchId)
           let branchesAheadIds = getDescendants(branchesInDirection, "nextBranchIds", new Set([branchId]))
-          console.log(JSON.parse(JSON.stringify({branchesAheadIds: [...branchesAheadIds]})))
+          console.log(JSON.parse(JSON.stringify({ branchesAheadIds: [...branchesAheadIds] })))
           for (const id of branchesAheadIds) {
             setNestedObject(nearbyBranchData, [lineMode, line, direction, id], branchesInDirection[id])
             //nearbyBranchData[lineMode][line][direction][id] = branchesInDirection[id]
@@ -226,12 +254,14 @@ const filterBranchData = (branchData, stopPointsOnLines, branchDataKey = "id", s
   let missingLines = [...setDifference(new Set(allLines), new Set(filteredLines))]
   return [nearbyBranchData, missingLines]
 }
+
 const App = () => {
 
   const [info, setInfo] = useState("Waiting for search...");
   const [postcode, setPostcode] = useState(DEFAULT_POSTCODE);
   const [radius, setRadius] = useState(DEFAULT_RADIUS);
-  const [chosenModes, setChosenModes] = useState(MODES_DEFAULT);
+  const [chosenModesList, setChosenModesList] = useState(MODES_DEFAULT);
+  const [graph, setGraph] = useState();
 
   // map data
   const [postcodeInfo, setPostcodeInfo] = useState();
@@ -255,7 +285,7 @@ const App = () => {
     // get list of stopPoints within radius
     setInfo(`Searching for stops within ${radius} metres of ${postcode} (${JSON.stringify(latLong)})...`);
     let stopPoints = await getStopPointsByRadius(NAPTAN_STOPTYPES, latLong, radius);
-    console.log(JSON.parse(JSON.stringify({stopPoints})))
+    console.log(JSON.parse(JSON.stringify({ stopPoints })))
 
     // check for no result
     if (stopPoints === undefined || stopPoints.length === 0) {
@@ -263,10 +293,10 @@ const App = () => {
       return;
     }
 
-    let chosenModesSet = new Set(objectToList(chosenModes))
+    let chosenModesSet = new Set(objectKeysToList(chosenModesList))
     stopPoints = await filterStopPoints(stopPoints, chosenModesSet, undefined)
     setNearbyStopPoints(stopPoints)
-    console.log(JSON.parse(JSON.stringify({stopPoints})))
+    // console.log(JSON.parse(JSON.stringify({ stopPoints })))
 
     const summary = stopPoints.map(
       ({ commonName, distance }) => ({
@@ -280,27 +310,94 @@ const App = () => {
     );
     setInfo(`Stops within ${radius} metres of postcode ${postcode} (${JSON.stringify(latLong)}): ${summaryText.join(", ")}`);
 
+    
+    let nearbyLineIdList = [];
     let stopPointsOnLines = {}
     for (const stopPoint of stopPoints) {
       for (const { modeName, lineIdentifier } of stopPoint.lineModeGroups) {
         if (!chosenModesSet.has(modeName))
           continue
         for (const line of lineIdentifier) {
-          if (typeof(stopPointsOnLines?.[modeName]?.[line]) === "undefined")
+          if (typeof (stopPointsOnLines?.[modeName]?.[line]) === "undefined") {
             setNestedObject(stopPointsOnLines, [modeName, line], [])
+            nearbyLineIdList.push(line)
+          }
+
           stopPointsOnLines[modeName][line].push(stopPoint)
         }
       }
     }
-    console.log(JSON.parse(JSON.stringify({stopPointsOnLines})))
+    // console.log(nearbyLineIdList)
+    // TODO: get objects of graphs, not lists. index using lineId to pass to dfs
+    let lineGraphListOutbound = await getLineGraphListFromLineIdList(nearbyLineIdList, ["outbound"]);
+    let lineGraphListInbound = await getLineGraphListFromLineIdList(nearbyLineIdList, ["inbound"]);
+    console.log(lineGraphListOutbound)
+    let lineGraphObjectDirections = {}
+    let mergedGraphDirections = {}
+    // const directions = ["outbound"]
+    const directions = ["inbound"]
+    // const directions = ["inbound", "outbound"]
+    for (const direction of directions) {
+      lineGraphObjectDirections[direction] = await getLineGraphObjectFromLineIdList(nearbyLineIdList, [direction])
+      mergedGraphDirections[direction] = mergeGraphObject(lineGraphObjectDirections[direction]);
+    }
+    // let lineGraphObjectDirections = mapArrayToObject(, async (direction) => )
+    // Object.fromEntries(.map(k => [k, ''])); 
+    // let lineGraphObjectDirections = await Promise.all(["inbound", "outbound"].map()
+    console.log(lineGraphObjectDirections)
+    // const mergedGraphDirections = objectMap(lineGraphObjectDirections, ((direction) => mergeGraphObject(lineGraphObjectDirections[direction])))
 
-    let branchData = await getBranchData(stopPointsOnLines)
-    console.log(JSON.parse(JSON.stringify({branchData})))
+    // const mergedGraphDirections = objectMap(lineGraphObjectDirections, ((direction) => console.log(direction, lineGraphObjectDirections[direction])))
+    // const mergedGraph = 
+    // console.log(mergedGraph)
+    // setGraph(mergedGraph)
 
+    console.log(stopPointsOnLines)
+    const fullGraphDirections = {
+      inbound: new Graph(),
+      outbound: new Graph(),
+    }
+    for (const direction of directions) {
+      for (const modeName in stopPointsOnLines) {
+        for (const lineName in stopPointsOnLines[modeName]) {
+          let stopPointsReachableFromNearbyStopPointsOnLine_Graph = new Graph()
+          for (const stopPoint of stopPointsOnLines[modeName][lineName]) {
+            const graph = lineGraphObjectDirections[direction][lineName]
+            console.log(`Graphing line "${lineName}" stop "${stopPoint.commonName}" (${stopPoint.stationNaptan}) in direction ${direction}`)
+            if (graph.hasNode(stopPoint.stationNaptan)) {
+              dfsFromNode(lineGraphObjectDirections[direction][lineName], stopPoint.stationNaptan, function (node, attr, depth) {
+                mergeStopPoint(stopPointsReachableFromNearbyStopPointsOnLine_Graph, attr, lineName)
+              });
+            } else {
+              console.log("Not found")
+            }
+          }
+          let sub = subgraph(mergedGraphDirections[direction], stopPointsReachableFromNearbyStopPointsOnLine_Graph.nodes())
+          for (const stopPoint of stopPointsOnLines[modeName][lineName]) {
+            sub.mergeNode(stopPoint.stationNaptan, { size: 4 })
+          }
+          mergeGraph(sub, fullGraphDirections[direction]);
+        }
+      }
+    }
+    setGraph(mergeGraphObject(fullGraphDirections))
+    return
+    console.log(JSON.parse(JSON.stringify({ stopPointsOnLines })))
+
+    let lineGraphs = await getBranchData(stopPointsOnLines)
+    console.log(lineGraphs)
+    // TEMPsetGraphData(lineGraphs.dlr.dlr.inbound)
+    // TEMPsetGraphData(lineGraphs.dlr.dlr.outbound)
+    // TEMPsetGraphData(lineGraphs.tube.jubilee.inbound)
+    // TEMPsetGraphData(lineGraphs.tube.jubilee.outbound)
+    setGraph(lineGraphs)
+    //console.log(JSON.parse(JSON.stringify({ branchData })))
+
+    return
     let [nearbyBranchData, missingLines] = filterBranchData(branchData, stopPointsOnLines, "stationId", "stationNaptan")
     if (missingLines.length > 0)
       console.error(`WARNING: Could not find route data for lines ${JSON.stringify(missingLines)}. This is likely a problem with the TFL API.`)
-    console.log(JSON.parse(JSON.stringify({nearbyBranchData})))
+    console.log(JSON.parse(JSON.stringify({ nearbyBranchData })))
     return
     let reachableStops = {};
     let linesRequested = new Set()
@@ -332,8 +429,8 @@ const App = () => {
           transit-tool
         </Typography>
         <CheckBoxList
-          listState={chosenModes}
-          setListState={setChosenModes}
+          listState={chosenModesList}
+          setListState={setChosenModesList}
           listLabels={MODES_LABELS}
         />
         <Box
@@ -381,10 +478,11 @@ const App = () => {
           postcode you input, not the other way round.
         </p>
         <p>There may be one-way routes this method does not account for.</p>
-        <Map
+        {/* <Map
           postcodeInfo={postcodeInfo}
           nearbyStopPoints={nearbyStopPoints}
-        />
+        /> */}
+        <GraphComponent graph={graph} />
       </Paper>
     </Container>
   );

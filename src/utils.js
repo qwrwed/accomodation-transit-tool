@@ -1,7 +1,7 @@
 /* eslint-disable */
 
 // remove pairs where value is false, then extract only keys to list
-export const objectToList = (obj) =>
+export const objectKeysToList = (obj) =>
   Object.entries(obj)
     .filter(([key, value]) => value)
     .map(([key, value]) => key);
@@ -41,6 +41,10 @@ export const kvArrayToObject = (arr) => {
     return result;
   }, {});
 };
+
+export const mapArrayToObject = (arr, fn) => {
+  return Object.fromEntries(arr.map(k => [k, fn(k)]));
+}
 
 export const objectMap = (obj, fn) =>
   // https://stackoverflow.com/a/14810722
@@ -93,9 +97,9 @@ export const roundAccurately = (number, decimalPlaces = 1) => Number(Math.round(
  * @param {*} value (optional) if given, will be the last object in the hierarchy.
  * @returns The last object in the hierarchy.
  */
-export const setNestedObject = function( base, names, value ) {
+export const setNestedObject = function (base, names, value) {
   // https://stackoverflow.com/a/11433067
-  if (typeof(names) === "string")
+  if (typeof (names) === "string")
     names = names.split(".")
 
   // If a value is given, remove the last name and keep it for later:
@@ -103,12 +107,12 @@ export const setNestedObject = function( base, names, value ) {
 
   // Walk the hierarchy, creating new objects where needed.
   // If the lastName was removed, then the last object is not set yet:
-  for( var i = 0; i < names.length; i++ ) {
-      base = base[ names[i] ] = base[ names[i] ] || {};
+  for (var i = 0; i < names.length; i++) {
+    base = base[names[i]] = base[names[i]] || {};
   }
 
   // If a value was given, set it to the last name:
-  if( lastName ) base = base[ lastName ] = value;
+  if (lastName) base = base[lastName] = value;
 
   // Return the last object in the hierarchy:
   return base;
