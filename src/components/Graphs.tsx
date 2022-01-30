@@ -15,7 +15,7 @@ import { objectKeysToList } from "../utils";
 
 const defaultSigmaContainerStyle = { height: "500px", width: "100%" };
 
-export const mergeGraph = (inputGraph, outputGraph) => {
+export const mergeGraph = (inputGraph: Graph, outputGraph: Graph) => {
   if (typeof inputGraph !== "undefined") {
     inputGraph.forEachNode((node, attributes) => {
       outputGraph.mergeNode(node, attributes);
@@ -26,7 +26,7 @@ export const mergeGraph = (inputGraph, outputGraph) => {
   }
 };
 
-export const mergeGraphList = (graphList) => {
+export const mergeGraphList = (graphList: Graph[]) => {
   const outputGraph = new Graph();
   for (const graph of graphList) {
     mergeGraph(graph, outputGraph);
@@ -34,7 +34,7 @@ export const mergeGraphList = (graphList) => {
   return outputGraph;
 };
 
-export const mergeGraphObject = (graphObject) => {
+export const mergeGraphObject = (graphObject: Record<string, Graph>) => {
   const outputGraph = new Graph();
   for (const graph of Object.values(graphObject)) {
     mergeGraph(graph, outputGraph);
@@ -42,7 +42,13 @@ export const mergeGraphObject = (graphObject) => {
   return outputGraph;
 };
 
-const GraphFunction = ({ graph, resetOnChange = true }) => {
+const GraphFunction = ({
+  graph,
+  resetOnChange = true,
+}: {
+  graph: Graph;
+  resetOnChange?: boolean;
+}) => {
   const sigma = useSigma();
   const sigmaGraph = sigma.getGraph();
   if (resetOnChange) sigmaGraph.clear();
@@ -50,7 +56,13 @@ const GraphFunction = ({ graph, resetOnChange = true }) => {
   return null;
 };
 
-export const GraphComponent = ({ graph, style }) => (
+export const GraphComponent = ({
+  graph,
+  style,
+}: {
+  graph: Graph;
+  style: Record<string, any>;
+}) => (
   <SigmaContainer style={{ ...defaultSigmaContainerStyle, ...style }}>
     <GraphFunction graph={graph} />
   </SigmaContainer>
@@ -60,6 +72,10 @@ export const getLineGraphFromLine = async ({
   lineId,
   direction,
   branchDataKey = "stationId",
+}: {
+  lineId: LineId;
+  direction: Direction;
+  branchDataKey?: string;
 }) => {
   const routeSequence = await getRoutesOnLine(lineId);
   const lineColor =
@@ -103,10 +119,10 @@ export const getLineGraphFromLine = async ({
 };
 
 export const getLineGraphObjectFromLineIdList = async (
-  lineIdList,
-  directionList = ["outbound"],
+  lineIdList: LineId[],
+  directionList: Direction[] = ["outbound"],
 ) => {
-  const lineGraphObject = {};
+  const lineGraphObject: Record<LineId, Graph> = {};
   for (const lineId of lineIdList) {
     for (const direction of directionList) {
       const lineGraph = await getLineGraphFromLine({ lineId, direction });
@@ -117,24 +133,24 @@ export const getLineGraphObjectFromLineIdList = async (
 };
 
 export const getLineGraphListFromLineIdList = async (
-  lineIdList,
-  directionList = ["outbound"],
+  lineIdList: LineId[],
+  directionList: Direction[] = ["outbound"],
 ) =>
   Object.values(
     await getLineGraphObjectFromLineIdList(lineIdList, directionList),
   );
 
 export const setGraphListFromChosenModes = async (
-  chosenModes,
-  graphListSetter,
-  directionList = ["outbound"],
+  chosenModes: any,
+  graphListSetter: any,
+  directionList: Direction[] = ["outbound"],
 ) => {
   const modesList = objectKeysToList(chosenModes);
   if (modesList.length === 0) return;
   const lineGraphList = await getLineGraphListFromLineIdList(
-    (await getLinesFromModes(modesList)).map(({ id }) => id),
+    (await getLinesFromModes(modesList)).map(({ id }: { id: any }) => id),
     directionList,
-    "stationId",
+    // "stationId",
   );
   graphListSetter(lineGraphList);
 };

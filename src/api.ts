@@ -113,7 +113,7 @@ export const filterStopPoints = async (
   stopPoints: TfL["StopPoint"][],
   chosenModesSet: Set<string>,
   topLevelKey: string | undefined,
-  origin: LatLon,
+  origin: LatLon | undefined,
 ) => {
   // remove stopPoints with no line data
   stopPoints = stopPoints.filter(

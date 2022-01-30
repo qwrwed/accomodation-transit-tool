@@ -5,8 +5,8 @@
 /* eslint-disable no-restricted-syntax */
 /* eslint-disable no-param-reassign */
 // /* eslint-disable */
-// import React, { ChangeEvent, useState } from "react";
-import React, { useState } from "react";
+import React, { ChangeEvent, useState } from "react";
+// import React, { useState } from "react";
 // import Button from "react-bootstrap/Button";
 
 import Graph from "graphology";
@@ -20,6 +20,8 @@ import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
 import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
+
+import TfL from "tfl-api-wrapper/dist/lib/interfaces/tfl";
 
 import {
   NAPTAN_STOPTYPES,
@@ -54,7 +56,11 @@ import {
 
 // const stopPointInstance = new StopPoint(getTFLApiKey());
 
-const mergeStopPoint = (graph, stopPoint, lineName) => {
+const mergeStopPoint = (
+  graph: Graph,
+  stopPoint: TfL["MatchedStop"],
+  lineName: string,
+) => {
   const branchDataKey = "stationId";
   graph.mergeNode(stopPoint[branchDataKey], {
     ...stopPoint,
@@ -70,14 +76,17 @@ const App = () => {
   const [postcode, setPostcode] = useState(DEFAULT_POSTCODE);
   const [radius, setRadius] = useState(DEFAULT_RADIUS);
   const [chosenModesList, setChosenModesList] = useState(MODES_DEFAULT);
-  const [displayedGraph, setDisplayedGraph] = useState();
+  const [displayedGraph, setDisplayedGraph] = useState(new Graph());
 
   // map data
-  const [postcodeInfo, setPostcodeInfo] = useState();
-  const [nearbyStopPoints, setNearbyStopPoints] = useState([]);
+  const [postcodeInfo, setPostcodeInfo] =
+    useState<{ postcode: string; latLong: LatLon }>();
+  const [nearbyStopPoints, setNearbyStopPoints] = useState<TfL["StopPoint"][]>(
+    [],
+  );
 
-  // const handleRadiusChange = (e: ChangeEvent<HTMLInputElement>) => {
-  const handleRadiusChange = (e) => {
+  const handleRadiusChange = (e: ChangeEvent<HTMLInputElement>) => {
+    // const handleRadiusChange = (e) => {
     // https://stackoverflow.com/a/43177957
     const onlyInts = e.target.value.replace(/[^0-9]/g, "");
     setRadius(+onlyInts);
@@ -111,7 +120,12 @@ const App = () => {
     }
 
     const chosenModesSet = new Set(objectKeysToList(chosenModesList));
-    stopPoints = await filterStopPoints(stopPoints, chosenModesSet, undefined);
+    stopPoints = await filterStopPoints(
+      stopPoints,
+      chosenModesSet,
+      undefined,
+      undefined,
+    );
     setNearbyStopPoints(stopPoints);
 
     const summary = stopPoints.map(({ commonName, distance }) => ({
@@ -128,35 +142,41 @@ const App = () => {
       )}): ${summaryText.join(", ")}`,
     );
 
-    const nearbyLineIdList = [];
-    const stopPointsOnLines = {};
+    const nearbyLineIdList: string[] = [];
+    const stopPointsOnLines: Record<
+      ModeId,
+      Record<LineId, TfL["StopPoint"][]>
+    > = {};
     for (const stopPoint of stopPoints) {
-      for (const { modeName, lineIdentifier } of stopPoint.lineModeGroups) {
-        if (chosenModesSet.has(modeName)) {
-          for (const line of lineIdentifier) {
-            if (typeof stopPointsOnLines?.[modeName]?.[line] === "undefined") {
+      for (const {
+        modeName,
+        lineIdentifier,
+      } of stopPoint.lineModeGroups as TfL["LineModeGroup"][]) {
+        if (chosenModesSet.has(modeName as string)) {
+          for (const line of lineIdentifier as string[]) {
+            if (typeof stopPointsOnLines?.[modeName!]?.[line] === "undefined") {
               setNestedObject(stopPointsOnLines, [modeName, line], []);
               nearbyLineIdList.push(line);
             }
-            stopPointsOnLines[modeName][line].push(stopPoint);
+            stopPointsOnLines[modeName!][line].push(stopPoint);
           }
         }
       }
     }
 
-    const lineGraphObjectDirections = {};
-    const mergedGraphDirections = {};
-    const finalGraphDirections = {};
+    const finalGraphDirections: Record<string, Graph> = {};
 
-    const directions = ["outbound"];
+    const directions: Direction[] = ["outbound"];
     // const directions = ["inbound"];
     // const directions = ["inbound", "outbound"];
 
     for (const direction of directions) {
-      lineGraphObjectDirections[direction] =
-        await getLineGraphObjectFromLineIdList(nearbyLineIdList, [direction]);
-      mergedGraphDirections[direction] = mergeGraphObject(
-        lineGraphObjectDirections[direction],
+      const lineGraphObjectInDirection = await getLineGraphObjectFromLineIdList(
+        nearbyLineIdList,
+        [direction],
+      );
+      const mergedGraphInDirection = mergeGraphObject(
+        lineGraphObjectInDirection,
       );
       finalGraphDirections[direction] = new Graph();
 
@@ -165,13 +185,13 @@ const App = () => {
           const stopPointsReachableFromNearbyStopPointsOnLineGraph =
             new Graph();
           for (const stopPoint of stopPointsOnLines[modeName][lineName]) {
-            const graph = lineGraphObjectDirections[direction][lineName];
+            const graph = lineGraphObjectInDirection[lineName];
             // console.log(
             //   `Graphing line "${lineName}" stop "${stopPoint.commonName}" (${stopPoint.stationNaptan}) in direction ${direction}`,
             // );
             if (graph.hasNode(stopPoint.stationNaptan)) {
               dfsFromNode(
-                lineGraphObjectDirections[direction][lineName],
+                lineGraphObjectInDirection[lineName],
                 stopPoint.stationNaptan,
                 (node, attr) => {
                   mergeStopPoint(
@@ -186,7 +206,7 @@ const App = () => {
             }
           }
           const sub = subgraph(
-            mergedGraphDirections[direction],
+            mergedGraphInDirection,
             stopPointsReachableFromNearbyStopPointsOnLineGraph.nodes(),
           );
           for (const stopPoint of stopPointsOnLines[modeName][lineName]) {
@@ -222,7 +242,9 @@ const App = () => {
               variant="outlined"
               label="Postcode"
               value={postcode}
-              onInput={(e) => setPostcode(e.target.value)}
+              onInput={(e: ChangeEvent<HTMLInputElement>) =>
+                setPostcode(e.target.value)
+              }
             />
           </div>
           <div>
@@ -255,7 +277,7 @@ const App = () => {
         </p>
         <p>There may be one-way routes this method does not account for.</p>
         <Map postcodeInfo={postcodeInfo} nearbyStopPoints={nearbyStopPoints} />
-        <GraphComponent graph={displayedGraph} />
+        <GraphComponent graph={displayedGraph} style={{}} />
       </Paper>
     </Container>
   );
