@@ -1,8 +1,19 @@
-import pantonePalette from "./pantonePalette.ts";
+import pantonePalette from "./pantonePalette";
 import { objectFilter, objectMap } from "./utils";
 
+type ModeInfo = {
+  label?: string;
+  color?: string;
+  selectedByDefault?: boolean;
+  icon?: string;
+  hidden?: boolean;
+};
+
+type ModeInfoContainer = {
+  [key: string]: ModeInfo;
+};
 // only scheduled modes
-export const MODES_INFO_ALL = {
+export const MODES_INFO_ALL: ModeInfoContainer = {
   bus: {
     label: "London Buses",
     color: pantonePalette["485"],
@@ -61,11 +72,18 @@ export const MODES_INFO_ALL = {
   },
 };
 
-export const MODES_INFO = objectFilter(MODES_INFO_ALL, ({ hidden }) => !hidden);
-export const MODES_LABELS = objectMap(MODES_INFO, ({ label }) => label);
+export const MODES_INFO = objectFilter(
+  MODES_INFO_ALL,
+  ({ hidden }: { hidden: boolean }) => !hidden,
+);
+export const MODES_LABELS = objectMap(
+  MODES_INFO,
+  ({ label }: { label: string }) => label,
+);
 export const MODES_DEFAULT = objectMap(
   MODES_INFO,
-  ({ selectedByDefault }) => selectedByDefault || false,
+  ({ selectedByDefault }: { selectedByDefault: boolean }) =>
+    selectedByDefault || false,
 );
 
 const LONDON_UNDERGROUND_LINE_COLORS = {
@@ -110,7 +128,7 @@ const NATIONAL_RAIL_LINE_COLORS = {
 };
 
 export const LINE_COLORS = {
-  ...objectMap(MODES_INFO_ALL, ({ color }) => color),
+  ...objectMap(MODES_INFO_ALL, ({ color }: { color: string }) => color),
   ...NATIONAL_RAIL_LINE_COLORS,
   ...LONDON_UNDERGROUND_LINE_COLORS,
   // elizabeth: pantonePalette["266"],

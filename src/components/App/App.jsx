@@ -1,3 +1,4 @@
+/* eslint-disable object-curly-newline */
 /* eslint-disable max-len */
 /* eslint-disable guard-for-in */
 /* eslint-disable no-await-in-loop */
@@ -100,7 +101,9 @@ const filterStopPoints = async (
     return stopPoints;
   }
   stopPoints = await Promise.all(
-    stopPoints.map(async (stopPoint) => makeTFLGetRequest(`/StopPoint/${stopPoint[topLevelKey]}`))
+    stopPoints.map(async (stopPoint) =>
+      makeTFLGetRequest(`/StopPoint/${stopPoint[topLevelKey]}`),
+    ),
   );
   stopPoints = stopPoints.map((stopPoint) => ({
     ...stopPoint,
@@ -206,7 +209,8 @@ const App = () => {
     // const directions = ["inbound", "outbound"]
 
     for (const direction of directions) {
-      lineGraphObjectDirections[direction] = await getLineGraphObjectFromLineIdList(nearbyLineIdList, [direction]);
+      lineGraphObjectDirections[direction] =
+        await getLineGraphObjectFromLineIdList(nearbyLineIdList, [direction]);
       mergedGraphDirections[direction] = mergeGraphObject(
         lineGraphObjectDirections[direction],
       );
@@ -220,7 +224,8 @@ const App = () => {
     for (const direction of directions) {
       for (const modeName in stopPointsOnLines) {
         for (const lineName in stopPointsOnLines[modeName]) {
-          const stopPointsReachableFromNearbyStopPointsOnLineGraph = new Graph();
+          const stopPointsReachableFromNearbyStopPointsOnLineGraph =
+            new Graph();
           for (const stopPoint of stopPointsOnLines[modeName][lineName]) {
             const graph = lineGraphObjectDirections[direction][lineName];
             // console.log(
@@ -270,7 +275,7 @@ const App = () => {
         />
         <Box
           component="form"
-          sx={{"& .MuiTextField-root": { m: 1, width: "25ch" }}}
+          sx={{ "& .MuiTextField-root": { m: 1, width: "25ch" } }}
           noValidate
           autoComplete="off"
         >
@@ -288,7 +293,9 @@ const App = () => {
               label="Radius"
               value={radius}
               onInput={handleRadiusChange}
-              InputProps={{endAdornment: <InputAdornment position="end">m</InputAdornment>}}
+              InputProps={{
+                endAdornment: <InputAdornment position="end">m</InputAdornment>,
+              }}
               error={radius === 0}
             />
           </div>

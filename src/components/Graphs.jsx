@@ -62,8 +62,9 @@ export const getLineGraphFromLine = async ({
   branchDataKey = "stationId",
 }) => {
   const routeSequence = await getRoutesOnLine(lineId);
-  const lineColor = LINE_COLORS[routeSequence.lineId]
-    || MODES_INFO_ALL[routeSequence.mode].color;
+  const lineColor =
+    LINE_COLORS[routeSequence.lineId] ||
+    MODES_INFO_ALL[routeSequence.mode].color;
   const lineGraph = new Graph();
   for (const stopPointSequence of routeSequence.stopPointSequences) {
     if (stopPointSequence.direction === direction) {
@@ -118,9 +119,10 @@ export const getLineGraphObjectFromLineIdList = async (
 export const getLineGraphListFromLineIdList = async (
   lineIdList,
   directionList = ["outbound"],
-) => Object.values(
-  await getLineGraphObjectFromLineIdList(lineIdList, directionList),
-);
+) =>
+  Object.values(
+    await getLineGraphObjectFromLineIdList(lineIdList, directionList),
+  );
 
 export const setGraphListFromChosenModes = async (
   chosenModes,

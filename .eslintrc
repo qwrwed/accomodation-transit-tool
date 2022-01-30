@@ -1,45 +1,73 @@
 {
-    "env": {
-        "browser": true,
-        "es2021": true,
+  "env": {
+    "browser": true,
+    "es2021": true,
+  },
+  "extends": [
+    "plugin:react/recommended",
+    "airbnb",
+    "airbnb-typescript",
+    "prettier",
+  ],
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true,
     },
-    "extends": [
-        "plugin:react/recommended",
-        "airbnb",
-        "airbnb-typescript",
-        "prettier",
+    "ecmaVersion": 12,
+    "project": "./tsconfig.json",
+    "sourceType": "module",
+  },
+  "plugins": [
+    "react",
+    "@typescript-eslint",
+    "prettier",
+  ],
+  "rules": {
+    "linebreak-style": [
+      "error",
+      "windows"
     ],
-    "parser": "@typescript-eslint/parser",
-    "parserOptions": {
-        "ecmaFeatures": {
-            "jsx": true,
-        },
-        "ecmaVersion": 12,
-        "project": "./tsconfig.json",
-        "sourceType": "module",
-    },
-    "plugins": [
-        "react",
-        "prettier",
-        "@typescript-eslint",
+    "quotes": [
+      "error",
+      "double"
     ],
-    "rules": {
-        "linebreak-style": ["error", "windows"],
-        "quotes": ["error", "double"],
-        // https://stackoverflow.com/a/64024916
-        "no-use-before-define": "off",
-        "@typescript-eslint/no-use-before-define": ["error"],
-        "react/function-component-definition": [
-            2,
-            {
-                "namedComponents": "arrow-function",
-                "unnamedComponents": "arrow-function",
-            }
-        ],
-        "no-console": [
-            "warn", {"allow": ["log", "warn", "error"]}
-        ],
-        "react/prop-types": 0,
-        "object-curly-newline": ["error", {"multiline": true}],
-    },
+    // https://stackoverflow.com/a/64024916
+    "no-use-before-define": "off",
+    "@typescript-eslint/no-use-before-define": [
+      "error"
+    ],
+    "react/function-component-definition": [
+      2,
+      {
+        "namedComponents": "arrow-function",
+        "unnamedComponents": "arrow-function",
+      }
+    ],
+    "no-console": [
+      "warn",
+      {
+        "allow": [
+          "log",
+          "warn",
+          "error"
+        ]
+      }
+    ],
+    "react/prop-types": 0,
+    "object-curly-newline": [
+      "error",
+      {
+        "multiline": true
+      }
+    ],
+    "prettier/prettier": [
+      "error",
+      {
+        "semi": true,
+        "endOfLine": "auto",
+        "trailingComma": "all"
+      }
+    ]
+  },
 }
