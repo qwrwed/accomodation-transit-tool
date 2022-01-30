@@ -5,6 +5,7 @@
 /* eslint-disable no-restricted-syntax */
 /* eslint-disable no-param-reassign */
 // /* eslint-disable */
+// import React, { ChangeEvent, useState } from "react";
 import React, { useState } from "react";
 // import Button from "react-bootstrap/Button";
 
@@ -21,11 +22,12 @@ import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 
 import {
-  MODES_INFO_ALL,
   NAPTAN_STOPTYPES,
   DEFAULT_POSTCODE,
   DEFAULT_RADIUS,
   LINE_COLORS,
+  MODES_DEFAULT,
+  MODES_LABELS,
 } from "../../constants";
 
 import CheckBoxList from "../CheckBoxList";
@@ -34,21 +36,13 @@ import "bootstrap/dist/css/bootstrap.min.css";
 // import logo from './logo.svg';
 import logo from "../../tfl_roundel_no_text.svg";
 import "./App.css";
-import {
-  objectKeysToList,
-  getDistanceFromLatLonInKm,
-  getUniqueListBy,
-  objectMap,
-  objectFilter,
-  setIntersection,
-  setNestedObject,
-} from "../../utils";
+import { objectKeysToList, setNestedObject } from "../../utils";
 import Map from "../Map/Map";
 
 import {
   getLatLonFromPostCode,
-  makeTFLGetRequest,
-  // getTFLApiKey,
+  getStopPointsByRadius,
+  filterStopPoints,
 } from "../../api";
 
 import {
@@ -58,61 +52,7 @@ import {
   mergeGraph,
 } from "../Graphs";
 
-const MODES_INFO = objectFilter(MODES_INFO_ALL, ({ hidden }) => !hidden);
-const MODES_LABELS = objectMap(MODES_INFO, ({ label }) => label);
-const MODES_DEFAULT = objectMap(
-  MODES_INFO,
-  ({ selectedByDefault }) => selectedByDefault || false,
-);
-
-const getStopPointsByRadius = async (stopTypes, latLong, radius) => {
-  const [lat, lon] = latLong;
-  const params = {
-    stopTypes: stopTypes.join(),
-    lat,
-    lon,
-    radius,
-    // useStopPointHierarchy: true,
-    returnLines: true,
-  };
-  const res = await makeTFLGetRequest("/StopPoint", params);
-  if (typeof res !== "undefined") return res.stopPoints;
-  return [];
-};
-
-const filterStopPoints = async (
-  stopPoints,
-  chosenModesSet,
-  topLevelKey,
-  origin,
-) => {
-  // remove stopPoints with no line data
-  stopPoints = stopPoints.filter(({ lines }) => lines.length > 0);
-
-  // remove stopPoints that don't serve the chosen modes
-  if (typeof chosenModesSet !== "undefined") {
-    stopPoints = stopPoints.filter(
-      ({ modes }) => setIntersection(new Set(modes), chosenModesSet).size > 0,
-    );
-  }
-
-  // remove duplicate stopPoints
-  if (typeof topLevelKey === "undefined") {
-    return stopPoints;
-  }
-  stopPoints = await Promise.all(
-    stopPoints.map(async (stopPoint) =>
-      makeTFLGetRequest(`/StopPoint/${stopPoint[topLevelKey]}`),
-    ),
-  );
-  stopPoints = stopPoints.map((stopPoint) => ({
-    ...stopPoint,
-    distance: !origin
-      ? undefined
-      : getDistanceFromLatLonInKm(origin, [stopPoint.lat, stopPoint.lon]),
-  }));
-  return getUniqueListBy(stopPoints, topLevelKey);
-};
+// const stopPointInstance = new StopPoint(getTFLApiKey());
 
 const mergeStopPoint = (graph, stopPoint, lineName) => {
   const branchDataKey = "stationId";
@@ -136,6 +76,7 @@ const App = () => {
   const [postcodeInfo, setPostcodeInfo] = useState();
   const [nearbyStopPoints, setNearbyStopPoints] = useState([]);
 
+  // const handleRadiusChange = (e: ChangeEvent<HTMLInputElement>) => {
   const handleRadiusChange = (e) => {
     // https://stackoverflow.com/a/43177957
     const onlyInts = e.target.value.replace(/[^0-9]/g, "");
@@ -145,6 +86,7 @@ const App = () => {
   const handleButtonClick = async () => {
     // convert postcode to latitude, longitude
     setInfo(`Getting latitude/longitude of postcode ${postcode}...`);
+    // const latLong: [number, number] = await getLatLonFromPostCode(postcode);
     const latLong = await getLatLonFromPostCode(postcode);
     setPostcodeInfo({ postcode, latLong });
 
@@ -159,6 +101,7 @@ const App = () => {
       latLong,
       radius,
     );
+
     // console.log(JSON.parse(JSON.stringify({ stopPoints })));
 
     // check for no result

@@ -1,25 +1,40 @@
-import { objectMap, roundAccurately } from "./utils";
+/* eslint-disable no-param-reassign */
+import TfL from "tfl-api-wrapper/dist/lib/interfaces/tfl";
+import { StopPoint } from "tfl-api-wrapper";
+import {
+  getDistanceFromLatLonInKm,
+  getUniqueListBy,
+  objectMap,
+  roundAccurately,
+  setIntersection,
+} from "./utils";
 
 import { TFL_API_URL_ROOT } from "./constants";
 
 const postcodes = require("node-postcodes.io");
 
-export const getLatLonFromPostCode = async (postcode) => {
+export const getLatLonFromPostCode = async (
+  postcode: string,
+): Promise<LatLon> => {
   let { result: res } = await postcodes.lookup(postcode);
-  res = objectMap(res, (v) => roundAccurately(v, 3));
+  res = objectMap(res, (v: number) => roundAccurately(v, 3));
   return [res.latitude, res.longitude];
 };
 
-export const getTFLApiKey = () => process.env.REACT_APP_TFL_KEY;
+export const getTFLApiKey = () => process.env.REACT_APP_TFL_KEY || "";
+const stopPointInstance = new StopPoint(getTFLApiKey());
 
-export const makeTFLGetRequest = async (route, otherParams) => {
+export const makeTFLGetRequest = async (
+  route: string,
+  otherParams?: Record<string, any>,
+) => {
   const appKey = getTFLApiKey();
-  let params = appKey
+  const params = appKey
     ? { app_key: appKey, ...otherParams }
     : { ...otherParams };
-  params = new URLSearchParams(params).toString();
+  const paramsString = new URLSearchParams(params).toString();
   // console.log(`GET ${TFL_API_URL_ROOT}${route}?${params}`)
-  const response = await fetch(`${TFL_API_URL_ROOT}${route}?${params}`);
+  const response = await fetch(`${TFL_API_URL_ROOT}${route}?${paramsString}`);
   if (response.ok) {
     return response.json();
   }
@@ -31,18 +46,50 @@ export const makeTFLGetRequest = async (route, otherParams) => {
   return null;
 };
 
-export const getLinesFromModes = async (modesList) => {
+export const getStopPointsByRadius = async (
+  stopTypes: string[],
+  latLong: [number, number],
+  radius: number,
+) => {
+  const [lat, lon] = latLong;
+
+  //   requires upstream fix: "latitude"->"lat" and "longitude"->"lon" in function getInRadius
+  const res = await stopPointInstance.getInRadius(
+    stopTypes,
+    radius,
+    false,
+    [],
+    [],
+    true,
+    lat,
+    lon,
+  );
+
+  //   own implementation
+  // const res = await makeTFLGetRequest("/StopPoint", {
+  //   stopTypes: stopTypes.join(),
+  //   lat,
+  //   lon,
+  //   radius,
+  //   returnLines: true,
+  // });
+
+  if (typeof res !== "undefined") return res.stopPoints;
+  return [];
+};
+
+export const getLinesFromModes = async (modesList: string[]) => {
   const modesString = modesList.join(",");
   const linesList = await makeTFLGetRequest(`/Line/Mode/${modesString}`);
   return linesList;
 };
 
-export const getRoutesOnLine = async (lineId) => {
+export const getRoutesOnLine = async (lineId: string) => {
   const routeSequence = await makeTFLGetRequest(
     `/Line/${lineId}/Route/Sequence/all`,
   );
   routeSequence.lineStrings = routeSequence.lineStrings.map(
-    (lineString) => JSON.parse(lineString)[0],
+    (lineString: string) => JSON.parse(lineString)[0],
   );
   return routeSequence;
 };
@@ -55,7 +102,46 @@ export const getStoppointDataCategories = async () =>
 
 export const getTransportModes = async () => {
   let res = await makeTFLGetRequest("/Line/Meta/Modes");
-  res = res.filter((mode) => mode.isScheduledService);
-  res = Object.values(objectMap(res, (v) => v.modeName));
+  res = res.filter((mode: TfL["Mode"]) => mode.isScheduledService);
+  res = Object.values(
+    objectMap(res, ({ modeName }: { modeName: string }) => modeName),
+  );
   return res;
+};
+
+export const filterStopPoints = async (
+  stopPoints: TfL["StopPoint"][],
+  chosenModesSet: Set<string>,
+  topLevelKey: string | undefined,
+  origin: LatLon,
+) => {
+  // remove stopPoints with no line data
+  stopPoints = stopPoints.filter(
+    ({ lines }) => lines?.length && lines.length > 0,
+  );
+
+  // remove stopPoints that don't serve the chosen modes
+  if (typeof chosenModesSet !== "undefined") {
+    stopPoints = stopPoints.filter(
+      ({ modes }) => setIntersection(new Set(modes), chosenModesSet).size > 0,
+    );
+  }
+
+  // remove duplicate stopPoints
+  if (typeof topLevelKey === "undefined") {
+    return stopPoints;
+  }
+  stopPoints = await Promise.all(
+    stopPoints.map(async (stopPoint) =>
+      // makeTFLGetRequest(`/StopPoint/${stopPoint[topLevelKey]}`),
+      makeTFLGetRequest(`/StopPoint/${stopPoint.stationNaptan}`),
+    ),
+  );
+  stopPoints = stopPoints.map((stopPoint) => ({
+    ...stopPoint,
+    distance: !origin
+      ? undefined
+      : getDistanceFromLatLonInKm(origin, [stopPoint.lat, stopPoint.lon]),
+  }));
+  return getUniqueListBy(stopPoints, topLevelKey);
 };

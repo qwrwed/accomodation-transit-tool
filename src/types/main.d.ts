@@ -1,0 +1,1 @@
+type LatLon = [number, number];
