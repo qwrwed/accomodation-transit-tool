@@ -14,12 +14,8 @@ const theme = createTheme({
       light: "#61dafb",
       dark: "#21a1c4",
     },
-    error: {
-      main: red.A400,
-    },
-    background: {
-      default: "#282c34",
-    },
+    error: {main: red.A400,},
+    background: {default: "#282c34",},
   },
   components: {
     MuiPaper: {
@@ -31,13 +27,7 @@ const theme = createTheme({
         },
       },
     },
-    MuiButton: {
-      styleOverrides: {
-        root: {
-          margin: "5px",
-        },
-      },
-    },
+    MuiButton: {styleOverrides: {root: {margin: "5px",},},},
   },
 });
 export default theme;

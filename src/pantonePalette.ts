@@ -2,8 +2,15 @@ import Color from "color";
 
 const pantone = require("./@PANTONE.palette.json");
 
-const pantonePalette = {};
-pantone.forEach(({ name, r, g, b }) => {
+interface PantonePaletteColor{
+  name: string,
+  r: number,
+  g: number,
+  b: number,
+}
+
+const pantonePalette: Record<string, string> = {};
+pantone.forEach(({name, r, g, b,}: PantonePaletteColor) => {
   pantonePalette[name] = Color.rgb([r, g, b].map((ch) => ch * 255)).hex();
 });
 

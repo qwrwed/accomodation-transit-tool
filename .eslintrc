@@ -1,29 +1,43 @@
 {
     "env": {
         "browser": true,
-        "es2021": true
+        "es2021": true,
     },
     "extends": [
         "plugin:react/recommended",
-        "airbnb"
+        "airbnb",
+        "prettier",
     ],
     "parser": "@typescript-eslint/parser",
     "parserOptions": {
         "ecmaFeatures": {
-            "jsx": true
+            "jsx": true,
         },
         "ecmaVersion": 12,
-        "sourceType": "module"
+        "sourceType": "module",
     },
     "plugins": [
         "react",
-        "@typescript-eslint"
+        "prettier",
+        "@typescript-eslint",
     ],
     "rules": {
         "linebreak-style": ["error", "windows"],
         "quotes": ["error", "double"],
         // https://stackoverflow.com/a/64024916
         "no-use-before-define": "off",
-        "@typescript-eslint/no-use-before-define": ["error"]
+        "@typescript-eslint/no-use-before-define": ["error"],
+        "react/function-component-definition": [
+            2,
+            {
+                "namedComponents": "arrow-function",
+                "unnamedComponents": "arrow-function",
+            }
+        ],
+        "no-console": [
+            "warn", {"allow": ["log", "warn", "error"]}
+        ],
+        "react/prop-types": 0,
+        "object-curly-newline": ["error", {"multiline": true}],
     }
 }

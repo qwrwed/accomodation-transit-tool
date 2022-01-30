@@ -1,4 +1,4 @@
-import pantonePalette from "./pantonePalette";
+import pantonePalette from "./pantonePalette.ts";
 import { objectFilter, objectMap } from "./utils";
 
 // only scheduled modes

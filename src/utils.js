@@ -5,7 +5,7 @@ export const objectKeysToList = (obj) =>
   Object.entries(obj)
     .filter(([key, value]) => value)
     .map(([key, value]) => key);
-//.join();
+// .join();
 
 function deg2rad(deg) {
   return deg * (Math.PI / 180);
@@ -15,36 +15,32 @@ export const getDistanceFromLatLonInKm = (loc1, loc2) => {
   const [lat1, lon1] = loc1;
   const [lat2, lon2] = loc2;
   // https://stackoverflow.com/q/18883601
-  var R = 6371; // Radius of the earth in km
-  var dLat = deg2rad(lat2 - lat1);
-  var dLon = deg2rad(lon2 - lon1);
-  var a =
+  const R = 6371; // Radius of the earth in km
+  const dLat = deg2rad(lat2 - lat1);
+  const dLon = deg2rad(lon2 - lon1);
+  const a =
     Math.sin(dLat / 2) * Math.sin(dLat / 2) +
     Math.cos(deg2rad(lat1)) *
     Math.cos(deg2rad(lat2)) *
     Math.sin(dLon / 2) *
     Math.sin(dLon / 2);
-  var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-  var d = R * c; // Distance in km
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  const d = R * c; // Distance in km
   return d;
 };
 
-export const getUniqueListBy = (arr, key) => {
+export const getUniqueListBy = (arr, key) => 
   // https://stackoverflow.com/a/56768137
-  return [...new Map(arr.map((item) => [item[key], item])).values()];
-};
+   [...new Map(arr.map((item) => [item[key], item])).values()]
+;
 
-export const kvArrayToObject = (arr) => {
-  return arr.reduce(function (result, item) {
-    var key = Object.keys(item)[0]; //first property: a, b, c
+export const kvArrayToObject = (arr) => arr.reduce((result, item) => {
+    const key = Object.keys(item)[0]; // first property: a, b, c
     result[key] = item[key];
     return result;
   }, {});
-};
 
-export const mapArrayToObject = (arr, fn) => {
-  return Object.fromEntries(arr.map(k => [k, fn(k)]));
-}
+export const mapArrayToObject = (arr, fn) => Object.fromEntries(arr.map(k => [k, fn(k)]))
 
 export const objectMap = (obj, fn) =>
   // https://stackoverflow.com/a/14810722
@@ -61,14 +57,14 @@ export const objectFilter = (obj, fn) =>
     )
   );
 
-export var getDescendants = (obj, key, currentDescendantIds = new Set(), level = 0) => {
+export let getDescendants = (obj, key, currentDescendantIds = new Set(), level = 0) => {
   // console.log(`getDescendants(L${level}: ${obj}, ${key}, ${JSON.stringify(currentDescendantIds)})`)
   // console.log(descendantIds)
   for (const id of currentDescendantIds) {
     let newDescendantIds = new Set(obj[id][key].map(id => id.toString()))
     newDescendantIds = setDifference(newDescendantIds, currentDescendantIds)
     if (newDescendantIds.length > 0) {
-      let res = getDescendants(obj, key, newDescendantIds, level + 1)
+      const res = getDescendants(obj, key, newDescendantIds, level + 1)
       currentDescendantIds = new Set([...currentDescendantIds, ...res].map(id => id.toString()))
     }
   }
@@ -86,7 +82,7 @@ export const setIntersection = (a, b) => new Set(
 
 export const setUnion = (a, b) => new Set([...a, ...b]);
 
-export const roundAccurately = (number, decimalPlaces = 1) => Number(Math.round(number + "e" + decimalPlaces) + "e-" + decimalPlaces)
+export const roundAccurately = (number, decimalPlaces = 1) => Number(`${Math.round(`${number  }e${  decimalPlaces}`)  }e-${  decimalPlaces}`)
 // https://gist.github.com/djD-REK/068cba3d430cf7abfddfd32a5d7903c3
 
 
@@ -97,17 +93,17 @@ export const roundAccurately = (number, decimalPlaces = 1) => Number(Math.round(
  * @param {*} value (optional) if given, will be the last object in the hierarchy.
  * @returns The last object in the hierarchy.
  */
-export const setNestedObject = function (base, names, value) {
+export const setNestedObject = (base, names, value) => {
   // https://stackoverflow.com/a/11433067
   if (typeof (names) === "string")
     names = names.split(".")
 
   // If a value is given, remove the last name and keep it for later:
-  var lastName = arguments.length === 3 ? names.pop() : false;
+  const lastName = arguments.length === 3 ? names.pop() : false;
 
   // Walk the hierarchy, creating new objects where needed.
   // If the lastName was removed, then the last object is not set yet:
-  for (var i = 0; i < names.length; i++) {
+  for (let i = 0; i < names.length; i++) {
     base = base[names[i]] = base[names[i]] || {};
   }
 

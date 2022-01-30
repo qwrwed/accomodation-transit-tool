@@ -6,9 +6,7 @@ import * as ExtraMarkers from "leaflet-extra-markers"; // or else TS complains a
 import "@fortawesome/fontawesome-free/css/all.css"; // e.g. using FA icons
 import "leaflet-extra-markers/dist/css/leaflet.extra-markers.min.css"; // Do the L extension.
 import React from "react";
-import {
-  MapContainer, TileLayer, Marker, Popup, useMap,
-} from "react-leaflet";
+import {MapContainer, TileLayer, Marker, Popup, useMap,} from "react-leaflet";
 import "./Map.css";
 // import the LEM css
 require("leaflet-extra-markers");
@@ -43,9 +41,7 @@ const getIconName = (modes) => {
 
 const SetView = ({ latLong }) => {
   const map = useMap();
-  map.setView(latLong, map.getZoom(), {
-    animate: true,
-  });
+  map.setView(latLong, map.getZoom(), {animate: true,});
   return null;
 };
 

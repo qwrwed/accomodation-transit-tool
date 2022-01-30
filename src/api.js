@@ -23,8 +23,7 @@ export const makeTFLGetRequest = async (route, otherParams) => {
   if (response.ok) {
     return response.json();
   }
-  const { exceptionType, httpStatusCode, httpStatus, message } =
-    await response.json();
+  const { exceptionType, httpStatusCode, httpStatus, message } = await response.json();
   console.error(
     `${exceptionType}: ${httpStatusCode} (${httpStatus})\n${message} (from ${TFL_API_URL_ROOT}${route})`,
   );
@@ -47,11 +46,9 @@ export const getRoutesOnLine = async (lineId) => {
   return routeSequence;
 };
 
-export const getNaptanTypes = async () =>
-  makeTFLGetRequest("/StopPoint/Meta/StopTypes");
+export const getNaptanTypes = async () => makeTFLGetRequest("/StopPoint/Meta/StopTypes");
 
-export const getStoppointDataCategories = async () =>
-  makeTFLGetRequest("/StopPoint/Meta/categories");
+export const getStoppointDataCategories = async () => makeTFLGetRequest("/StopPoint/Meta/categories");
 
 export const getTransportModes = async () => {
   let res = await makeTFLGetRequest("/Line/Meta/Modes");
