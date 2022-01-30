@@ -166,17 +166,14 @@ const App = () => {
 
     const finalGraphDirections: Record<string, Graph> = {};
 
-    const directions: Direction[] = ["outbound"];
-    // const directions = ["inbound"];
-    // const directions = ["inbound", "outbound"];
+    // const directions: Direction[] = ["outbound"];
+    // const directions: Direction[] = ["inbound"];
+    const directions: Direction[] = ["inbound", "outbound"];
 
     for (const direction of directions) {
       const lineGraphObjectInDirection = await getLineGraphObjectFromLineIdList(
         nearbyLineIdList,
         [direction],
-      );
-      const mergedGraphInDirection = mergeGraphObject(
-        lineGraphObjectInDirection,
       );
       finalGraphDirections[direction] = new Graph();
 
@@ -184,14 +181,14 @@ const App = () => {
         for (const lineName in stopPointsOnLines[modeName]) {
           const stopPointsReachableFromNearbyStopPointsOnLineGraph =
             new Graph();
+          const graphDirectionLine = lineGraphObjectInDirection[lineName];
           for (const stopPoint of stopPointsOnLines[modeName][lineName]) {
-            const graph = lineGraphObjectInDirection[lineName];
             // console.log(
             //   `Graphing line "${lineName}" stop "${stopPoint.commonName}" (${stopPoint.stationNaptan}) in direction ${direction}`,
             // );
-            if (graph.hasNode(stopPoint.stationNaptan)) {
+            if (graphDirectionLine.hasNode(stopPoint.stationNaptan)) {
               dfsFromNode(
-                lineGraphObjectInDirection[lineName],
+                graphDirectionLine,
                 stopPoint.stationNaptan,
                 (node, attr) => {
                   mergeStopPoint(
@@ -206,7 +203,7 @@ const App = () => {
             }
           }
           const sub = subgraph(
-            mergedGraphInDirection,
+            graphDirectionLine,
             stopPointsReachableFromNearbyStopPointsOnLineGraph.nodes(),
           );
           for (const stopPoint of stopPointsOnLines[modeName][lineName]) {
@@ -220,7 +217,7 @@ const App = () => {
   };
 
   return (
-    <Container maxWidth="sm" className="App">
+    <Container maxWidth="md" className="App">
       <Paper>
         <img src={logo} className="App-logo" alt="logo" />
         <Typography variant="h4" component="h1" gutterBottom>
