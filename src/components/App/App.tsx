@@ -30,6 +30,7 @@ import {
   LINE_COLORS,
   MODES_DEFAULT,
   MODES_LABELS,
+  GRAPH_NODE_SIZE_POI,
 } from "../../constants";
 
 import CheckBoxList from "../CheckBoxList";
@@ -207,7 +208,9 @@ const App = () => {
             stopPointsReachableFromNearbyStopPointsOnLineGraph.nodes(),
           );
           for (const stopPoint of stopPointsOnLines[modeName][lineName]) {
-            sub.mergeNode(stopPoint.stationNaptan, { size: 4 });
+            sub.mergeNode(stopPoint.stationNaptan, {
+              size: GRAPH_NODE_SIZE_POI,
+            });
           }
           mergeGraph(sub, finalGraphDirections[direction]);
         }

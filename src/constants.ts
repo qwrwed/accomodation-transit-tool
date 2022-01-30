@@ -148,7 +148,8 @@ export const NAPTAN_STOPTYPES = [
   "NaptanFerryPort",
 ];
 
-export const GRAPH_NODE_SIZE = 2;
+export const GRAPH_NODE_SIZE = 1;
+export const GRAPH_NODE_SIZE_POI = 3;
 
 export const DEFAULT_RADIUS = 300;
 
@@ -159,5 +160,5 @@ export const DEFAULT_RADIUS = 300;
 export const DEFAULT_POSTCODE = "EC2M 7PY"; // liverpool street
 // export const DEFAULT_POSTCODE = "CR0 2AF"; // west croydon (trams)
 
-// export const EDGE_TYPE = "line";
-export const EDGE_TYPE = "arrow";
+export const EDGE_TYPE = "line";
+// export const EDGE_TYPE = "arrow";
