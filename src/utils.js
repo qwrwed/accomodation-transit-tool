@@ -93,22 +93,22 @@ export const roundAccurately = (number, decimalPlaces = 1) => Number(`${Math.rou
  * @param {*} value (optional) if given, will be the last object in the hierarchy.
  * @returns The last object in the hierarchy.
  */
-export const setNestedObject = (base, names, value) => {
+ export const setNestedObject = function( base, names, value ) {
   // https://stackoverflow.com/a/11433067
   if (typeof (names) === "string")
     names = names.split(".")
 
   // If a value is given, remove the last name and keep it for later:
-  const lastName = arguments.length === 3 ? names.pop() : false;
+  var lastName = arguments.length === 3 ? names.pop() : false;
 
   // Walk the hierarchy, creating new objects where needed.
   // If the lastName was removed, then the last object is not set yet:
-  for (let i = 0; i < names.length; i++) {
-    base = base[names[i]] = base[names[i]] || {};
+  for( var i = 0; i < names.length; i++ ) {
+      base = base[ names[i] ] = base[ names[i] ] || {};
   }
 
   // If a value was given, set it to the last name:
-  if (lastName) base = base[lastName] = value;
+  if( lastName ) base = base[ lastName ] = value;
 
   // Return the last object in the hierarchy:
   return base;
