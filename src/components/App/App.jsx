@@ -146,10 +146,11 @@ const App = () => {
 
     const lineGraphObjectDirections = {};
     const mergedGraphDirections = {};
+    const finalGraphDirections = {};
 
-    // const directions = ["outbound"]
-    const directions = ["inbound"];
-    // const directions = ["inbound", "outbound"]
+    const directions = ["outbound"];
+    // const directions = ["inbound"];
+    // const directions = ["inbound", "outbound"];
 
     for (const direction of directions) {
       lineGraphObjectDirections[direction] =
@@ -157,14 +158,8 @@ const App = () => {
       mergedGraphDirections[direction] = mergeGraphObject(
         lineGraphObjectDirections[direction],
       );
-    }
-    // console.log(lineGraphObjectDirections);
-    // console.log(stopPointsOnLines);
-    const fullGraphDirections = {
-      inbound: new Graph(),
-      outbound: new Graph(),
-    };
-    for (const direction of directions) {
+      finalGraphDirections[direction] = new Graph();
+
       for (const modeName in stopPointsOnLines) {
         for (const lineName in stopPointsOnLines[modeName]) {
           const stopPointsReachableFromNearbyStopPointsOnLineGraph =
@@ -197,11 +192,11 @@ const App = () => {
           for (const stopPoint of stopPointsOnLines[modeName][lineName]) {
             sub.mergeNode(stopPoint.stationNaptan, { size: 4 });
           }
-          mergeGraph(sub, fullGraphDirections[direction]);
+          mergeGraph(sub, finalGraphDirections[direction]);
         }
       }
     }
-    setDisplayedGraph(mergeGraphObject(fullGraphDirections));
+    setDisplayedGraph(mergeGraphObject(finalGraphDirections));
   };
 
   return (
