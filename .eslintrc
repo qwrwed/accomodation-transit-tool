@@ -27,7 +27,7 @@
       "error", {
         "semi": true,
         "endOfLine": "auto",
-        "trailingComma": "all",
+        "trailingComma": "all"
       }
     ]
   }
