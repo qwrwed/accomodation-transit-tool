@@ -148,7 +148,7 @@ export const NAPTAN_STOPTYPES = [
   "NaptanFerryPort",
 ];
 
-export const GRAPH_NODE_SIZE = 1;
+export const GRAPH_NODE_SIZE = 2;
 export const GRAPH_NODE_SIZE_POI = 3;
 
 export const DEFAULT_RADIUS = 300;
@@ -157,8 +157,9 @@ export const DEFAULT_RADIUS = 300;
 // export const DEFAULT_POSTCODE = "SE1 9SG"; // london bridge bus station
 // export const DEFAULT_POSTCODE = "SW1A 2JR"; // westminster tube station
 // export const DEFAULT_POSTCODE = "E14 0AF"; // poplar DLR station
-export const DEFAULT_POSTCODE = "EC2M 7PY"; // liverpool street
+export const DEFAULT_POSTCODE = "E14 8AB"; // westferry DLR station (has trains from West India Quay, but not to)
+// export const DEFAULT_POSTCODE = "EC2M 7PY"; // liverpool street
 // export const DEFAULT_POSTCODE = "CR0 2AF"; // west croydon (trams)
 
-export const EDGE_TYPE = "line";
-// export const EDGE_TYPE = "arrow";
+// export const EDGE_TYPE = "line";
+export const EDGE_TYPE = "arrow";

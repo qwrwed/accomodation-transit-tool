@@ -12,6 +12,7 @@ import React, { ChangeEvent, useState } from "react";
 import Graph from "graphology";
 import { dfsFromNode } from "graphology-traversal/dfs";
 import subgraph from "graphology-operators/subgraph";
+import reverse from "graphology-operators/reverse";
 
 import Button from "@mui/material/Button";
 import InputAdornment from "@mui/material/InputAdornment";
@@ -39,6 +40,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 // import logo from './logo.svg';
 import logo from "../../tfl_roundel_no_text.svg";
 import "./App.css";
+// import { objectKeysToList, objectMap, setNestedObject } from "../../utils";
 import { objectKeysToList, setNestedObject } from "../../utils";
 import Map from "../Map/Map";
 
@@ -78,6 +80,8 @@ const App = () => {
   const [radius, setRadius] = useState(DEFAULT_RADIUS);
   const [chosenModesList, setChosenModesList] = useState(MODES_DEFAULT);
   const [displayedGraph, setDisplayedGraph] = useState(new Graph());
+  // const [reverseGraph, setReverseGraph] = useState(true);
+  const reverseGraph = true;
 
   // map data
   const [postcodeInfo, setPostcodeInfo] =
@@ -175,7 +179,12 @@ const App = () => {
       const lineGraphObjectInDirection = await getLineGraphObjectFromLineIdList(
         nearbyLineIdList,
         [direction],
+        reverseGraph,
       );
+
+      // const lineGraphObjectInDirectionReversed: Record<string, Graph> =
+      //   objectMap(lineGraphObjectInDirection, (graph: Graph) => reverse(graph));
+
       finalGraphDirections[direction] = new Graph();
 
       for (const modeName in stopPointsOnLines) {
@@ -216,7 +225,9 @@ const App = () => {
         }
       }
     }
-    setDisplayedGraph(mergeGraphObject(finalGraphDirections));
+    let finalGraphMerged = mergeGraphObject(finalGraphDirections);
+    if (reverseGraph) finalGraphMerged = reverse(finalGraphMerged);
+    setDisplayedGraph(finalGraphMerged);
   };
 
   return (

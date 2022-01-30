@@ -1,6 +1,7 @@
 /* eslint-disable no-await-in-loop */
 /* eslint-disable no-restricted-syntax */
 import Graph from "graphology";
+import { reverse } from "graphology-operators";
 import React from "react";
 import { SigmaContainer, useSigma } from "react-sigma-v2/lib/esm";
 import "react-sigma-v2/lib/react-sigma-v2.css";
@@ -121,11 +122,13 @@ export const getLineGraphFromLine = async ({
 export const getLineGraphObjectFromLineIdList = async (
   lineIdList: LineId[],
   directionList: Direction[] = ["outbound"],
+  reverseGraph = false,
 ) => {
   const lineGraphObject: Record<LineId, Graph> = {};
   for (const lineId of lineIdList) {
     for (const direction of directionList) {
-      const lineGraph = await getLineGraphFromLine({ lineId, direction });
+      let lineGraph = await getLineGraphFromLine({ lineId, direction });
+      if (reverseGraph) lineGraph = reverse(lineGraph);
       lineGraphObject[lineId] = lineGraph;
     }
   }
