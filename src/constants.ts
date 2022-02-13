@@ -43,7 +43,7 @@ export const MODES_INFO_ALL: ModeInfoContainer = {
     selectedByDefault: true,
     icon: "fa-subway",
   },
-  "replacement-bus": { hidden: false },
+  "replacement-bus": { hidden: true },
   "river-bus": {
     label: "London River Services",
     color: pantonePalette["299"],
@@ -157,8 +157,8 @@ export const DEFAULT_RADIUS = 300;
 // export const DEFAULT_POSTCODE = "SE1 9SG"; // london bridge bus station
 // export const DEFAULT_POSTCODE = "SW1A 2JR"; // westminster tube station
 // export const DEFAULT_POSTCODE = "E14 0AF"; // poplar DLR station
-export const DEFAULT_POSTCODE = "E14 8AB"; // westferry DLR station (has trains from West India Quay, but not to)
-// export const DEFAULT_POSTCODE = "EC2M 7PY"; // liverpool street
+// export const DEFAULT_POSTCODE = "E14 8AB"; // westferry DLR station (has trains from West India Quay, but not to)
+export const DEFAULT_POSTCODE = "EC2M 7PY"; // liverpool street
 // export const DEFAULT_POSTCODE = "CR0 2AF"; // west croydon (trams)
 
 // export const EDGE_TYPE = "line";

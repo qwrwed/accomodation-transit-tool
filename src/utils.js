@@ -40,7 +40,7 @@ export const kvArrayToObject = (arr) => arr.reduce((result, item) => {
     return result;
   }, {});
 
-export const mapArrayToObject = (arr, fn) => Object.fromEntries(arr.map(k => [k, fn(k)]))
+export const mapArrayOfKeysToObject = (arr, fn) => Object.fromEntries(arr.map(k => [k, fn(k)]))
 
 export const objectMap = (obj, fn) =>
   // https://stackoverflow.com/a/14810722

@@ -9,7 +9,7 @@ import CheckBoxList from "./CheckBoxList";
 import CheckBoxTreeView from "./CheckBoxTreeView";
 import logo from "../logo.svg";
 import "./App/App.css";
-import { data } from "./sampleData";
+import data from "./sampleData";
 
 const sampleListLabels = {
   NaptanMetroStation: "Underground/Overground",
@@ -29,7 +29,6 @@ const App = () => {
     NaptanFerryPort: false,
   });
   const [selected, setSelected] = React.useState<string[]>([]);
-  // const usedState = React.useState<string[]>([]);
   return (
     <Container maxWidth="sm" className="App">
       <Paper>
@@ -42,7 +41,6 @@ const App = () => {
         />
         <CheckBoxTreeView
           data={data}
-          // usedState={usedState}
           stateGetter={selected}
           stateSetter={setSelected}
           defaultExpanded={["0", "3", "4"]}

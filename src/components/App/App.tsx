@@ -5,7 +5,7 @@
 /* eslint-disable no-restricted-syntax */
 /* eslint-disable no-param-reassign */
 // /* eslint-disable */
-import React, { ChangeEvent, useState } from "react";
+import React, { ChangeEvent, useState, useEffect } from "react";
 // import React, { useState } from "react";
 // import Button from "react-bootstrap/Button";
 
@@ -23,6 +23,7 @@ import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 
 import TfL from "tfl-api-wrapper/dist/lib/interfaces/tfl";
+import { Line as LineFunctions } from "tfl-api-wrapper";
 
 import {
   NAPTAN_STOPTYPES,
@@ -30,24 +31,24 @@ import {
   DEFAULT_RADIUS,
   LINE_COLORS,
   MODES_DEFAULT,
-  MODES_LABELS,
   GRAPH_NODE_SIZE_POI,
+  MODES_INFO_ALL,
 } from "../../constants";
 
-import CheckBoxList from "../CheckBoxList";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 // import logo from './logo.svg';
 import logo from "../../tfl_roundel_no_text.svg";
 import "./App.css";
 // import { objectKeysToList, objectMap, setNestedObject } from "../../utils";
-import { objectKeysToList, setNestedObject } from "../../utils";
+import { setNestedObject } from "../../utils";
 import Map from "../Map/Map";
 
 import {
   getLatLonFromPostCode,
   getStopPointsByRadius,
   filterStopPoints,
+  getTFLApiKey,
 } from "../../api";
 
 import {
@@ -57,7 +58,17 @@ import {
   mergeGraph,
 } from "../Graphs";
 
-// const stopPointInstance = new StopPoint(getTFLApiKey());
+import { components as StopPointComponents } from "../../types/StopPoint";
+import { components as LineComponents } from "../../types/Line";
+import CheckBoxTreeView from "../CheckBoxTreeView";
+
+type StopPoint = StopPointComponents["schemas"]["Tfl-11"];
+// type Line = LineComponents["schemas"]["Tfl-19"];
+type Mode = LineComponents["schemas"]["Tfl"];
+
+// type LineModeGroup = StopPointComponents["schemas"]["Tfl-8"];
+
+const lineInstance = new LineFunctions(getTFLApiKey());
 
 const mergeStopPoint = (
   graph: Graph,
@@ -74,14 +85,74 @@ const mergeStopPoint = (
   });
 };
 
+const ModeCheckList = ({
+  stateGetter,
+  stateSetter,
+}: {
+  stateGetter: string[];
+  stateSetter: UseStateSetter<string[]>;
+}) => {
+  const parentId = "parent:all";
+  const parentLabel = "All";
+  const [data, setData] = React.useState<RenderTree | undefined>();
+  // const [defaultExpanded, setDefaultExpanded] = React.useState<string[]>([
+  //   parentId,
+  // ]);
+  const defaultExpanded = [parentId];
+  useEffect(() => {
+    (async () => {
+      const modeLineTree: RenderTree = {
+        id: parentId,
+        name: parentLabel,
+        children: [],
+      };
+      const modes = (await lineInstance.getModes()) as Mode[];
+      const modeNames = modes
+        .filter(
+          (mode) =>
+            mode.isScheduledService &&
+            mode.isFarePaying &&
+            (mode.isTflService || mode.modeName === "national-rail"),
+        )
+        .map(({ modeName }) => modeName)
+        .filter((modeName) => !MODES_INFO_ALL[modeName].hidden);
+
+      const chosenByDefault = modeNames.filter(
+        (modeName) => MODES_DEFAULT[modeName],
+      );
+      stateSetter(chosenByDefault);
+
+      modeLineTree.children = modeNames.map((modeName: string) => ({
+        id: modeName,
+        name: MODES_INFO_ALL[modeName].label || modeName,
+      }));
+      setData(modeLineTree);
+
+      // const lines = (await lineInstance.getAllByModes(modeNames)) as Line[];
+      // console.log(lines);
+    })();
+  }, []);
+
+  if (data!) {
+    return (
+      <CheckBoxTreeView
+        data={data}
+        stateGetter={stateGetter}
+        stateSetter={stateSetter}
+        defaultExpanded={defaultExpanded}
+      />
+    );
+  }
+  return <>Loading mode checklist...</>;
+};
+
 const App = () => {
   const [info, setInfo] = useState("Waiting for search...");
   const [postcode, setPostcode] = useState(DEFAULT_POSTCODE);
   const [radius, setRadius] = useState(DEFAULT_RADIUS);
-  const [chosenModesList, setChosenModesList] = useState(MODES_DEFAULT);
   const [displayedGraph, setDisplayedGraph] = useState(new Graph());
   // const [reverseGraph, setReverseGraph] = useState(true);
-  const reverseGraph = true;
+  const reverseGraph = false;
 
   // map data
   const [postcodeInfo, setPostcodeInfo] =
@@ -89,6 +160,8 @@ const App = () => {
   const [nearbyStopPoints, setNearbyStopPoints] = useState<TfL["StopPoint"][]>(
     [],
   );
+
+  const [getModeCheckList, setModeCheckList] = useState<string[]>([]);
 
   const handleRadiusChange = (e: ChangeEvent<HTMLInputElement>) => {
     // const handleRadiusChange = (e) => {
@@ -119,12 +192,12 @@ const App = () => {
     // console.log(JSON.parse(JSON.stringify({ stopPoints })));
 
     // check for no result
-    if (stopPoints === undefined || stopPoints.length === 0) {
+    if (stopPoints.length === 0) {
       setInfo(`No stops found within ${radius} metres of postcode ${postcode}`);
       return;
     }
 
-    const chosenModesSet = new Set(objectKeysToList(chosenModesList));
+    const chosenModesSet = new Set(getModeCheckList);
     stopPoints = await filterStopPoints(
       stopPoints,
       chosenModesSet,
@@ -148,22 +221,16 @@ const App = () => {
     );
 
     const nearbyLineIdList: string[] = [];
-    const stopPointsOnLines: Record<
-      ModeId,
-      Record<LineId, TfL["StopPoint"][]>
-    > = {};
+    const stopPointsOnLines: Record<ModeId, Record<LineId, StopPoint[]>> = {};
     for (const stopPoint of stopPoints) {
-      for (const {
-        modeName,
-        lineIdentifier,
-      } of stopPoint.lineModeGroups as TfL["LineModeGroup"][]) {
-        if (chosenModesSet.has(modeName as string)) {
-          for (const line of lineIdentifier as string[]) {
-            if (typeof stopPointsOnLines?.[modeName!]?.[line] === "undefined") {
+      for (const { modeName, lineIdentifier } of stopPoint.lineModeGroups) {
+        if (chosenModesSet.has(modeName)) {
+          for (const line of lineIdentifier) {
+            if (typeof stopPointsOnLines?.[modeName]?.[line] === "undefined") {
               setNestedObject(stopPointsOnLines, [modeName, line], []);
               nearbyLineIdList.push(line);
             }
-            stopPointsOnLines[modeName!][line].push(stopPoint);
+            stopPointsOnLines[modeName][line].push(stopPoint);
           }
         }
       }
@@ -237,10 +304,9 @@ const App = () => {
         <Typography variant="h4" component="h1" gutterBottom>
           transit-tool
         </Typography>
-        <CheckBoxList
-          listState={chosenModesList}
-          setListState={setChosenModesList}
-          listLabels={MODES_LABELS}
+        <ModeCheckList
+          stateGetter={getModeCheckList}
+          stateSetter={setModeCheckList}
         />
         <Box
           component="form"

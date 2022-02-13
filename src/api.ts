@@ -1,6 +1,6 @@
 /* eslint-disable no-param-reassign */
 import TfL from "tfl-api-wrapper/dist/lib/interfaces/tfl";
-import { StopPoint } from "tfl-api-wrapper";
+import { StopPoint as StopPointFunctions } from "tfl-api-wrapper";
 import {
   getDistanceFromLatLonInKm,
   getUniqueListBy,
@@ -10,8 +10,11 @@ import {
 } from "./utils";
 
 import { TFL_API_URL_ROOT } from "./constants";
+import { components as StopPointComponents } from "./types/StopPoint";
 
 const postcodes = require("node-postcodes.io");
+
+type StopPoint = StopPointComponents["schemas"]["Tfl-11"];
 
 export const getLatLonFromPostCode = async (
   postcode: string,
@@ -22,7 +25,7 @@ export const getLatLonFromPostCode = async (
 };
 
 export const getTFLApiKey = () => process.env.REACT_APP_TFL_KEY || "";
-const stopPointInstance = new StopPoint(getTFLApiKey());
+const stopPointInstance = new StopPointFunctions(getTFLApiKey());
 
 export const makeTFLGetRequest = async (
   route: string,
@@ -74,7 +77,7 @@ export const getStopPointsByRadius = async (
   //   returnLines: true,
   // });
 
-  if (typeof res !== "undefined") return res.stopPoints;
+  if (typeof res !== "undefined") return res.stopPoints as StopPoint[];
   return [];
 };
 

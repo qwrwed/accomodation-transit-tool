@@ -1,11 +1,6 @@
 // https://github.com/mui-org/material-ui/issues/17407#issuecomment-969029758
-export interface RenderTree {
-  id: string;
-  name: string;
-  children?: RenderTree[];
-}
 
-export const data: RenderTree = {
+export default {
   id: "0",
   name: "Parent",
   children: [
@@ -64,4 +59,4 @@ export const data: RenderTree = {
       ],
     },
   ],
-};
+} as RenderTree;

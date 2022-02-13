@@ -9,7 +9,6 @@ import React from "react";
 import { ChevronRight, ExpandMore } from "@mui/icons-material";
 import { TreeItem, TreeView } from "@mui/lab";
 import { Checkbox, FormControlLabel } from "@mui/material";
-import { RenderTree } from "./sampleData";
 
 const VERBOSE = false;
 
