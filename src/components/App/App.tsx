@@ -146,6 +146,7 @@ const App = () => {
       )}): ${summaryText.join(", ")}`,
     );
 
+    // organise the nearby stopPoints by mode and line {mode: {line: [stopPoint]}}
     const nearbyLineIdList: string[] = [];
     const stopPointsOnLines: Record<ModeId, Record<LineId, StopPoint[]>> = {};
     for (const stopPoint of stopPoints) {
@@ -274,11 +275,6 @@ const App = () => {
           </div>
         </Box>
         <p>{info}</p>
-        <p>
-          Disclaimer: This app calculates which stops are reachable FROM the
-          postcode you input, not the other way round.
-        </p>
-        <p>There may be one-way routes this method does not account for.</p>
         <Map postcodeInfo={postcodeInfo} nearbyStopPoints={nearbyStopPoints} />
         <GraphComponent graph={displayedGraph} style={{}} />
       </Paper>
