@@ -23,10 +23,11 @@ const ModeCheckList = ({
   const useLines = false;
 
   const parentId = "parent:all";
-  const parentLabel = "All";
+  const parentLabel = "All Modes";
 
   const [data, setData] = useState<RenderTree | undefined>();
-  const defaultExpanded = [parentId];
+  // const defaultExpanded = [parentId];
+  const defaultExpanded: string[] = [];
   useEffect(() => {
     (async () => {
       const modeLineTree: RenderTree = {

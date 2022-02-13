@@ -78,11 +78,12 @@ export const getLineGraphFromLine = async ({
   direction: Direction;
   branchDataKey?: string;
 }) => {
+  const lineGraph = new Graph();
   const routeSequence = await getRoutesOnLine(lineId);
+  if (routeSequence === null) return lineGraph;
   const lineColor =
     LINE_COLORS[routeSequence.lineId] ||
     MODES_INFO_ALL[routeSequence.mode].color;
-  const lineGraph = new Graph();
   for (const stopPointSequence of routeSequence.stopPointSequences) {
     if (stopPointSequence.direction === direction) {
       const stopPointArray = stopPointSequence.stopPoint;

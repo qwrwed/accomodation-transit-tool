@@ -13,3 +13,8 @@ interface RenderTree {
 }
 // type StopPoint = StopPointComponents["schemas"]["Tfl-11"];
 // type LineModeGroup = StopPointComponents["schemas"]["Tfl-8"];
+
+// https://stackoverflow.com/a/49752227
+type KeyOfType<T, V> = keyof {
+  [P in keyof T as T[P] extends V ? P : never]: any;
+};

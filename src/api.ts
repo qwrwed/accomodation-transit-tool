@@ -78,7 +78,7 @@ export const getStopPointsByRadius = async (
   // });
 
   if (typeof res !== "undefined") return res.stopPoints as StopPoint[];
-  return [];
+  return [] as StopPoint[];
 };
 
 export const getLinesFromModes = async (modesList: string[]) => {
@@ -91,6 +91,7 @@ export const getRoutesOnLine = async (lineId: string) => {
   const routeSequence = await makeTFLGetRequest(
     `/Line/${lineId}/Route/Sequence/all`,
   );
+  if (routeSequence === null) return null;
   routeSequence.lineStrings = routeSequence.lineStrings.map(
     (lineString: string) => JSON.parse(lineString)[0],
   );
@@ -115,7 +116,7 @@ export const getTransportModes = async () => {
 export const filterStopPoints = async (
   stopPoints: StopPoint[],
   chosenModesSet: Set<string>,
-  topLevelKey: string | undefined,
+  topLevelKey: KeyOfType<StopPoint, string> | undefined,
   origin: LatLon | undefined,
 ) => {
   // remove stopPoints with no line data
@@ -134,10 +135,14 @@ export const filterStopPoints = async (
   if (typeof topLevelKey === "undefined") {
     return stopPoints;
   }
+  // topLevelKey = "stationNaptan";
   stopPoints = await Promise.all(
-    stopPoints.map(async (stopPoint) =>
-      // makeTFLGetRequest(`/StopPoint/${stopPoint[topLevelKey]}`),
-      makeTFLGetRequest(`/StopPoint/${stopPoint.stationNaptan}`),
+    stopPoints.map(
+      async (stopPoint) =>
+        // makeTFLGetRequest(`/StopPoint/${stopPoint[topLevelKey]}`),
+        (await stopPointInstance.getByIDs([
+          stopPoint[topLevelKey],
+        ])) as StopPoint,
     ),
   );
   stopPoints = stopPoints.map((stopPoint) => ({
