@@ -63,7 +63,7 @@ import { components as LineComponents } from "../../types/Line";
 import CheckBoxTreeView from "../CheckBoxTreeView";
 
 type StopPoint = StopPointComponents["schemas"]["Tfl-11"];
-// type Line = LineComponents["schemas"]["Tfl-19"];
+type Line = LineComponents["schemas"]["Tfl-19"];
 type Mode = LineComponents["schemas"]["Tfl"];
 
 // type LineModeGroup = StopPointComponents["schemas"]["Tfl-8"];
@@ -92,12 +92,12 @@ const ModeCheckList = ({
   stateGetter: string[];
   stateSetter: UseStateSetter<string[]>;
 }) => {
+  const useLines = false;
+
   const parentId = "parent:all";
   const parentLabel = "All";
-  const [data, setData] = React.useState<RenderTree | undefined>();
-  // const [defaultExpanded, setDefaultExpanded] = React.useState<string[]>([
-  //   parentId,
-  // ]);
+
+  const [data, setData] = useState<RenderTree | undefined>();
   const defaultExpanded = [parentId];
   useEffect(() => {
     (async () => {
@@ -122,14 +122,26 @@ const ModeCheckList = ({
       );
       stateSetter(chosenByDefault);
 
-      modeLineTree.children = modeNames.map((modeName: string) => ({
-        id: modeName,
-        name: MODES_INFO_ALL[modeName].label || modeName,
-      }));
-      setData(modeLineTree);
+      const children: RenderTree[] = [];
+      for (const modeName of modeNames) {
+        const child: RenderTree = {
+          id: modeName,
+          name: MODES_INFO_ALL[modeName].label || modeName,
+        };
+        if (useLines) {
+          const grandchildren = (
+            (await lineInstance.getAllByModes([modeName])) as Line[]
+          ).map(({ id, name }) => ({
+            id,
+            name,
+          }));
+          child.children = grandchildren;
+        }
+        children.push(child);
+      }
+      modeLineTree.children = children;
 
-      // const lines = (await lineInstance.getAllByModes(modeNames)) as Line[];
-      // console.log(lines);
+      setData(modeLineTree);
     })();
   }, []);
 
