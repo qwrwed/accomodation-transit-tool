@@ -52,7 +52,7 @@ export const MODES_INFO_ALL: ModeInfoContainer = {
   },
   "river-tour": { hidden: true },
   tflrail: {
-    label: "TFL Rail",
+    label: "TfL Rail",
     hidden: false,
     icon: "fa-train",
     color: pantonePalette["266"],
