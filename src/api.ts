@@ -1,5 +1,4 @@
 /* eslint-disable no-param-reassign */
-import TfL from "tfl-api-wrapper/dist/lib/interfaces/tfl";
 import { StopPoint as StopPointFunctions } from "tfl-api-wrapper";
 import {
   getDistanceFromLatLonInKm,
@@ -11,10 +10,12 @@ import {
 
 import { TFL_API_URL_ROOT } from "./constants";
 import { components as StopPointComponents } from "./types/StopPoint";
+import { components as LineComponents } from "./types/Line";
 
 const postcodes = require("node-postcodes.io");
 
 type StopPoint = StopPointComponents["schemas"]["Tfl-11"];
+type Mode = LineComponents["schemas"]["Tfl"];
 
 export const getLatLonFromPostCode = async (
   postcode: string,
@@ -56,7 +57,6 @@ export const getStopPointsByRadius = async (
 ) => {
   const [lat, lon] = latLong;
 
-  //   requires upstream fix: "latitude"->"lat" and "longitude"->"lon" in function getInRadius
   const res = await stopPointInstance.getInRadius(
     stopTypes,
     radius,
@@ -105,7 +105,7 @@ export const getStoppointDataCategories = async () =>
 
 export const getTransportModes = async () => {
   let res = await makeTFLGetRequest("/Line/Meta/Modes");
-  res = res.filter((mode: TfL["Mode"]) => mode.isScheduledService);
+  res = res.filter((mode: Mode) => mode.isScheduledService);
   res = Object.values(
     objectMap(res, ({ modeName }: { modeName: string }) => modeName),
   );
@@ -113,7 +113,7 @@ export const getTransportModes = async () => {
 };
 
 export const filterStopPoints = async (
-  stopPoints: TfL["StopPoint"][],
+  stopPoints: StopPoint[],
   chosenModesSet: Set<string>,
   topLevelKey: string | undefined,
   origin: LatLon | undefined,
@@ -143,7 +143,7 @@ export const filterStopPoints = async (
   stopPoints = stopPoints.map((stopPoint) => ({
     ...stopPoint,
     distance: !origin
-      ? undefined
+      ? -1 // TODO: check if StopPoint.distance can be undefined
       : getDistanceFromLatLonInKm(origin, [stopPoint.lat, stopPoint.lon]),
   }));
   return getUniqueListBy(stopPoints, topLevelKey);
