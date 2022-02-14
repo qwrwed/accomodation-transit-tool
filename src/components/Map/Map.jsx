@@ -6,7 +6,7 @@ import * as ExtraMarkers from "leaflet-extra-markers"; // or else TS complains a
 import "@fortawesome/fontawesome-free/css/all.css"; // e.g. using FA icons
 import "leaflet-extra-markers/dist/css/leaflet.extra-markers.min.css"; // Do the L extension.
 import React from "react";
-import {MapContainer, TileLayer, Marker, Popup, useMap,} from "react-leaflet";
+import {MapContainer, TileLayer, Marker, Popup, useMap, Circle,} from "react-leaflet";
 import "./Map.css";
 // import the LEM css
 require("leaflet-extra-markers");
@@ -49,24 +49,25 @@ const SetView = ({ latLong }) => {
 //   console.log("postcodeInfo UPDATED");
 // }, [postcodeInfo]);
 
-const Map = ({ postcodeInfo, nearbyStopPoints }) => (
+const Map = ({ originInfo, nearbyStopPoints }) => (
   <MapContainer center={[51.505, -0.09]} zoom={13} scrollWheelZoom>
     <TileLayer
       attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
       url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
     />
-    {postcodeInfo && (
+    {originInfo && (
       <>
-        <Marker position={postcodeInfo.latLong} icon={originMarker}>
+        <Marker position={originInfo.latLong} icon={originMarker}>
           <Popup>
-            {postcodeInfo.postcode}
+            {originInfo.postcode}
             {" "}
             <br />
             {" "}
-            {JSON.stringify(postcodeInfo.latLong)}
+            {JSON.stringify(originInfo.latLong)}
           </Popup>
         </Marker>
-        <SetView latLong={postcodeInfo.latLong} />
+        <SetView latLong={originInfo.latLong} />
+        <Circle center={originInfo.latLong} radius={originInfo.radius} />
       </>
     )}
     {nearbyStopPoints.map((stopPoint) => (

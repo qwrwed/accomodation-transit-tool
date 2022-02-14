@@ -34,7 +34,7 @@ import {
 // import logo from './logo.svg';
 import logo from "../../tfl_roundel_no_text.svg";
 import "./App.css";
-import { setNestedObject } from "../../utils";
+import { mapArrayOfKeysToObject, setNestedObject } from "../../utils";
 import Map from "../Map/Map";
 
 import {
@@ -80,11 +80,11 @@ const App = () => {
   const [radius, setRadius] = useState(DEFAULT_RADIUS);
   const [displayedGraph, setDisplayedGraph] = useState(new Graph());
   // const [reverseGraph, setReverseGraph] = useState(true);
-  const reverseGraph = false;
+  // const reverseGraph = false;
 
   // map data
-  const [postcodeInfo, setPostcodeInfo] =
-    useState<{ postcode: string; latLong: LatLon }>();
+  const [originInfo, setOriginInfo] =
+    useState<{ postcode: string; latLong: LatLon; radius: number }>();
   const [nearbyStopPoints, setNearbyStopPoints] = useState<StopPoint[]>([]);
 
   const [getModeCheckList, setModeCheckList] = useState<string[]>([]);
@@ -101,7 +101,7 @@ const App = () => {
     setInfo(`Getting latitude/longitude of postcode ${postcode}...`);
     // const latLong: [number, number] = await getLatLonFromPostCode(postcode);
     const latLong = await getLatLonFromPostCode(postcode);
-    setPostcodeInfo({ postcode, latLong });
+    setOriginInfo({ postcode, latLong, radius });
 
     // get list of stopPoints within radius
     setInfo(
@@ -163,65 +163,79 @@ const App = () => {
       }
     }
 
-    const finalGraphDirections: Record<string, Graph> = {};
-
     // const directions: Direction[] = ["outbound"];
     // const directions: Direction[] = ["inbound"];
     const directions: Direction[] = ["inbound", "outbound"];
 
-    for (const direction of directions) {
-      const lineGraphObjectInDirection = await getLineGraphObjectFromLineIdList(
-        nearbyLineIdList,
-        [direction],
-        reverseGraph,
-      );
+    let finalGraphOutward = new Graph();
+    let finalGraphInward = new Graph();
 
-      // const lineGraphObjectInDirectionReversed: Record<string, Graph> =
-      //   objectMap(lineGraphObjectInDirection, (graph: Graph) => reverse(graph));
+    for (const reverseGraph of [true, false]) {
+      const finalGraphDirections: Record<string, Graph> =
+        mapArrayOfKeysToObject(directions, () => new Graph());
 
-      finalGraphDirections[direction] = new Graph();
-
-      for (const modeName in stopPointsOnLines) {
-        for (const lineName in stopPointsOnLines[modeName]) {
-          const stopPointsReachableFromNearbyStopPointsOnLineGraph =
-            new Graph();
-          const graphDirectionLine = lineGraphObjectInDirection[lineName];
-          for (const stopPoint of stopPointsOnLines[modeName][lineName]) {
-            // console.log(
-            //   `Graphing line "${lineName}" stop "${stopPoint.commonName}" (${stopPoint.stationNaptan}) in direction ${direction}`,
-            // );
-            if (graphDirectionLine.hasNode(stopPoint.stationNaptan)) {
-              dfsFromNode(
-                graphDirectionLine,
-                stopPoint.stationNaptan,
-                (node, attr) => {
-                  mergeStopPoint(
-                    stopPointsReachableFromNearbyStopPointsOnLineGraph,
-                    attr as MatchedStop,
-                    lineName,
-                  );
-                },
-              );
-            } else {
-              // console.log("Not found");
-            }
-          }
-          const sub = subgraph(
-            graphDirectionLine,
-            stopPointsReachableFromNearbyStopPointsOnLineGraph.nodes(),
+      for (const direction of directions) {
+        const lineGraphObjectInDirection =
+          await getLineGraphObjectFromLineIdList(
+            nearbyLineIdList,
+            [direction],
+            reverseGraph,
           );
-          for (const stopPoint of stopPointsOnLines[modeName][lineName]) {
-            sub.mergeNode(stopPoint.stationNaptan, {
-              size: GRAPH_NODE_SIZE_POI,
-            });
+
+        // const lineGraphObjectInDirectionReversed: Record<string, Graph> =
+        //   objectMap(lineGraphObjectInDirection, (graph: Graph) => reverse(graph));
+
+        finalGraphDirections[direction] = new Graph();
+
+        for (const modeName in stopPointsOnLines) {
+          for (const lineName in stopPointsOnLines[modeName]) {
+            const stopPointsReachableFromNearbyStopPointsOnLineGraph =
+              new Graph();
+            const graphDirectionLine = lineGraphObjectInDirection[lineName];
+            for (const stopPoint of stopPointsOnLines[modeName][lineName]) {
+              // console.log(
+              //   `Graphing line "${lineName}" stop "${stopPoint.commonName}" (${stopPoint.stationNaptan}) in direction ${direction}`,
+              // );
+              if (graphDirectionLine.hasNode(stopPoint.stationNaptan)) {
+                dfsFromNode(
+                  graphDirectionLine,
+                  stopPoint.stationNaptan,
+                  (node, attr) => {
+                    mergeStopPoint(
+                      stopPointsReachableFromNearbyStopPointsOnLineGraph,
+                      attr as MatchedStop,
+                      lineName,
+                    );
+                  },
+                );
+              } else {
+                // console.log("Not found");
+              }
+            }
+            const sub = subgraph(
+              graphDirectionLine,
+              stopPointsReachableFromNearbyStopPointsOnLineGraph.nodes(),
+            );
+            for (const stopPoint of stopPointsOnLines[modeName][lineName]) {
+              sub.mergeNode(stopPoint.stationNaptan, {
+                size: GRAPH_NODE_SIZE_POI,
+              });
+            }
+            mergeGraph(sub, finalGraphDirections[direction]);
           }
-          mergeGraph(sub, finalGraphDirections[direction]);
         }
       }
+      let finalGraphMerged = mergeGraphObject(finalGraphDirections);
+      if (reverseGraph) {
+        finalGraphMerged = reverse(finalGraphMerged);
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        finalGraphInward = finalGraphMerged;
+      } else {
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        finalGraphOutward = finalGraphMerged;
+      }
     }
-    let finalGraphMerged = mergeGraphObject(finalGraphDirections);
-    if (reverseGraph) finalGraphMerged = reverse(finalGraphMerged);
-    setDisplayedGraph(finalGraphMerged);
+    setDisplayedGraph(finalGraphOutward);
   };
 
   return (
@@ -275,7 +289,7 @@ const App = () => {
           </div>
         </Box>
         <p>{info}</p>
-        <Map postcodeInfo={postcodeInfo} nearbyStopPoints={nearbyStopPoints} />
+        <Map originInfo={originInfo} nearbyStopPoints={nearbyStopPoints} />
         <GraphComponent graph={displayedGraph} style={{}} />
       </Paper>
     </Container>

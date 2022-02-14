@@ -22,7 +22,7 @@ export const mergeGraph = (inputGraph: Graph, outputGraph: Graph) => {
       outputGraph.mergeNode(node, attributes);
     });
     inputGraph.forEachEdge((edge, attributes, fromNode, toNode) => {
-      outputGraph.mergeEdge(fromNode, toNode, attributes);
+      outputGraph.mergeEdgeWithKey(edge, fromNode, toNode, attributes);
     });
   }
 };
@@ -64,7 +64,10 @@ export const GraphComponent = ({
   graph: Graph;
   style: Record<string, any>;
 }) => (
-  <SigmaContainer style={{ ...defaultSigmaContainerStyle, ...style }}>
+  <SigmaContainer
+    initialSettings={{ renderEdgeLabels: true }}
+    style={{ ...defaultSigmaContainerStyle, ...style }}
+  >
     <GraphFunction graph={graph} />
   </SigmaContainer>
 );
@@ -108,12 +111,18 @@ export const getLineGraphFromLine = async ({
           color: lineColor,
           size: GRAPH_NODE_SIZE,
         });
-        lineGraph.mergeEdge(spFrom[branchDataKey], spTo[branchDataKey], {
-          lineId,
-          type: EDGE_TYPE,
-          size: 2,
-          color: lineColor,
-        });
+        lineGraph.mergeEdgeWithKey(
+          `${lineId}|${spFrom[branchDataKey]}|${spTo[branchDataKey]}`,
+          spFrom[branchDataKey],
+          spTo[branchDataKey],
+          {
+            lineId,
+            type: EDGE_TYPE,
+            size: 2,
+            color: lineColor,
+            label: lineId,
+          },
+        );
       }
     }
   }
