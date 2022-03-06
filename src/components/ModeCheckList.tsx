@@ -44,7 +44,10 @@ const ModeCheckList = ({
             (mode.isTflService || mode.modeName === "national-rail"),
         )
         .map(({ modeName }) => modeName)
-        .filter((modeName) => !MODES_INFO_ALL[modeName].hidden);
+        .filter(
+          (modeName) =>
+            MODES_INFO_ALL[modeName] && !MODES_INFO_ALL[modeName].hidden,
+        );
 
       const chosenByDefault = modeNames.filter(
         (modeName) => MODES_DEFAULT[modeName],
