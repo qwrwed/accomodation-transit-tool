@@ -58,6 +58,13 @@ export const MODES_INFO_ALL: ModeInfoContainer = {
     color: pantonePalette["266"],
     selectedByDefault: true,
   },
+  "elizabeth-line": {
+    label: "Elizabeth Line",
+    hidden: false,
+    icon: "fa-subway",
+    color: pantonePalette["266"],
+    selectedByDefault: true,
+  },
   tram: {
     label: "London Tramlink",
     color: pantonePalette["368"],
