@@ -6,7 +6,7 @@ import * as ExtraMarkers from "leaflet-extra-markers"; // or else TS complains a
 import "@fortawesome/fontawesome-free/css/all.css"; // e.g. using FA icons
 import "leaflet-extra-markers/dist/css/leaflet.extra-markers.min.css"; // Do the L extension.
 import React from "react";
-import {MapContainer, TileLayer, Marker, Popup, useMap, Circle,} from "react-leaflet";
+import {MapContainer, TileLayer, Marker, Popup, useMap, Circle, Polyline} from "react-leaflet";
 import "./Map.css";
 // import the LEM css
 require("leaflet-extra-markers");
@@ -49,7 +49,24 @@ const SetView = ({ latLong }) => {
 //   console.log("postcodeInfo UPDATED");
 // }, [postcodeInfo]);
 
-const Map = ({ originInfo, nearbyStopPoints }) => (
+const Map = ({ originInfo, nearbyStopPoints }) => {
+  const data = [
+    {
+      from_lat: "51.518",
+      from_long: "-0.082",
+      id: "132512",
+      to_lat: "12.92732",
+      to_long: "77.63575",
+    },
+    {
+      from_lat: "51.718",
+      from_long: "-0.382",
+      id: "132513",
+      to_lat: "12.92768",
+      to_long: "77.62664",
+    }
+  ]
+  return (
   <MapContainer center={[51.505, -0.09]} zoom={13} scrollWheelZoom>
     <TileLayer
       attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -85,6 +102,11 @@ const Map = ({ originInfo, nearbyStopPoints }) => (
         </Popup>
       </Marker>
     ))}
+    {/* {data.map(({id, from_lat, from_long, to_lat, to_long}) => {
+      return <Polyline key={id} positions={[
+        [from_lat, from_long], [to_lat, to_long],
+      ]} color={'red'} />
+    })} */}
   </MapContainer>
-);
+)};
 export default Map;

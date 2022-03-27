@@ -1,5 +1,6 @@
 /* eslint-disable no-await-in-loop */
 /* eslint-disable no-restricted-syntax */
+/* eslint-disable */
 import Graph from "graphology";
 import { reverse } from "graphology-operators";
 import React from "react";
@@ -12,9 +13,11 @@ import {
   LINE_COLORS,
   MODES_INFO_ALL,
 } from "../constants";
-import { objectKeysToList } from "../utils";
+import { objectKeysToList, objectMap } from "../utils";
 
 const defaultSigmaContainerStyle = { height: "500px", width: "100%" };
+
+// const fromTos = new Set();
 
 export const mergeGraph = (inputGraph: Graph, outputGraph: Graph) => {
   if (typeof inputGraph !== "undefined") {
@@ -22,13 +25,15 @@ export const mergeGraph = (inputGraph: Graph, outputGraph: Graph) => {
       outputGraph.mergeNode(node, attributes);
     });
     inputGraph.forEachEdge((edge, attributes, fromNode, toNode) => {
-      outputGraph.mergeEdgeWithKey(edge, fromNode, toNode, attributes);
+      const [resKey, resEdgeAdded, resSrcNodeAdded, resTargetNodeAdded] =
+        outputGraph.mergeEdgeWithKey(edge, fromNode, toNode, attributes);
     });
   }
 };
 
 export const mergeGraphList = (graphList: Graph[]) => {
-  const outputGraph = new Graph();
+  const isMulti = graphList.map(({ multi }) => multi).some((v) => v);
+  const outputGraph = new Graph({ multi: isMulti });
   for (const graph of graphList) {
     mergeGraph(graph, outputGraph);
   }
@@ -36,7 +41,8 @@ export const mergeGraphList = (graphList: Graph[]) => {
 };
 
 export const mergeGraphObject = (graphObject: Record<string, Graph>) => {
-  const outputGraph = new Graph();
+  const isMulti = Object.values(objectMap(graphObject, ({ multi }: { multi: boolean }) => multi)).some((v) => v);
+  const outputGraph = new Graph({ multi: isMulti });
   for (const graph of Object.values(graphObject)) {
     mergeGraph(graph, outputGraph);
   }
@@ -81,9 +87,14 @@ export const getLineGraphFromLine = async ({
   direction: Direction;
   branchDataKey?: string;
 }) => {
-  const lineGraph = new Graph();
+  const lineGraph = new Graph({multi: true});
   const routeSequence = await getRoutesOnLine(lineId);
+  const lineName = routeSequence.lineName;
   if (routeSequence === null) return lineGraph;
+  if (!routeSequence.stopPointSequences.length)
+    console.error(
+      `TFL sent no data for line "${lineName}" ${direction}. Data for this line may be missing or incomplete.`,
+    );
   const lineColor =
     LINE_COLORS[routeSequence.lineId] ||
     MODES_INFO_ALL[routeSequence.mode].color;
@@ -120,7 +131,7 @@ export const getLineGraphFromLine = async ({
             type: EDGE_TYPE,
             size: 2,
             color: lineColor,
-            label: lineId,
+            label: lineName,
           },
         );
       }

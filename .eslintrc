@@ -54,6 +54,7 @@
         ]
       }
     ],
+    "no-alert": "off",
     "react/prop-types": 0,
     "object-curly-newline": [
       "error",

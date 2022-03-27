@@ -4,7 +4,7 @@
 /* eslint-disable no-await-in-loop */
 /* eslint-disable no-restricted-syntax */
 /* eslint-disable no-param-reassign */
-// /* eslint-disable */
+/* eslint-disable */
 import React, { ChangeEvent, useState } from "react";
 // import React, { useState } from "react";
 // import Button from "react-bootstrap/Button";
@@ -146,18 +146,23 @@ const App = () => {
       )}): ${summaryText.join(", ")}`,
     );
 
-    // organise the nearby stopPoints by mode and line {mode: {line: [stopPoint]}}
+    // organise the nearby stopPoints by mode and line; {mode: {line: [stopPoint]}}
     const nearbyLineIdList: string[] = [];
-    const stopPointsOnLines: Record<ModeId, Record<LineId, StopPoint[]>> = {};
+    const nearbyStopPointsOnLines: Record<
+      ModeId,
+      Record<LineId, StopPoint[]>
+    > = {};
     for (const stopPoint of stopPoints) {
       for (const { modeName, lineIdentifier } of stopPoint.lineModeGroups) {
         if (chosenModesSet.has(modeName)) {
           for (const line of lineIdentifier) {
-            if (typeof stopPointsOnLines?.[modeName]?.[line] === "undefined") {
-              setNestedObject(stopPointsOnLines, [modeName, line], []);
+            if (
+              typeof nearbyStopPointsOnLines?.[modeName]?.[line] === "undefined"
+            ) {
+              setNestedObject(nearbyStopPointsOnLines, [modeName, line], []);
               nearbyLineIdList.push(line);
             }
-            stopPointsOnLines[modeName][line].push(stopPoint);
+            nearbyStopPointsOnLines[modeName][line].push(stopPoint);
           }
         }
       }
@@ -167,12 +172,12 @@ const App = () => {
     // const directions: Direction[] = ["inbound"];
     const directions: Direction[] = ["inbound", "outbound"];
 
-    let finalGraphOutward = new Graph();
-    let finalGraphInward = new Graph();
+    let finalGraphOutward = new Graph({multi: true});
+    let finalGraphInward = new Graph({multi: true});
 
     for (const reverseGraph of [true, false]) {
       const finalGraphDirections: Record<string, Graph> =
-        mapArrayOfKeysToObject(directions, () => new Graph());
+        mapArrayOfKeysToObject(directions, () => new Graph({multi: true}));
 
       for (const direction of directions) {
         const lineGraphObjectInDirection =
@@ -185,16 +190,18 @@ const App = () => {
         // const lineGraphObjectInDirectionReversed: Record<string, Graph> =
         //   objectMap(lineGraphObjectInDirection, (graph: Graph) => reverse(graph));
 
-        finalGraphDirections[direction] = new Graph();
+        finalGraphDirections[direction] = new Graph({multi: true});
 
-        for (const modeName in stopPointsOnLines) {
-          for (const lineName in stopPointsOnLines[modeName]) {
+        for (const modeName in nearbyStopPointsOnLines) {
+          for (const lineId in nearbyStopPointsOnLines[modeName]) {
             const stopPointsReachableFromNearbyStopPointsOnLineGraph =
-              new Graph();
-            const graphDirectionLine = lineGraphObjectInDirection[lineName];
-            for (const stopPoint of stopPointsOnLines[modeName][lineName]) {
+              new Graph({multi: true});
+            const graphDirectionLine = lineGraphObjectInDirection[lineId];
+            for (const stopPoint of nearbyStopPointsOnLines[modeName][
+              lineId
+            ]) {
               // console.log(
-              //   `Graphing line "${lineName}" stop "${stopPoint.commonName}" (${stopPoint.stationNaptan}) in direction ${direction}`,
+              //   `Graphing line "${lineName}" stop "${stopPoint.commonName}" (${stopPoint.stationNaptan}) in direction "${direction}" (reverseGraph=${reverseGraph})`,
               // );
               if (graphDirectionLine.hasNode(stopPoint.stationNaptan)) {
                 dfsFromNode(
@@ -204,7 +211,7 @@ const App = () => {
                     mergeStopPoint(
                       stopPointsReachableFromNearbyStopPointsOnLineGraph,
                       attr as MatchedStop,
-                      lineName,
+                      lineId,
                     );
                   },
                 );
@@ -216,7 +223,9 @@ const App = () => {
               graphDirectionLine,
               stopPointsReachableFromNearbyStopPointsOnLineGraph.nodes(),
             );
-            for (const stopPoint of stopPointsOnLines[modeName][lineName]) {
+            for (const stopPoint of nearbyStopPointsOnLines[modeName][
+              lineId
+            ]) {
               sub.mergeNode(stopPoint.stationNaptan, {
                 size: GRAPH_NODE_SIZE_POI,
               });
@@ -235,7 +244,9 @@ const App = () => {
         finalGraphOutward = finalGraphMerged;
       }
     }
+
     setDisplayedGraph(finalGraphOutward);
+
   };
 
   return (

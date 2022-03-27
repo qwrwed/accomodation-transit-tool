@@ -30,7 +30,7 @@ export const MODES_INFO_ALL: ModeInfoContainer = {
     label: "Docklands Light Railway",
     color: pantonePalette["326"],
     icon: "fa-subway",
-    selectedByDefault: true,
+    selectedByDefault: false,
   },
   "national-rail": {
     label: "National Rail",
@@ -40,7 +40,7 @@ export const MODES_INFO_ALL: ModeInfoContainer = {
   overground: {
     label: "London Overground",
     color: pantonePalette["158"],
-    selectedByDefault: true,
+    selectedByDefault: false,
     icon: "fa-subway",
   },
   "replacement-bus": { hidden: true },
@@ -56,20 +56,20 @@ export const MODES_INFO_ALL: ModeInfoContainer = {
     hidden: false,
     icon: "fa-train",
     color: pantonePalette["266"],
-    selectedByDefault: true,
+    selectedByDefault: false,
   },
   "elizabeth-line": {
     label: "Elizabeth Line",
     hidden: false,
     icon: "fa-subway",
     color: pantonePalette["266"],
-    selectedByDefault: true,
+    selectedByDefault: false,
   },
   tram: {
     label: "London Tramlink",
     color: pantonePalette["368"],
     icon: "fa-subway",
-    selectedByDefault: true,
+    selectedByDefault: false,
   },
   tube: {
     label: "London Underground",
@@ -164,9 +164,10 @@ export const DEFAULT_RADIUS = 300;
 // export const DEFAULT_POSTCODE = "SE1 9SG"; // london bridge bus station
 // export const DEFAULT_POSTCODE = "SW1A 2JR"; // westminster tube station
 // export const DEFAULT_POSTCODE = "E14 0AF"; // poplar DLR station
-// export const DEFAULT_POSTCODE = "E14 8AB"; // westferry DLR station (has trains from West India Quay, but not to)
-export const DEFAULT_POSTCODE = "EC2M 7PY"; // liverpool street
+// export const DEFAULT_POSTCODE = "E14 8AB"; // westferry DLR station (has trains from West India Quay, but not to it)
+// export const DEFAULT_POSTCODE = "EC2M 7PY"; // liverpool street
 // export const DEFAULT_POSTCODE = "CR0 2AF"; // west croydon (trams)
+export const DEFAULT_POSTCODE = "W12 8EG"; // goldhawk road (h&c, circle in parallel)
 
 // export const EDGE_TYPE = "line";
 export const EDGE_TYPE = "arrow";
