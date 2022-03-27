@@ -53,6 +53,7 @@ import {
 import { components as StopPointComponents } from "../../types/StopPoint";
 import { components as LineComponents } from "../../types/Line";
 import ModeCheckList from "../ModeCheckList";
+import { AnyNaptrRecord } from "dns";
 
 // type LineModeGroup = StopPointComponents["schemas"]["Tfl-8"];
 type StopPoint = StopPointComponents["schemas"]["Tfl-11"];
@@ -79,12 +80,14 @@ const App = () => {
   const [postcode, setPostcode] = useState(DEFAULT_POSTCODE);
   const [radius, setRadius] = useState(DEFAULT_RADIUS);
   const [displayedGraph, setDisplayedGraph] = useState(new Graph());
+  const [graphSerialized, setGraphSerialized] = useState<any>();
   // const [reverseGraph, setReverseGraph] = useState(true);
   // const reverseGraph = false;
 
   // map data
   const [originInfo, setOriginInfo] =
     useState<{ postcode: string; latLong: LatLon; radius: number }>();
+  const [mapLineSegments, setMapLineSegments] = useState<any>();
   const [nearbyStopPoints, setNearbyStopPoints] = useState<StopPoint[]>([]);
 
   const [getModeCheckList, setModeCheckList] = useState<string[]>([]);
@@ -176,6 +179,7 @@ const App = () => {
     let finalGraphInward = new Graph({multi: true});
 
     for (const reverseGraph of [true, false]) {
+    // for (const reverseGraph of [false]) {
       const finalGraphDirections: Record<string, Graph> =
         mapArrayOfKeysToObject(directions, () => new Graph({multi: true}));
 
@@ -186,9 +190,6 @@ const App = () => {
             [direction],
             reverseGraph,
           );
-
-        // const lineGraphObjectInDirectionReversed: Record<string, Graph> =
-        //   objectMap(lineGraphObjectInDirection, (graph: Graph) => reverse(graph));
 
         finalGraphDirections[direction] = new Graph({multi: true});
 
@@ -244,9 +245,11 @@ const App = () => {
         finalGraphOutward = finalGraphMerged;
       }
     }
+    const _displayedGraph = finalGraphOutward
 
-    setDisplayedGraph(finalGraphOutward);
-
+    setDisplayedGraph(_displayedGraph.copy()); // changes input for some reason, so pass a copy
+      setGraphSerialized(_displayedGraph.export());
+    
   };
 
   return (
@@ -300,8 +303,8 @@ const App = () => {
           </div>
         </Box>
         <p>{info}</p>
-        <Map originInfo={originInfo} nearbyStopPoints={nearbyStopPoints} />
-        <GraphComponent graph={displayedGraph} style={{}} />
+        <Map originInfo={originInfo} nearbyStopPoints={nearbyStopPoints} graphSerialized={graphSerialized}/>
+        {/* <GraphComponent graph={displayedGraph} style={{}} /> */}
       </Paper>
     </Container>
   );

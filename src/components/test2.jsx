@@ -19,7 +19,6 @@ import "./App/App.css";
 const App = () => {
 
   const polyline = [[51.51, -0.12], [51.51, -0.1], [51.505, -0.09]];
-
   const lineWeight = 10;
   const linesOnSegment = ["red", "blue", "green", "yellow"];
   const segmentWidth = linesOnSegment.length * lineWeight ;

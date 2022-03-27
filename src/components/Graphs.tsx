@@ -17,8 +17,6 @@ import { objectKeysToList, objectMap } from "../utils";
 
 const defaultSigmaContainerStyle = { height: "500px", width: "100%" };
 
-// const fromTos = new Set();
-
 export const mergeGraph = (inputGraph: Graph, outputGraph: Graph) => {
   if (typeof inputGraph !== "undefined") {
     inputGraph.forEachNode((node, attributes) => {
@@ -132,6 +130,7 @@ export const getLineGraphFromLine = async ({
             size: 2,
             color: lineColor,
             label: lineName,
+            direction,
           },
         );
       }
