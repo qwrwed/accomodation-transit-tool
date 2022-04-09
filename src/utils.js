@@ -113,3 +113,13 @@ export const roundAccurately = (number, decimalPlaces = 1) => Number(`${Math.rou
   // Return the last object in the hierarchy:
   return base;
 };
+
+export const catchHttpError = (fn) => {
+  return (async function (...args){
+    try {
+      return await fn(...args);
+    } catch (e) {
+      alert(`${e.response.data} (Error code ${e.response.status})`);
+    }
+  })
+};

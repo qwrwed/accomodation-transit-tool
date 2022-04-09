@@ -168,7 +168,8 @@ export const DEFAULT_RADIUS = 300;
 // export const DEFAULT_POSTCODE = "EC2M 7PY"; // liverpool street
 // export const DEFAULT_POSTCODE = "CR0 2AF"; // west croydon (trams)
 // export const DEFAULT_POSTCODE = "W12 8EG"; // goldhawk road (h&c, circle in parallel)
-export const DEFAULT_POSTCODE = "N1C 4TB"; // KGX/STP
+// export const DEFAULT_POSTCODE = "N1C 4TB"; // KGX/STP
+export const DEFAULT_POSTCODE = process.env.REACT_APP_DEFAULT_POSTCODE || "";
 
 // export const EDGE_TYPE = "line";
 export const EDGE_TYPE = "arrow";

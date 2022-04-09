@@ -7,11 +7,13 @@ import { getTFLApiKey } from "../api";
 import { MODES_DEFAULT, MODES_INFO_ALL } from "../constants";
 import CheckBoxTreeView from "./CheckBoxTreeView";
 import { components as LineComponents } from "../types/Line";
+import { catchHttpError } from "../utils";
 
 type Mode = LineComponents["schemas"]["Tfl"];
 type Line = LineComponents["schemas"]["Tfl-19"];
 
 const lineInstance = new LineFunctions(getTFLApiKey());
+const getModes = () => lineInstance.getModes();
 
 const ModeCheckList = ({
   stateGetter,
@@ -35,7 +37,9 @@ const ModeCheckList = ({
         name: parentLabel,
         children: [],
       };
-      const modes = (await lineInstance.getModes()) as Mode[];
+      let modes: Mode[] = [];
+
+      modes = (await catchHttpError(getModes)()) as unknown as Mode[];
       const modeNames = modes
         .filter(
           (mode) =>
