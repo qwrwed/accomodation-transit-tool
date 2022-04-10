@@ -40,7 +40,7 @@ export const MODES_INFO_ALL: ModeInfoContainer = {
   overground: {
     label: "London Overground",
     color: pantonePalette["158"],
-    selectedByDefault: false,
+    selectedByDefault: true,
     icon: "fa-subway",
   },
   "replacement-bus": { hidden: true },
@@ -158,7 +158,7 @@ export const NAPTAN_STOPTYPES = [
 export const GRAPH_NODE_SIZE = 2;
 export const GRAPH_NODE_SIZE_POI = 3;
 
-export const DEFAULT_RADIUS = 300;
+export const DEFAULT_RADIUS = 800;
 
 // export const DEFAULT_POSTCODE = "SE1 6TG"; // example location in API docs
 // export const DEFAULT_POSTCODE = "SE1 9SG"; // london bridge bus station

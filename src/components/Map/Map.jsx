@@ -14,6 +14,7 @@ import "leaflet-polylineoffset";
 import { LINE_COLORS } from "../../constants";
 import Graph from "graphology";
 
+const ATTRIBUTION = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
 
 const originMarker = L.ExtraMarkers.icon({
   icon: "fa-building",
@@ -87,7 +88,7 @@ const Map = ({ originInfo, nearbyStopPoints, graphSerialized }) => {
   return (
     <MapContainer center={[51.505, -0.09]} zoom={13} scrollWheelZoom>
       <TileLayer
-        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        attribution={ATTRIBUTION}
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
       {originInfo && (
@@ -105,7 +106,7 @@ const Map = ({ originInfo, nearbyStopPoints, graphSerialized }) => {
           <Circle center={originInfo.latLong} radius={originInfo.radius} />
         </>
       )}
-      {nearbyStopPoints.map((stopPoint) => (
+      {/* {nearbyStopPoints.map((stopPoint) => (
         <Marker
           position={[stopPoint.lat, stopPoint.lon]}
           key={stopPoint.naptanId}
@@ -119,11 +120,11 @@ const Map = ({ originInfo, nearbyStopPoints, graphSerialized }) => {
             {stopPoint.lines.map(({ name }) => name).join(", ")}
           </Popup>
         </Marker>
-      ))}
+      ))} */}
       {mapLineSegments && mapLineSegments.map((seg, i) => {
         const lineWeight = 10;
         const segmentWidth = seg.lineIds.length * lineWeight;
-        return (<>
+        return (<React.Fragment key={`pl-seg_${i}`}>
           {seg.lineIds.map((lineId, j) => (<Polyline
             color={LINE_COLORS[lineId]}
             positions={seg.lineCoords}
@@ -132,7 +133,7 @@ const Map = ({ originInfo, nearbyStopPoints, graphSerialized }) => {
             weight={lineWeight}
           // lineCap={"butt"}
           />))}
-        </>)
+        </React.Fragment>)
       })}
       {stations && stations.map((station, i) => {
         const lineWeight = 10;
@@ -143,7 +144,8 @@ const Map = ({ originInfo, nearbyStopPoints, graphSerialized }) => {
           fillColor="#ccc"
           fillOpacity={0.5}
           opacity={0.5}
-          weight={4}>
+          weight={4}
+          key={station.label}>
             <Popup>
               {station.label}
             </Popup>

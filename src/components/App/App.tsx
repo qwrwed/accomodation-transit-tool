@@ -5,9 +5,11 @@
 /* eslint-disable no-restricted-syntax */
 /* eslint-disable no-param-reassign */
 /* eslint-disable */
+// @ts-nocheck
 import React, { ChangeEvent, useState } from "react";
 // import React, { useState } from "react";
 // import Button from "react-bootstrap/Button";
+import toast, { Toaster } from "react-hot-toast";
 
 import Graph from "graphology";
 import { dfsFromNode } from "graphology-traversal/dfs";
@@ -48,12 +50,12 @@ import {
   GraphComponent,
   mergeGraphObject,
   mergeGraph,
+  makeLineGraphUndirected,
 } from "../Graphs";
 
 import { components as StopPointComponents } from "../../types/StopPoint";
 import { components as LineComponents } from "../../types/Line";
 import ModeCheckList from "../ModeCheckList";
-import { AnyNaptrRecord } from "dns";
 
 // type LineModeGroup = StopPointComponents["schemas"]["Tfl-8"];
 type StopPoint = StopPointComponents["schemas"]["Tfl-11"];
@@ -74,6 +76,20 @@ const mergeStopPoint = (
     color: LINE_COLORS[lineName],
   });
 };
+
+const withToast = (fn: any, info: any, show = true) => {
+  return (async function (...args: any[]) {
+    const promise = fn(...args);
+    if (show) {
+      toast.promise(promise, {
+        loading: info,
+        success: info,
+        error: info,
+      })
+    }
+    return promise;
+  })
+}
 
 const App = () => {
   const [info, setInfo] = useState("Waiting for search...");
@@ -100,24 +116,28 @@ const App = () => {
   };
 
   const handleButtonClick = async () => {
+    let _info
+    const toastId = "toast";
+
     // convert postcode to latitude, longitude
-    setInfo(`Getting latitude/longitude of postcode ${postcode}...`);
-    // const latLong: [number, number] = await getLatLonFromPostCode(postcode);
+    _info = `Getting latitude/longitude of postcode ${postcode}...`
+    setInfo(_info);
+    toast.loading(_info, {id: toastId});
     const latLong = await getLatLonFromPostCode(postcode);
+    toast.success(_info, {id: toastId});
     setOriginInfo({ postcode, latLong, radius });
+    
 
     // get list of stopPoints within radius
-    setInfo(
-      `Searching for stops within ${radius} metres of ${postcode} (${JSON.stringify(
-        latLong,
-      )})...`,
-    );
+    _info = `Searching for stops within ${radius} metres of ${postcode} (${JSON.stringify(latLong)})...`
+    setInfo(_info);
+    toast.loading(_info, {id: toastId});
     let stopPoints = await getStopPointsByRadius(
       NAPTAN_STOPTYPES,
       latLong,
       radius,
     );
-
+    toast.success(_info, {id: toastId});
     // console.log(JSON.parse(JSON.stringify({ stopPoints })));
 
     // check for no result
@@ -125,7 +145,7 @@ const App = () => {
       setInfo(`No stops found within ${radius} metres of postcode ${postcode}`);
       return;
     }
-
+    
     const chosenModesSet = new Set(getModeCheckList);
     stopPoints = await filterStopPoints(
       stopPoints,
@@ -149,6 +169,8 @@ const App = () => {
       )}): ${summaryText.join(", ")}`,
     );
 
+    _info = "Plotting map..."
+    toast.loading(_info, {id: toastId});
     // organise the nearby stopPoints by mode and line; {mode: {line: [stopPoint]}}
     const nearbyLineIdList: string[] = [];
     const nearbyStopPointsOnLines: Record<
@@ -170,18 +192,18 @@ const App = () => {
         }
       }
     }
-
+    const multi = true;
     // const directions: Direction[] = ["outbound"];
     // const directions: Direction[] = ["inbound"];
     const directions: Direction[] = ["inbound", "outbound"];
 
-    let finalGraphOutward = new Graph({multi: true});
-    let finalGraphInward = new Graph({multi: true});
+    let finalGraphOutward = new Graph({ multi });
+    let finalGraphInward = new Graph({ multi });
 
     for (const reverseGraph of [true, false]) {
-    // for (const reverseGraph of [false]) {
+      // for (const reverseGraph of [false]) {
       const finalGraphDirections: Record<string, Graph> =
-        mapArrayOfKeysToObject(directions, () => new Graph({multi: true}));
+        mapArrayOfKeysToObject(directions, () => new Graph({ multi }));
 
       for (const direction of directions) {
         const lineGraphObjectInDirection =
@@ -189,14 +211,15 @@ const App = () => {
             nearbyLineIdList,
             [direction],
             reverseGraph,
+            false,
           );
 
-        finalGraphDirections[direction] = new Graph({multi: true});
+        finalGraphDirections[direction] = new Graph({ multi });
 
         for (const modeName in nearbyStopPointsOnLines) {
           for (const lineId in nearbyStopPointsOnLines[modeName]) {
             const stopPointsReachableFromNearbyStopPointsOnLineGraph =
-              new Graph({multi: true});
+              new Graph({ multi });
             const graphDirectionLine = lineGraphObjectInDirection[lineId];
             for (const stopPoint of nearbyStopPointsOnLines[modeName][
               lineId
@@ -220,17 +243,20 @@ const App = () => {
                 // console.log("Not found");
               }
             }
+            // let sub = graphDirectionLine;
+            // sub = makeLineGraphUndirected(sub);
+            
             const sub = subgraph(
               graphDirectionLine,
               stopPointsReachableFromNearbyStopPointsOnLineGraph.nodes(),
             );
-            for (const stopPoint of nearbyStopPointsOnLines[modeName][
-              lineId
-            ]) {
-              sub.mergeNode(stopPoint.stationNaptan, {
-                size: GRAPH_NODE_SIZE_POI,
-              });
-            }
+            // for (const stopPoint of nearbyStopPointsOnLines[modeName][
+            //   lineId
+            // ]) {
+            //   sub.mergeNode(stopPoint.stationNaptan, {
+            //     size: GRAPH_NODE_SIZE_POI,
+            //   });
+            // }
             mergeGraph(sub, finalGraphDirections[direction]);
           }
         }
@@ -248,8 +274,8 @@ const App = () => {
     const _displayedGraph = finalGraphOutward
 
     setDisplayedGraph(_displayedGraph.copy()); // changes input for some reason, so pass a copy
-      setGraphSerialized(_displayedGraph.export());
-    
+    setGraphSerialized(makeLineGraphUndirected(_displayedGraph).export());
+    toast.success(_info, {id: toastId})
   };
 
   return (
@@ -303,9 +329,12 @@ const App = () => {
           </div>
         </Box>
         <p>{info}</p>
-        <Map originInfo={originInfo} nearbyStopPoints={nearbyStopPoints} graphSerialized={graphSerialized}/>
-        {/* <GraphComponent graph={displayedGraph} style={{}} /> */}
+        <Map originInfo={originInfo} nearbyStopPoints={nearbyStopPoints} graphSerialized={graphSerialized} />
+        <GraphComponent graph={displayedGraph} style={{}} />
+        <p>Powered by TfL Open Data</p>
+        <p>Contains OS data © Crown copyright and database rights (2016) and Geomni UK Map data © and database rights (2019)</p>
       </Paper>
+      <Toaster />
     </Container>
   );
 };

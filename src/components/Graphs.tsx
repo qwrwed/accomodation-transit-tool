@@ -80,12 +80,14 @@ export const getLineGraphFromLine = async ({
   lineId,
   direction,
   branchDataKey = "stationId",
+  multi = true,
 }: {
   lineId: LineId;
   direction: Direction;
   branchDataKey?: string;
+  multi?: boolean;
 }) => {
-  const lineGraph = new Graph({multi: true});
+  const lineGraph = new Graph({multi});
   const routeSequence = await getRoutesOnLine(lineId);
   const lineName = routeSequence.lineName;
   if (routeSequence === null) return lineGraph;
@@ -120,10 +122,13 @@ export const getLineGraphFromLine = async ({
           color: lineColor,
           size: GRAPH_NODE_SIZE,
         });
+        const fromTo = [spFrom[branchDataKey], spTo[branchDataKey]]
+        // fromTo.sort();
         lineGraph.mergeEdgeWithKey(
-          `${lineId}|${spFrom[branchDataKey]}|${spTo[branchDataKey]}`,
-          spFrom[branchDataKey],
-          spTo[branchDataKey],
+          JSON.stringify({lineId, fromTo}),
+          // `${lineId}|${fromTo}`,
+          fromTo[0],
+          fromTo[1],
           {
             lineId,
             type: EDGE_TYPE,
@@ -139,15 +144,30 @@ export const getLineGraphFromLine = async ({
   return lineGraph;
 };
 
+export const makeLineGraphUndirected = (inputGraph: Graph) => {
+  const outputGraph = new Graph({multi: inputGraph.multi})
+  inputGraph.forEachNode((node, attributes) => {
+    outputGraph.mergeNode(node, attributes);
+  });
+  inputGraph.forEachEdge((edge, attributes, fromNode, toNode) => {
+    const edgeJson = JSON.parse(edge)
+    const { fromTo } = edgeJson
+    fromTo.sort()
+    outputGraph.mergeEdgeWithKey(JSON.stringify(edgeJson), fromTo[0], fromTo[1], attributes);
+  });
+  return outputGraph;
+}
+
 export const getLineGraphObjectFromLineIdList = async (
   lineIdList: LineId[],
   directionList: Direction[] = ["outbound"],
   reverseGraph = false,
+  multi = true,
 ) => {
   const lineGraphObject: Record<LineId, Graph> = {};
   for (const lineId of lineIdList) {
     for (const direction of directionList) {
-      let lineGraph = await getLineGraphFromLine({ lineId, direction });
+      let lineGraph = await getLineGraphFromLine({ lineId, direction, multi });
       if (reverseGraph) lineGraph = reverse(lineGraph);
       lineGraphObject[lineId] = lineGraph;
     }
