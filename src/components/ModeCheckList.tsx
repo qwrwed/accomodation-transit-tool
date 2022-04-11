@@ -1,19 +1,33 @@
 /* eslint-disable no-restricted-syntax */
 /* eslint-disable no-await-in-loop */
+// @ts-nocheck
 import React, { useEffect, useState } from "react";
 
-import { Line as LineFunctions } from "tfl-api-wrapper";
-import { getTFLApiKey } from "../api";
 import { MODES_DEFAULT, MODES_INFO_ALL } from "../constants";
 import CheckBoxTreeView from "./CheckBoxTreeView";
 import { components as LineComponents } from "../types/Line";
 import { catchHttpError } from "../utils";
+import { getModes, getLinesByModes } from "../api";
 
 type Mode = LineComponents["schemas"]["Tfl"];
 type Line = LineComponents["schemas"]["Tfl-19"];
 
-const lineInstance = new LineFunctions(getTFLApiKey());
-const getModes = () => lineInstance.getModes();
+// const linesToModes = {};
+// {
+//   const modes = await getModes();
+//   let modeNames = modes.map(({ modeName }) => modeName);
+//   // remove elizabeth line result while api does not support it
+//   modeNames = modeNames.filter((modeName) => modeName !== "elizabeth-line");
+//   const lines = await getLinesByModes(modeNames);
+//   for (const { modeName, id: lineId } of lines) {
+//     if (lineId in linesToModes && linesToModes[lineId] !== modeName) {
+//       console.warn(`line ${lineId} already corresponds to mode ${modeName}`);
+//     } else {
+//       linesToModes[lineId] = modeName;
+//     }
+//   }
+// }
+// export { linesToModes };
 
 const ModeCheckList = ({
   stateGetter,
@@ -66,7 +80,7 @@ const ModeCheckList = ({
         };
         if (useLines) {
           const grandchildren = (
-            (await lineInstance.getAllByModes([modeName])) as Line[]
+            (await getLinesByModes([modeName])) as Line[]
           ).map(({ id, name }) => ({
             id,
             name,

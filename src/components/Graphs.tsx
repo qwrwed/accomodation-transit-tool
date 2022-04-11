@@ -13,13 +13,24 @@ import {
   LINE_COLORS,
   MODES_INFO_ALL,
 } from "../constants";
-import { objectKeysToList, objectMap } from "../utils";
+import { objectKeysToList, objectMap, setUnion } from "../utils";
 
 const defaultSigmaContainerStyle = { height: "500px", width: "100%" };
 
-export const mergeGraph = (inputGraph: Graph, outputGraph: Graph) => {
+export const mergeGraph = (inputGraph: Graph, outputGraph: Graph, setAttributes: string[] = []) => {
   if (typeof inputGraph !== "undefined") {
     inputGraph.forEachNode((node, attributes) => {
+      for (const setName of setAttributes){
+        let currentAttribute = new Set();
+        if (outputGraph.hasNode(node)){
+          currentAttribute = outputGraph.getNodeAttribute(node, setName) || new Set();
+        }
+        const incomingAttribute = inputGraph.getNodeAttribute(node, setName) || new Set();
+        const newAttribute = setUnion(currentAttribute, incomingAttribute);
+        if (newAttribute.size > 0){
+          attributes[setName] = newAttribute;
+        }
+      }
       outputGraph.mergeNode(node, attributes);
     });
     inputGraph.forEachEdge((edge, attributes, fromNode, toNode) => {
@@ -98,9 +109,11 @@ export const getLineGraphFromLine = async ({
   const lineColor =
     LINE_COLORS[routeSequence.lineId] ||
     MODES_INFO_ALL[routeSequence.mode].color;
+  const { mode: modeName } = routeSequence
+  const lineModes = new Set([JSON.stringify([lineId, modeName])])
   for (const stopPointSequence of routeSequence.stopPointSequences) {
     if (stopPointSequence.direction === direction) {
-      const stopPointArray = stopPointSequence.stopPoint;
+      const stopPointArray = stopPointSequence.stopPoint;    
       for (let i = 0; i < stopPointArray.length - 1; i += 1) {
         const spFrom = stopPointArray[i];
         const spTo = stopPointArray[i + 1];
@@ -112,6 +125,7 @@ export const getLineGraphFromLine = async ({
             label: spFrom.name,
             color: lineColor,
             size: GRAPH_NODE_SIZE,
+            lineModes,
           });
         }
         lineGraph.mergeNode(spTo[branchDataKey], {
@@ -121,6 +135,7 @@ export const getLineGraphFromLine = async ({
           label: spTo.name,
           color: lineColor,
           size: GRAPH_NODE_SIZE,
+          lineModes,
         });
         const fromTo = [spFrom[branchDataKey], spTo[branchDataKey]]
         // fromTo.sort();
@@ -131,6 +146,7 @@ export const getLineGraphFromLine = async ({
           fromTo[1],
           {
             lineId,
+            modeName,
             type: EDGE_TYPE,
             size: 2,
             color: lineColor,
@@ -169,6 +185,7 @@ export const getLineGraphObjectFromLineIdList = async (
     for (const direction of directionList) {
       let lineGraph = await getLineGraphFromLine({ lineId, direction, multi });
       if (reverseGraph) lineGraph = reverse(lineGraph);
+      // console.log(JSON.parse(JSON.stringify(lineGraph)));
       lineGraphObject[lineId] = lineGraph;
     }
   }

@@ -1,3 +1,6 @@
+/* eslint-disable no-underscore-dangle */
+/* eslint-disable @typescript-eslint/naming-convention */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable object-curly-newline */
 /* eslint-disable max-len */
 /* eslint-disable guard-for-in */
@@ -6,7 +9,7 @@
 /* eslint-disable no-param-reassign */
 /* eslint-disable */
 // @ts-nocheck
-import React, { ChangeEvent, useState } from "react";
+import React, { ChangeEvent, useState, useEffect } from "react";
 // import React, { useState } from "react";
 // import Button from "react-bootstrap/Button";
 import toast, { Toaster } from "react-hot-toast";
@@ -43,6 +46,7 @@ import {
   getLatLonFromPostCode,
   getStopPointsByRadius,
   filterStopPoints,
+  lineModeDictionary,
 } from "../../api";
 
 import {
@@ -59,7 +63,6 @@ import ModeCheckList from "../ModeCheckList";
 
 // type LineModeGroup = StopPointComponents["schemas"]["Tfl-8"];
 type StopPoint = StopPointComponents["schemas"]["Tfl-11"];
-
 type MatchedStop = LineComponents["schemas"]["Tfl-20"];
 
 const mergeStopPoint = (
@@ -77,19 +80,18 @@ const mergeStopPoint = (
   });
 };
 
-const withToast = (fn: any, info: any, show = true) => {
-  return (async function (...args: any[]) {
+const withToast = (fn: any, info: any, show = true) =>
+  async function (...args: any[]) {
     const promise = fn(...args);
     if (show) {
       toast.promise(promise, {
         loading: info,
         success: info,
         error: info,
-      })
+      });
     }
     return promise;
-  })
-}
+  };
 
 const App = () => {
   const [info, setInfo] = useState("Waiting for search...");
@@ -108,6 +110,12 @@ const App = () => {
 
   const [getModeCheckList, setModeCheckList] = useState<string[]>([]);
 
+  // useEffect(() => {
+  //   (async () => {
+  //     console.log(await lineModeDictionary);
+  //   })();
+  // }, []);
+
   const handleRadiusChange = (e: ChangeEvent<HTMLInputElement>) => {
     // const handleRadiusChange = (e) => {
     // https://stackoverflow.com/a/43177957
@@ -116,28 +124,29 @@ const App = () => {
   };
 
   const handleButtonClick = async () => {
-    let _info
+    let _info;
     const toastId = "toast";
 
     // convert postcode to latitude, longitude
-    _info = `Getting latitude/longitude of postcode ${postcode}...`
+    _info = `Getting latitude/longitude of postcode ${postcode}...`;
     setInfo(_info);
-    toast.loading(_info, {id: toastId});
+    toast.loading(_info, { id: toastId });
     const latLong = await getLatLonFromPostCode(postcode);
-    toast.success(_info, {id: toastId});
+    toast.success(_info, { id: toastId });
     setOriginInfo({ postcode, latLong, radius });
-    
 
     // get list of stopPoints within radius
-    _info = `Searching for stops within ${radius} metres of ${postcode} (${JSON.stringify(latLong)})...`
+    _info = `Searching for stops within ${radius} metres of ${postcode} (${JSON.stringify(
+      latLong,
+    )})...`;
     setInfo(_info);
-    toast.loading(_info, {id: toastId});
+    toast.loading(_info, { id: toastId });
     let stopPoints = await getStopPointsByRadius(
       NAPTAN_STOPTYPES,
       latLong,
       radius,
     );
-    toast.success(_info, {id: toastId});
+    toast.success(_info, { id: toastId });
     // console.log(JSON.parse(JSON.stringify({ stopPoints })));
 
     // check for no result
@@ -145,7 +154,7 @@ const App = () => {
       setInfo(`No stops found within ${radius} metres of postcode ${postcode}`);
       return;
     }
-    
+
     const chosenModesSet = new Set(getModeCheckList);
     stopPoints = await filterStopPoints(
       stopPoints,
@@ -169,8 +178,8 @@ const App = () => {
       )}): ${summaryText.join(", ")}`,
     );
 
-    _info = "Plotting map..."
-    toast.loading(_info, {id: toastId});
+    _info = "Plotting map...";
+    toast.loading(_info, { id: toastId });
     // organise the nearby stopPoints by mode and line; {mode: {line: [stopPoint]}}
     const nearbyLineIdList: string[] = [];
     const nearbyStopPointsOnLines: Record<
@@ -221,9 +230,7 @@ const App = () => {
             const stopPointsReachableFromNearbyStopPointsOnLineGraph =
               new Graph({ multi });
             const graphDirectionLine = lineGraphObjectInDirection[lineId];
-            for (const stopPoint of nearbyStopPointsOnLines[modeName][
-              lineId
-            ]) {
+            for (const stopPoint of nearbyStopPointsOnLines[modeName][lineId]) {
               // console.log(
               //   `Graphing line "${lineName}" stop "${stopPoint.commonName}" (${stopPoint.stationNaptan}) in direction "${direction}" (reverseGraph=${reverseGraph})`,
               // );
@@ -245,7 +252,6 @@ const App = () => {
             }
             // let sub = graphDirectionLine;
             // sub = makeLineGraphUndirected(sub);
-            
             const sub = subgraph(
               graphDirectionLine,
               stopPointsReachableFromNearbyStopPointsOnLineGraph.nodes(),
@@ -257,7 +263,7 @@ const App = () => {
             //     size: GRAPH_NODE_SIZE_POI,
             //   });
             // }
-            mergeGraph(sub, finalGraphDirections[direction]);
+            mergeGraph(sub, finalGraphDirections[direction], ["lineModes"]);
           }
         }
       }
@@ -271,11 +277,11 @@ const App = () => {
         finalGraphOutward = finalGraphMerged;
       }
     }
-    const _displayedGraph = finalGraphOutward
+    const _displayedGraph = finalGraphOutward;
 
     setDisplayedGraph(_displayedGraph.copy()); // changes input for some reason, so pass a copy
     setGraphSerialized(makeLineGraphUndirected(_displayedGraph).export());
-    toast.success(_info, {id: toastId})
+    toast.success(_info, { id: toastId });
   };
 
   return (
@@ -329,10 +335,17 @@ const App = () => {
           </div>
         </Box>
         <p>{info}</p>
-        <Map originInfo={originInfo} nearbyStopPoints={nearbyStopPoints} graphSerialized={graphSerialized} />
+        <Map
+          originInfo={originInfo}
+          nearbyStopPoints={nearbyStopPoints}
+          graphSerialized={graphSerialized}
+        />
         <GraphComponent graph={displayedGraph} style={{}} />
         <p>Powered by TfL Open Data</p>
-        <p>Contains OS data © Crown copyright and database rights (2016) and Geomni UK Map data © and database rights (2019)</p>
+        <p>
+          Contains OS data © Crown copyright and database rights (2016) and
+          Geomni UK Map data © and database rights (2019)
+        </p>
       </Paper>
       <Toaster />
     </Container>

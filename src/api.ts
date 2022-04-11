@@ -1,5 +1,10 @@
 /* eslint-disable no-param-reassign */
-import { StopPoint as StopPointFunctions } from "tfl-api-wrapper";
+/* eslint-disable */
+// @ts-nocheck
+import {
+  StopPoint as StopPointFunctions,
+  Line as LineFunctions,
+} from "tfl-api-wrapper";
 import {
   getDistanceFromLatLonInKm,
   getUniqueListBy,
@@ -27,6 +32,33 @@ export const getLatLonFromPostCode = async (
 
 export const getTFLApiKey = () => process.env.REACT_APP_TFL_KEY || "";
 const stopPointInstance = new StopPointFunctions(getTFLApiKey());
+const lineInstance = new LineFunctions(getTFLApiKey());
+
+export const getModes = () => lineInstance.getModes();
+export const getLinesByModes = (modeNames: string[]) =>
+  lineInstance.getAllByModes(modeNames);
+
+const getlineModeDictionary = async () => {
+  const lineModeDictionary = {};
+  const modes = await getModes();
+  let modeNames = modes.map(({ modeName }) => modeName);
+  // remove elizabeth line result while api does not support it
+  modeNames = modeNames.filter((modeName) => modeName !== "elizabeth-line");
+  const lines = await getLinesByModes(modeNames);
+  for (const { modeName, id: lineId } of lines) {
+    if (
+      lineId in lineModeDictionary &&
+      lineModeDictionary[lineId] !== modeName
+    ) {
+      console.warn(`line ${lineId} already corresponds to mode ${modeName}`);
+    } else {
+      lineModeDictionary[lineId] = modeName;
+    }
+  }
+  return lineModeDictionary;
+};
+
+export const lineModeDictionary = getlineModeDictionary();
 
 export const makeTFLGetRequest = async (
   route: string,
