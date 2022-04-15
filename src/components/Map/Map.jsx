@@ -30,7 +30,11 @@ import "@fortawesome/fontawesome-free/css/all.css"; // e.g. using FA icons
 import "leaflet-extra-markers/dist/css/leaflet.extra-markers.min.css"; // Do the L extension.
 
 import { LINE_COLORS } from "../../constants";
-import { lineModeDictionary } from "../../api";
+import {
+  lineModeDictionary,
+  getStopPointsInfo,
+  getPostCodeFromLatLon,
+} from "../../api";
 
 // import the LEM css
 require("leaflet-extra-markers");
@@ -95,6 +99,107 @@ const formatLineModes = (lineModes) => {
   return s;
 };
 
+const MapOriginMarkers = ({ originInfo }) =>
+  (originInfo && (
+    <>
+      <Marker position={originInfo.latLong} icon={originMarker}>
+        <Popup>
+          {originInfo.postcode} <br /> {JSON.stringify(originInfo.latLong)}
+        </Popup>
+      </Marker>
+      <SetView latLong={originInfo.latLong} />
+      <Circle center={originInfo.latLong} radius={originInfo.radius} />
+    </>
+  )) ||
+  null;
+
+const MapNearbyStopPointMarkers = ({ nearbyStopPoints }) =>
+  nearbyStopPoints.map((stopPoint) => (
+    <Marker
+      position={[stopPoint.lat, stopPoint.lon]}
+      key={stopPoint.naptanId}
+      icon={stopPointIcon(getIconName(stopPoint.modes))}
+    >
+      <Popup>
+        {stopPoint.commonName}
+        <br />
+        Lines: {stopPoint.lines.map(({ name }) => name).join(", ")}
+      </Popup>
+    </Marker>
+  ));
+
+const MapLines = ({ mapLineSegments }) =>
+  (mapLineSegments &&
+    mapLineSegments.map((seg, i) => {
+      const lineWeight = 10;
+      const segmentWidth = seg.lineIds.length * lineWeight;
+      return (
+        <React.Fragment key={`pl-seg_${i}`}>
+          {seg.lineIds.map((lineId, j) => (
+            <Polyline
+              color={LINE_COLORS[lineId]}
+              positions={seg.lineCoords}
+              offset={j * lineWeight - segmentWidth / 2 + lineWeight / 2}
+              key={`pl-seg_${i}-line_${j}_${lineId}`}
+              weight={lineWeight}
+              // lineCap={"butt"}
+            />
+          ))}
+        </React.Fragment>
+      );
+    })) ||
+  null;
+
+const MapStation = ({ station }) => {
+  const [postcode, setPostcode] = useState("");
+  useEffect(() => {
+    (async () => {
+      const _postcode = await station.postcode;
+      if (!_postcode) {
+        console.error(
+          `Could not get postcode for station ${station.label} (${station.coords}).`,
+        );
+        setPostcode("[unknown postcode], ");
+      } else {
+        setPostcode(`${_postcode}, `);
+      }
+    })();
+  }, []);
+  return (
+    <CircleMarker
+      center={station.coords}
+      radius={10}
+      color="#000"
+      fillColor="#ccc"
+      fillOpacity={0.5}
+      opacity={0.5}
+      weight={4}
+      eventHandlers={{
+        click: async () => {
+          // console.log(station);
+        },
+      }}
+    >
+      <Popup>
+        <div style={{ whiteSpace: "pre" }}>
+          {station.label}
+          <br />
+          {postcode}Zone {station.zone}
+          <br />
+          {formatLineModes(station.lineModes)}
+        </div>
+      </Popup>
+    </CircleMarker>
+  );
+};
+
+const MapStations = ({ stations }) =>
+  (stations &&
+    stations.map((station) => (
+      <MapStation station={station} key={station.label} />
+    ))) ||
+  null;
+
 const Map = ({ originInfo, nearbyStopPoints, graphSerialized }) => {
   const [mapLineSegments, setMapLineSegments] = useState();
   const [stations, setStations] = useState();
@@ -127,6 +232,8 @@ const Map = ({ originInfo, nearbyStopPoints, graphSerialized }) => {
       const _stations = [];
       _displayedGraph.forEachNode((key, attributes) => {
         const { lat, lon, lines, ...rest } = attributes;
+        const latLon = [lat, lon];
+        const postcode = getPostCodeFromLatLon(latLon);
         const lineModes = {};
         let modeName;
         let lineName;
@@ -145,7 +252,7 @@ const Map = ({ originInfo, nearbyStopPoints, graphSerialized }) => {
           }
           lineModes[modeName].push(lineName);
         }
-        _stations.push({ coords: [lat, lon], lines, ...rest, lineModes });
+        _stations.push({ coords: latLon, postcode, lines, ...rest, lineModes });
       });
       setStations(_stations);
     })();
@@ -157,82 +264,10 @@ const Map = ({ originInfo, nearbyStopPoints, graphSerialized }) => {
         attribution={ATTRIBUTION}
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
-      {originInfo && (
-        <>
-          <Marker position={originInfo.latLong} icon={originMarker}>
-            <Popup>
-              {originInfo.postcode} <br /> {JSON.stringify(originInfo.latLong)}
-            </Popup>
-          </Marker>
-          <SetView latLong={originInfo.latLong} />
-          <Circle center={originInfo.latLong} radius={originInfo.radius} />
-        </>
-      )}
-      {/* {nearbyStopPoints.map((stopPoint) => (
-        <Marker
-          position={[stopPoint.lat, stopPoint.lon]}
-          key={stopPoint.naptanId}
-          icon={stopPointIcon(getIconName(stopPoint.modes))}
-        >
-          <Popup>
-            {stopPoint.commonName}
-            <br />
-            Lines:
-            {" "}
-            {stopPoint.lines.map(({ name }) => name).join(", ")}
-          </Popup>
-        </Marker>
-      ))} */}
-      {mapLineSegments &&
-        mapLineSegments.map((seg, i) => {
-          const lineWeight = 10;
-          const segmentWidth = seg.lineIds.length * lineWeight;
-          return (
-            <React.Fragment key={`pl-seg_${i}`}>
-              {seg.lineIds.map((lineId, j) => (
-                <Polyline
-                  color={LINE_COLORS[lineId]}
-                  positions={seg.lineCoords}
-                  offset={j * lineWeight - segmentWidth / 2 + lineWeight / 2}
-                  key={`pl-seg_${i}-line_${j}_${lineId}`}
-                  weight={lineWeight}
-                  // lineCap={"butt"}
-                />
-              ))}
-            </React.Fragment>
-          );
-        })}
-      {stations &&
-        stations.map((station, i) => {
-          const lineWeight = 10;
-          return (
-            <CircleMarker
-              center={station.coords}
-              radius={lineWeight}
-              color="#000"
-              fillColor="#ccc"
-              fillOpacity={0.5}
-              opacity={0.5}
-              weight={4}
-              key={station.label}
-              eventHandlers={{
-                click: () => {
-                  // console.log(station);
-                },
-              }}
-            >
-              <Popup>
-                <div style={{ whiteSpace: "pre" }}>
-                  {station.label}
-                  <br />
-                  Zone {station.zone}
-                  <br />
-                  {formatLineModes(station.lineModes)}
-                </div>
-              </Popup>
-            </CircleMarker>
-          );
-        })}
+      {/* <MapNearbyStopPointMarkers nearbyStopPoints={nearbyStopPoints} /> */}
+      <MapLines mapLineSegments={mapLineSegments} />
+      <MapStations stations={stations} />
+      <MapOriginMarkers originInfo={originInfo} />
     </MapContainer>
   );
 };

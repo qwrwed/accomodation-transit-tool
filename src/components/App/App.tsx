@@ -340,7 +340,7 @@ const App = () => {
           nearbyStopPoints={nearbyStopPoints}
           graphSerialized={graphSerialized}
         />
-        <GraphComponent graph={displayedGraph} style={{}} />
+        {/* <GraphComponent graph={displayedGraph} style={{}} /> */}
         <p>Powered by TfL Open Data</p>
         <p>
           Contains OS data © Crown copyright and database rights (2016) and

@@ -30,6 +30,15 @@ export const getLatLonFromPostCode = async (
   return [res.latitude, res.longitude];
 };
 
+export const getPostCodeFromLatLon = async(
+  latLon: LatLon,
+) => {
+  let { result: res } = await postcodes.geo(...latLon, {limit: 1000});
+  if (res){
+    return res[0].postcode;
+  }
+}
+
 export const getTFLApiKey = () => process.env.REACT_APP_TFL_KEY || "";
 const stopPointInstance = new StopPointFunctions(getTFLApiKey());
 const lineInstance = new LineFunctions(getTFLApiKey());
@@ -37,6 +46,9 @@ const lineInstance = new LineFunctions(getTFLApiKey());
 export const getModes = () => lineInstance.getModes();
 export const getLinesByModes = (modeNames: string[]) =>
   lineInstance.getAllByModes(modeNames);
+
+export const getStopPointsInfo = (stopPointIds: string[]) =>
+  stopPointInstance.getByIDs(stopPointIds);
 
 const getlineModeDictionary = async () => {
   const lineModeDictionary = {};
