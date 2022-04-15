@@ -263,7 +263,7 @@ const App = () => {
             //     size: GRAPH_NODE_SIZE_POI,
             //   });
             // }
-            mergeGraph(sub, finalGraphDirections[direction], ["lineModes"]);
+            mergeGraph(sub, finalGraphDirections[direction]);
           }
         }
       }

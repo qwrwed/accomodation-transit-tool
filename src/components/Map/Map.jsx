@@ -10,6 +10,7 @@
 import L from "leaflet";
 
 import React, { useEffect, useState } from "react";
+import toast from "react-hot-toast";
 import {
   MapContainer,
   TileLayer,
@@ -83,6 +84,16 @@ const SetView = ({ latLong }) => {
 // useEffect(() => {
 //   console.log("postcodeInfo UPDATED");
 // }, [postcodeInfo]);
+const formatLineModes = (lineModes) => {
+  let s = "";
+  for (const [mode, lines] of Object.entries(lineModes)) {
+    s += `• ${mode} lines:\n`;
+    for (const line of lines) {
+      s += ` ○ ${line}\n`;
+    }
+  }
+  return s;
+};
 
 const Map = ({ originInfo, nearbyStopPoints, graphSerialized }) => {
   const [mapLineSegments, setMapLineSegments] = useState();
@@ -115,19 +126,26 @@ const Map = ({ originInfo, nearbyStopPoints, graphSerialized }) => {
       const lmd = await lineModeDictionary;
       const _stations = [];
       _displayedGraph.forEachNode((key, attributes) => {
-        // console.log(key);
-        // console.log(attributes);
-        // console.log("");
-        const { lat, lon, label, lines, lineModes } = attributes;
-        const modes = {};
+        const { lat, lon, lines, ...rest } = attributes;
+        const lineModes = {};
+        let modeName;
+        let lineName;
         for (const { id } of lines) {
-          const mode = lmd[id];
-          if (!(mode in modes)) {
-            modes[mode] = [];
+          if (!(id in lmd)) {
+            modeName = "[unknown mode]";
+            lineName = id;
+            const info = `TFL did not return mode info for line "${id}" at station ${attributes.name}`;
+            console.error(info);
+            // toast.error(info, { id: info });
+          } else {
+            ({ modeName, lineName } = lmd[id]);
           }
-          modes[mode].push(id);
+          if (!(modeName in lineModes)) {
+            lineModes[modeName] = [];
+          }
+          lineModes[modeName].push(lineName);
         }
-        _stations.push({ coords: [lat, lon], label, modes });
+        _stations.push({ coords: [lat, lon], lines, ...rest, lineModes });
       });
       setStations(_stations);
     })();
@@ -197,10 +215,20 @@ const Map = ({ originInfo, nearbyStopPoints, graphSerialized }) => {
               opacity={0.5}
               weight={4}
               key={station.label}
+              eventHandlers={{
+                click: () => {
+                  // console.log(station);
+                },
+              }}
             >
               <Popup>
-                {station.label}
-                {JSON.stringify(station)}
+                <div style={{ whiteSpace: "pre" }}>
+                  {station.label}
+                  <br />
+                  Zone {station.zone}
+                  <br />
+                  {formatLineModes(station.lineModes)}
+                </div>
               </Popup>
             </CircleMarker>
           );

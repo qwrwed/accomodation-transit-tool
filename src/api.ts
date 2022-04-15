@@ -13,7 +13,7 @@ import {
   setIntersection,
 } from "./utils";
 
-import { TFL_API_URL_ROOT } from "./constants";
+import { MODES_INFO_ALL, TFL_API_URL_ROOT } from "./constants";
 import { components as StopPointComponents } from "./types/StopPoint";
 import { components as LineComponents } from "./types/Line";
 
@@ -45,14 +45,16 @@ const getlineModeDictionary = async () => {
   // remove elizabeth line result while api does not support it
   modeNames = modeNames.filter((modeName) => modeName !== "elizabeth-line");
   const lines = await getLinesByModes(modeNames);
-  for (const { modeName, id: lineId } of lines) {
+  for (const line of lines) {
+    const { modeName: modeId, id: lineId, name: lineName } = line;
+    const modeName = MODES_INFO_ALL[modeId].label;
     if (
       lineId in lineModeDictionary &&
-      lineModeDictionary[lineId] !== modeName
+      lineModeDictionary[lineId] !== modeId
     ) {
-      console.warn(`line ${lineId} already corresponds to mode ${modeName}`);
+      console.warn(`line ${lineId} already corresponds to mode ${modeId}`);
     } else {
-      lineModeDictionary[lineId] = modeName;
+      lineModeDictionary[lineId] = {lineId, lineName, modeId, modeName};
     }
   }
   return lineModeDictionary;

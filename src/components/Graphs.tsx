@@ -4,6 +4,7 @@
 import Graph from "graphology";
 import { reverse } from "graphology-operators";
 import React from "react";
+import toast from "react-hot-toast";
 import { SigmaContainer, useSigma } from "react-sigma-v2/lib/esm";
 import "react-sigma-v2/lib/react-sigma-v2.css";
 import { getLinesFromModes, getRoutesOnLine } from "../api";
@@ -102,15 +103,15 @@ export const getLineGraphFromLine = async ({
   const routeSequence = await getRoutesOnLine(lineId);
   const lineName = routeSequence.lineName;
   if (routeSequence === null) return lineGraph;
-  if (!routeSequence.stopPointSequences.length)
-    console.error(
-      `TFL sent no data for line "${lineName}" ${direction}. Data for this line may be missing or incomplete.`,
-    );
+  if (!routeSequence.stopPointSequences.length){
+    const info =`TFL returned no data for line "${lineName}". Data for this line may be missing or incomplete.`
+    console.error(info);
+    toast.error(info, { id: info })
+  }
   const lineColor =
     LINE_COLORS[routeSequence.lineId] ||
     MODES_INFO_ALL[routeSequence.mode].color;
   const { mode: modeName } = routeSequence
-  const lineModes = new Set([JSON.stringify([lineId, modeName])])
   for (const stopPointSequence of routeSequence.stopPointSequences) {
     if (stopPointSequence.direction === direction) {
       const stopPointArray = stopPointSequence.stopPoint;    
@@ -125,7 +126,6 @@ export const getLineGraphFromLine = async ({
             label: spFrom.name,
             color: lineColor,
             size: GRAPH_NODE_SIZE,
-            lineModes,
           });
         }
         lineGraph.mergeNode(spTo[branchDataKey], {
@@ -135,7 +135,6 @@ export const getLineGraphFromLine = async ({
           label: spTo.name,
           color: lineColor,
           size: GRAPH_NODE_SIZE,
-          lineModes,
         });
         const fromTo = [spFrom[branchDataKey], spTo[branchDataKey]]
         // fromTo.sort();
