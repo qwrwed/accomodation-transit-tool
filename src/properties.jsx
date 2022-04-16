@@ -7,12 +7,25 @@ const MIN_BEDROOMS = 0;
 const MAX_BEDROOMS = 2;
 const MIN_PRICE = 0;
 const MAX_PRICE = 1750;
-const RADIUS = 0.5;
+const RADIUS_MILES = 0.5;
 
-export const getZooplaLink = ({ postcode }) => {
-  if (!postcode) {
-    return null;
-  }
+const KM_PER_MILE = 1.609;
+
+const getOpenrentLink = ({ postcode }) => {
+  if (!postcode) return null;
+  const url = `https://www.openrent.co.uk/properties-to-rent/?term=${postcode}
+area=${RADIUS_MILES * KM_PER_MILE}
+prices_min=${MIN_PRICE}
+prices_max=${MAX_PRICE}
+bedrooms_min=${MIN_BEDROOMS}
+bedrooms_max=${MAX_BEDROOMS}
+searchType=km
+furnishedType=1`;
+  return url.replace(/(?:\r\n|\r|\n)/g, "&");
+};
+
+const getZooplaLink = ({ postcode }) => {
+  if (!postcode) return null;
   const url = `https://www.zoopla.co.uk/search/?q=${postcode}
 beds_min=${MIN_BEDROOMS}
 beds_max=${MAX_BEDROOMS}
@@ -24,7 +37,7 @@ category=residential
 section=to-rent
 results_sort=newest_listings
 search_source=home
-radius=${RADIUS}
+radius=${RADIUS_MILES}
 furnished_state=furnished`;
   return url.replace(/(?:\r\n|\r|\n)/g, "&");
 };
@@ -74,6 +87,12 @@ const PropertyLink = ({ children, href }) =>
       <br />
     </a>
   );
+
+export const OpenrentLink = ({ postcode }) => (
+  <PropertyLink href={getOpenrentLink({ postcode })}>
+    OpenRent (min radius 2km)
+  </PropertyLink>
+);
 
 export const RightmoveLink = ({ postcode }) => (
   <PropertyLink href={getRightmoveLink({ postcode })}>

@@ -36,7 +36,7 @@ import {
   getPostCodeFromLatLon,
 } from "../../api";
 
-import { RightmoveLink, ZooplaLink } from "../../properties";
+import { OpenrentLink, RightmoveLink, ZooplaLink } from "../../properties";
 
 // import the LEM css
 require("leaflet-extra-markers");
@@ -191,6 +191,7 @@ const MapStation = ({ station }) => {
           {formatLineModes(station.lineModes)}
           <RightmoveLink postcode={postcode} />
           <ZooplaLink postcode={postcode} />
+          <OpenrentLink postcode={postcode} />
         </div>
       </Popup>
     </CircleMarker>
