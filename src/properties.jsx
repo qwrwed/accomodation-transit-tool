@@ -10,6 +10,9 @@ const MAX_PRICE = 1750;
 const RADIUS = 0.5;
 
 export const getZooplaLink = ({ postcode }) => {
+  if (!postcode) {
+    return null;
+  }
   const url = `https://www.zoopla.co.uk/search/?q=${postcode}
 beds_min=${MIN_BEDROOMS}
 beds_max=${MAX_BEDROOMS}
@@ -26,18 +29,10 @@ furnished_state=furnished`;
   return url.replace(/(?:\r\n|\r|\n)/g, "&");
 };
 
-export const ZooplaLink = ({ postcode }) => {
-  const href = getZooplaLink({ postcode });
-  return (
-    href && (
-      <a href={href} target="_blank" rel="noopener noreferrer">
-        Zoopla
-      </a>
-    )
-  );
-};
-
 const getRightmoveLink = ({ postcode }) => {
+  if (!postcode) {
+    return null;
+  }
   const outcode = postcode.split(" ")[0];
   const jsonInfo = outcodeData.find(
     ({ outcode: jsonOutcode }) => jsonOutcode === outcode,
@@ -72,13 +67,20 @@ houseFlatShare=
   return url.replace(/(?:\r\n|\r|\n)/g, "&");
 };
 
-export const RightmoveLink = ({ postcode }) => {
-  const href = getRightmoveLink({ postcode });
-  return (
-    href && (
-      <a href={href} target="_blank" rel="noopener noreferrer">
-        Rightmove (general area only)
-      </a>
-    )
+const PropertyLink = ({ children, href }) =>
+  href && (
+    <a href={href} target="_blank" rel="noopener noreferrer">
+      {children}
+      <br />
+    </a>
   );
-};
+
+export const RightmoveLink = ({ postcode }) => (
+  <PropertyLink href={getRightmoveLink({ postcode })}>
+    Rightmove (general area only)
+  </PropertyLink>
+);
+
+export const ZooplaLink = ({ postcode }) => (
+  <PropertyLink href={getZooplaLink({ postcode })}>Zoopla</PropertyLink>
+);

@@ -1,3 +1,5 @@
+/* eslint no-plusplus: ["error", { "allowForLoopAfterthoughts": true }] */
+/* eslint-disable func-names */
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/no-unused-vars */
@@ -7,7 +9,7 @@
 /* eslint-disable no-await-in-loop */
 /* eslint-disable no-restricted-syntax */
 /* eslint-disable no-param-reassign */
-/* eslint-disable */
+// /* eslint-disable */
 // @ts-nocheck
 import React, { ChangeEvent, useState, useEffect } from "react";
 // import React, { useState } from "react";
@@ -95,10 +97,11 @@ const withToast = (fn: any, info: any, show = true) =>
 
 const App = () => {
   const [info, setInfo] = useState("Waiting for search...");
-  const [postcode, setPostcode] = useState(DEFAULT_POSTCODE);
-  const [radius, setRadius] = useState(DEFAULT_RADIUS);
+  // const [formData["destination-postcode"], setPostcode] = useState(DEFAULT_POSTCODE);
+  // const [formData["destination-radius"], setRadius] = useState(DEFAULT_RADIUS);
   const [displayedGraph, setDisplayedGraph] = useState(new Graph());
   const [graphSerialized, setGraphSerialized] = useState<any>();
+  const [isBusy, setBusy] = useState(true);
   // const [reverseGraph, setReverseGraph] = useState(true);
   // const reverseGraph = false;
 
@@ -109,34 +112,73 @@ const App = () => {
   const [nearbyStopPoints, setNearbyStopPoints] = useState<StopPoint[]>([]);
 
   const [getModeCheckList, setModeCheckList] = useState<string[]>([]);
+  const [formData, setFormData] = useState({
+    "destination-postcode": DEFAULT_POSTCODE,
+    "destination-radius": DEFAULT_RADIUS,
+  });
 
-  // useEffect(() => {
-  //   (async () => {
-  //     console.log(await lineModeDictionary);
-  //   })();
-  // }, []);
+  useEffect(() => {
+    // (async () => {
+    // })();
+    const urlParams = new URLSearchParams(window.location.search);
+    const params = Object.fromEntries(urlParams);
+    setFormData(params);
+    setBusy(false);
+  }, []);
 
-  const handleRadiusChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleFormChange = (e, value = null) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: value !== null ? value : e.target.value,
+    });
+  };
+
+  const handleRadiusChange = (e) => {
     // const handleRadiusChange = (e) => {
     // https://stackoverflow.com/a/43177957
     const onlyInts = e.target.value.replace(/[^0-9]/g, "");
     setRadius(+onlyInts);
+    handleFormChange(e, onlyInts);
+    // setFormData({ ...formData, [e.target.name]: onlyInts });
   };
 
-  const handleButtonClick = async () => {
+  const handleButtonClick = async (e) => {
+    e.preventDefault();
+    const form = e.target;
+    const _formData = new FormData(form);
+    const queryString = new URLSearchParams(formData).toString();
+    window.history.pushState({}, "", `?${queryString}`);
+    // return;
+
     let _info;
     const toastId = "toast";
 
     // convert postcode to latitude, longitude
-    _info = `Getting latitude/longitude of postcode ${postcode}...`;
+    _info = `Getting latitude/longitude of postcode ${formData["destination-postcode"]}...`;
     setInfo(_info);
     toast.loading(_info, { id: toastId });
-    const latLong = await getLatLonFromPostCode(postcode);
-    toast.success(_info, { id: toastId });
-    setOriginInfo({ postcode, latLong, radius });
+    const latLong = await getLatLonFromPostCode(
+      formData["destination-postcode"],
+    );
+    if (latLong) {
+      toast.success(_info, { id: toastId });
+    } else {
+      _info = `Postcode "${formData["destination-postcode"]}" not found`;
+      setInfo(_info);
+      toast.error(_info, { id: toastId });
+      return;
+    }
+
+    setOriginInfo({
+      postcode: formData["destination-postcode"],
+      latLong,
+      radius: formData["destination-radius"],
+    });
 
     // get list of stopPoints within radius
-    _info = `Searching for stops within ${radius} metres of ${postcode} (${JSON.stringify(
+    _info = `Searching for stops within ${
+      formData["destination-radius"]
+    } metres of ${formData["destination-postcode"]} (${JSON.stringify(
       latLong,
     )})...`;
     setInfo(_info);
@@ -144,14 +186,16 @@ const App = () => {
     let stopPoints = await getStopPointsByRadius(
       NAPTAN_STOPTYPES,
       latLong,
-      radius,
+      formData["destination-radius"],
     );
     toast.success(_info, { id: toastId });
     // console.log(JSON.parse(JSON.stringify({ stopPoints })));
 
     // check for no result
     if (stopPoints.length === 0) {
-      setInfo(`No stops found within ${radius} metres of postcode ${postcode}`);
+      setInfo(
+        `No stops found within ${formData["destination-radius"]} metres of postcode ${formData["destination-postcode"]}`,
+      );
       return;
     }
 
@@ -173,9 +217,9 @@ const App = () => {
       ({ commonName, distance }) => `${commonName} (${distance}m)`,
     );
     setInfo(
-      `Stops within ${radius} metres of postcode ${postcode} (${JSON.stringify(
-        latLong,
-      )}): ${summaryText.join(", ")}`,
+      `Stops within ${formData["destination-radius"]} metres of postcode ${
+        formData["destination-postcode"]
+      } (${JSON.stringify(latLong)}): ${summaryText.join(", ")}`,
     );
 
     _info = "Plotting map...";
@@ -284,6 +328,27 @@ const App = () => {
     toast.success(_info, { id: toastId });
   };
 
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter" || e.key === "Escape") {
+      if (e.key === "Enter") {
+        const { form } = e.target;
+        const index = [...form].indexOf(e.target);
+        for (let i = index + 1; i < form.length; i++) {
+          const element = form.elements[i];
+          if (element.localName === "input") {
+            element.focus();
+            break;
+          }
+        }
+        e.preventDefault();
+      } else {
+        e.target.blur();
+      }
+    }
+  };
+
+  // const handleFormUpdate = (e) => {};
+  if (isBusy) return null;
   return (
     <Container maxWidth="md" className="App">
       <Paper>
@@ -295,45 +360,57 @@ const App = () => {
           stateGetter={getModeCheckList}
           stateSetter={setModeCheckList}
         />
-        <Box
+        <Paper
+          elevation={3}
           component="form"
+          onSubmit={handleButtonClick}
           sx={{ "& .MuiTextField-root": { m: 1, width: "25ch" } }}
-          noValidate
-          autoComplete="off"
+          // noValidate
+          // autoComplete="off"
         >
+          <Typography variant="h5">Destination</Typography>
           <div>
             <TextField
+              id="input-destination-postcode"
+              name="destination-postcode"
+              label="Destination Postcode"
               variant="outlined"
-              label="Postcode"
-              value={postcode}
-              onInput={(e: ChangeEvent<HTMLInputElement>) =>
-                setPostcode(e.target.value)
-              }
+              defaultValue={formData["destination-postcode"]}
+              onBlur={(e) => {
+                setPostcode(e.target.value);
+                handleFormChange(e);
+              }}
+              onKeyDown={handleKeyDown}
             />
           </div>
           <div>
             <TextField
+              id="input-destination-radius"
+              name="destination-radius"
+              label="Destination Search Radius"
               variant="outlined"
-              label="Radius"
-              value={radius}
-              onInput={handleRadiusChange}
+              value={formData["destination-radius"]}
+              onChange={handleRadiusChange}
+              onKeyDown={handleKeyDown}
               InputProps={{
                 endAdornment: <InputAdornment position="end">m</InputAdornment>,
               }}
-              error={radius === 0}
+              error={formData["destination-radius"] <= 0}
             />
           </div>
           <div>
             <Button
               variant="contained"
               color="primary"
-              onClick={handleButtonClick}
-              disabled={radius === 0}
+              type="submit"
+              // onClick={handleButtonClick}
+              disabled={formData["destination-radius"] <= 0}
             >
               Get Data
             </Button>
           </div>
-        </Box>
+        </Paper>
+
         <p>{info}</p>
         <Map
           originInfo={originInfo}

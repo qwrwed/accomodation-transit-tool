@@ -26,8 +26,10 @@ export const getLatLonFromPostCode = async (
   postcode: string,
 ): Promise<LatLon> => {
   let { result: res } = await postcodes.lookup(postcode);
-  res = objectMap(res, (v: number) => roundAccurately(v, 3));
-  return [res.latitude, res.longitude];
+  if (res){
+    res = objectMap(res, (v: number) => roundAccurately(v, 3));
+    return [res.latitude, res.longitude];
+  }
 };
 
 export const getPostCodeFromLatLon = async(

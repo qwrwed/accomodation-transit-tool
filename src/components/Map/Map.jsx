@@ -153,7 +153,7 @@ const MapLines = ({ mapLineSegments }) =>
   null;
 
 const MapStation = ({ station }) => {
-  const [postcode, setPostcode] = useState("");
+  const [postcode, setPostcode] = useState(null);
   useEffect(() => {
     (async () => {
       const _postcode = await station.postcode;
@@ -161,9 +161,8 @@ const MapStation = ({ station }) => {
         console.error(
           `Could not get postcode for station ${station.label} (${station.coords}).`,
         );
-        setPostcode("[unknown postcode], ");
       } else {
-        setPostcode(`${_postcode}, `);
+        setPostcode(_postcode);
       }
     })();
   }, []);
@@ -186,12 +185,11 @@ const MapStation = ({ station }) => {
         <div style={{ whiteSpace: "pre" }}>
           {station.label}
           <br />
-          {postcode}Zone {station.zone}
+          {(postcode && `${postcode}, `) || "[Unknown postcode], "}
+          Zone {station.zone}
           <br />
           {formatLineModes(station.lineModes)}
-          <br />
           <RightmoveLink postcode={postcode} />
-          <br />
           <ZooplaLink postcode={postcode} />
         </div>
       </Popup>
