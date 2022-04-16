@@ -36,6 +36,8 @@ import {
   getPostCodeFromLatLon,
 } from "../../api";
 
+import { RightmoveLink } from "../../properties";
+
 // import the LEM css
 require("leaflet-extra-markers");
 
@@ -187,6 +189,8 @@ const MapStation = ({ station }) => {
           {postcode}Zone {station.zone}
           <br />
           {formatLineModes(station.lineModes)}
+          <br />
+          <RightmoveLink postcode={postcode} />
         </div>
       </Popup>
     </CircleMarker>
