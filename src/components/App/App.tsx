@@ -376,11 +376,9 @@ const App = () => {
               label="Destination Postcode"
               variant="outlined"
               defaultValue={formData["destination-postcode"]}
-              onBlur={(e) => {
-                setPostcode(e.target.value);
-                handleFormChange(e);
-              }}
+              onBlur={handleFormChange}
               onKeyDown={handleKeyDown}
+              error={!formData["destination-postcode"]}
             />
           </div>
           <div>
@@ -404,7 +402,10 @@ const App = () => {
               color="primary"
               type="submit"
               // onClick={handleButtonClick}
-              disabled={formData["destination-radius"] <= 0}
+              disabled={
+                formData["destination-radius"] <= 0 ||
+                !formData["destination-postcode"]
+              }
             >
               Get Data
             </Button>
