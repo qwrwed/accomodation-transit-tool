@@ -46,9 +46,49 @@ import {
 // import the LEM css
 require("leaflet-extra-markers");
 
-const ATTRIBUTION =
-  // eslint-disable-next-line prettier/prettier
-  "&copy; <a href=\"https://www.openstreetmap.org/copyright\">OpenStreetMap</a> contributors";
+const TileLayerDefault = () => (
+  <TileLayer
+    attribution={
+      // eslint-disable-next-line prettier/prettier
+    "&copy; <a href=\"https://www.openstreetmap.org/copyright\">OpenStreetMap</a> contributors"
+    }
+    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+  />
+);
+
+const TileLayerCustom = ({ styleId = "jawg_streets" }) => (
+  <TileLayer
+    attribution={
+      // eslint-disable-next-line prettier/prettier
+      "<a href=\"https://www.jawg.io\" target=\"_blank\">&copy; Jawg</a> - <a href=\"https://www.openstreetmap.org\" target=\"_blank\">&copy; OpenStreetMap</a>&nbsp;contributors"
+    }
+    url={`https://tile.jawg.io/${styleId}/{z}/{x}/{y}{r}.png?access-token=${process.env.REACT_APP_JAWG_KEY}`}
+  />
+);
+
+const MapTileLayer = () => {
+  const [useCustomMap, setUseCustomMap] = useState(undefined);
+  if (!process.env.REACT_APP_JAWG_KEY) {
+    return <TileLayerDefault />;
+  }
+  const styleId = process.env.REACT_APP_JAWG_STYLE_ID || "jawg-streets";
+  useEffect(() => {
+    (async () => {
+      const response = await fetch(
+        `https://tile.jawg.io/${styleId}/13/4093/2723@2x.png?access-token=${process.env.REACT_APP_JAWG_KEY}`,
+      );
+      setUseCustomMap(!!response.ok);
+    })();
+  }, []);
+  return (
+    useCustomMap !== undefined &&
+    (useCustomMap ? (
+      <TileLayerCustom styleId={styleId} />
+    ) : (
+      <TileLayerDefault />
+    ))
+  );
+};
 
 const originMarker = L.ExtraMarkers.icon({
   icon: "fa-building",
@@ -145,6 +185,7 @@ const MapLines = ({ mapLineSegments }) =>
           {seg.lineIds.map((lineId, j) => (
             <Polyline
               color={LINE_COLORS[lineId]}
+              opacity={0.75}
               positions={seg.lineCoords}
               offset={j * lineWeight - segmentWidth / 2 + lineWeight / 2}
               key={`pl-seg_${i}-line_${j}_${lineId}`}
@@ -271,10 +312,7 @@ const Map = ({ originInfo, nearbyStopPoints, graphSerialized }) => {
 
   return (
     <MapContainer center={[51.505, -0.09]} zoom={13} scrollWheelZoom>
-      <TileLayer
-        attribution={ATTRIBUTION}
-        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-      />
+      <MapTileLayer />
       {/* <MapNearbyStopPointMarkers nearbyStopPoints={nearbyStopPoints} /> */}
       <MapLines mapLineSegments={mapLineSegments} />
       <MapStations stations={stations} />
