@@ -3,16 +3,30 @@ import React from "react";
 
 const outcodeData = require("./rightmoveOutcodeData.json"); // https://github.com/ISNIT0/rightmove-outcode-scraper
 
-const MIN_BEDROOMS = 0;
-const MAX_BEDROOMS = 2;
+const MIN_BEDROOMS = 2;
+const MAX_BEDROOMS = 0;
 const MIN_PRICE = 0;
 const MAX_PRICE = 1750;
 const RADIUS_MILES = 0.5;
 
 const KM_PER_MILE = 1.609;
 
+const getOnthemarketLink = ({ postcode }) => {
+  if (!postcode) return null;
+  // eslint-disable-next-line prettier/prettier
+  const url = `https://www.onthemarket.com/to-rent/property/${postcode.toLowerCase().replace(" ", "-")}/?furnished=furnished
+max-bedrooms=${MAX_BEDROOMS}
+max-price=${MAX_PRICE}
+min-bedrooms=${MIN_BEDROOMS}
+${MIN_PRICE && `min-price=${MIN_PRICE}`}
+radius=${RADIUS_MILES}
+view=grid`;
+  return url.replace(/(?:\r\n|\r|\n)/g, "&");
+};
+
 const getOpenrentLink = ({ postcode }) => {
   if (!postcode) return null;
+  // eslint-disable-next-line prettier/prettier
   const url = `https://www.openrent.co.uk/properties-to-rent/?term=${postcode}
 area=${RADIUS_MILES * KM_PER_MILE}
 prices_min=${MIN_PRICE}
@@ -87,6 +101,12 @@ const PropertyLink = ({ children, href }) =>
       <br />
     </a>
   );
+
+export const OnthemarketLink = ({ postcode }) => (
+  <PropertyLink href={getOnthemarketLink({ postcode })}>
+    OnTheMarket
+  </PropertyLink>
+);
 
 export const OpenrentLink = ({ postcode }) => (
   <PropertyLink href={getOpenrentLink({ postcode })}>

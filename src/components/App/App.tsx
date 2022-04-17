@@ -97,19 +97,20 @@ const withToast = (fn: any, info: any, show = true) =>
 
 const App = () => {
   const [info, setInfo] = useState("Waiting for search...");
+  const [isBusy, setBusy] = useState(true);
+
   // const [formData["destination-postcode"], setPostcode] = useState(DEFAULT_POSTCODE);
   // const [formData["destination-radius"], setRadius] = useState(DEFAULT_RADIUS);
+
   const [displayedGraph, setDisplayedGraph] = useState(new Graph());
-  const [graphSerialized, setGraphSerialized] = useState<any>();
-  const [isBusy, setBusy] = useState(true);
   // const [reverseGraph, setReverseGraph] = useState(true);
   // const reverseGraph = false;
 
   // map data
   const [originInfo, setOriginInfo] =
     useState<{ postcode: string; latLong: LatLon; radius: number }>();
-  const [mapLineSegments, setMapLineSegments] = useState<any>();
   const [nearbyStopPoints, setNearbyStopPoints] = useState<StopPoint[]>([]);
+  const [graphSerialized, setGraphSerialized] = useState<any>();
 
   const [getModeCheckList, setModeCheckList] = useState<string[]>([]);
   const [formData, setFormData] = useState({
