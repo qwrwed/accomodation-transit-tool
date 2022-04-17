@@ -17,7 +17,7 @@ import { MODES_INFO_ALL, TFL_API_URL_ROOT } from "./constants";
 import { components as StopPointComponents } from "./types/StopPoint";
 import { components as LineComponents } from "./types/Line";
 
-const postcodes = require("node-postcodes.io");
+import postcodes from "node-postcodes.io";
 
 type StopPoint = StopPointComponents["schemas"]["Tfl-11"];
 type Mode = LineComponents["schemas"]["Tfl"];

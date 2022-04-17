@@ -3,8 +3,8 @@ import React from "react";
 
 const outcodeData = require("./rightmoveOutcodeData.json"); // https://github.com/ISNIT0/rightmove-outcode-scraper
 
-const MIN_BEDROOMS = 2;
-const MAX_BEDROOMS = 0;
+const MIN_BEDROOMS = 0;
+const MAX_BEDROOMS = 2;
 const MIN_PRICE = 0;
 const MAX_PRICE = 1750;
 const RADIUS_MILES = 0.5;

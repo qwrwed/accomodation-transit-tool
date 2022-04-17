@@ -11,7 +11,7 @@
 /* eslint-disable no-param-reassign */
 // /* eslint-disable */
 // @ts-nocheck
-import React, { ChangeEvent, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 // import React, { useState } from "react";
 // import Button from "react-bootstrap/Button";
 import toast, { Toaster } from "react-hot-toast";
@@ -26,7 +26,7 @@ import InputAdornment from "@mui/material/InputAdornment";
 import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
-import Box from "@mui/material/Box";
+// import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -35,7 +35,7 @@ import {
   DEFAULT_POSTCODE,
   DEFAULT_RADIUS,
   LINE_COLORS,
-  GRAPH_NODE_SIZE_POI,
+  // GRAPH_NODE_SIZE_POI,
 } from "../../constants";
 
 // import logo from './logo.svg';
@@ -48,12 +48,12 @@ import {
   getLatLonFromPostCode,
   getStopPointsByRadius,
   filterStopPoints,
-  lineModeDictionary,
+  // lineModeDictionary,
 } from "../../api";
 
 import {
   getLineGraphObjectFromLineIdList,
-  GraphComponent,
+  // GraphComponent,
   mergeGraphObject,
   mergeGraph,
   makeLineGraphUndirected,

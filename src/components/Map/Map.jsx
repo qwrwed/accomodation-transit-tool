@@ -25,14 +25,14 @@ import "./Map.css";
 
 import "leaflet-polylineoffset";
 import Graph from "graphology";
-import * as ExtraMarkers from "leaflet-extra-markers"; // or else TS complains about the L extension
+// import * as ExtraMarkers from "leaflet-extra-markers"; // or else TS complains about the L extension
 import "@fortawesome/fontawesome-free/css/all.css"; // e.g. using FA icons
 import "leaflet-extra-markers/dist/css/leaflet.extra-markers.min.css"; // Do the L extension.
 
 import { LINE_COLORS } from "../../constants";
 import {
   lineModeDictionary,
-  getStopPointsInfo,
+  // getStopPointsInfo,
   getPostCodeFromLatLon,
 } from "../../api";
 

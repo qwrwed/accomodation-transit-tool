@@ -6,9 +6,12 @@
 // https://github.com/mui-org/material-ui/issues/17407#issuecomment-969029758
 import React from "react";
 
-import { ChevronRight, ExpandMore } from "@mui/icons-material";
-import { TreeItem, TreeView } from "@mui/lab";
-import { Checkbox, FormControlLabel } from "@mui/material";
+import ChevronRight from "@mui/icons-material/ChevronRight";
+import ExpandMore from "@mui/icons-material/ExpandMore";
+import TreeItem from "@mui/lab/TreeItem";
+import TreeView from "@mui/lab/TreeView";
+import Checkbox from "@mui/material/Checkbox";
+import FormControlLabel from "@mui/material/FormControlLabel";
 
 const VERBOSE = false;
 
