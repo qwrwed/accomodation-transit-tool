@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/accomodation-transit-tool/static/css/main.c52466cf.chunk.css",
-    "main.js": "/accomodation-transit-tool/static/js/main.99cf90c0.chunk.js",
-    "main.js.map": "/accomodation-transit-tool/static/js/main.99cf90c0.chunk.js.map",
+    "main.js": "/accomodation-transit-tool/static/js/main.df21d3bf.chunk.js",
+    "main.js.map": "/accomodation-transit-tool/static/js/main.df21d3bf.chunk.js.map",
     "runtime-main.js": "/accomodation-transit-tool/static/js/runtime-main.f2d8602d.js",
     "runtime-main.js.map": "/accomodation-transit-tool/static/js/runtime-main.f2d8602d.js.map",
     "static/css/2.0183d14f.chunk.css": "/accomodation-transit-tool/static/css/2.0183d14f.chunk.css",
@@ -24,6 +24,6 @@
     "static/css/2.0183d14f.chunk.css",
     "static/js/2.53a16b91.chunk.js",
     "static/css/main.c52466cf.chunk.css",
-    "static/js/main.99cf90c0.chunk.js"
+    "static/js/main.df21d3bf.chunk.js"
   ]
 }
