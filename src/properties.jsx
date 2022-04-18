@@ -1,57 +1,59 @@
 /* eslint-disable @typescript-eslint/naming-convention */
-import React from "react";
+import React, { useContext } from "react";
+import {
+  // DEFAULT_MIN_PRICE,
+  MapContext,
+  // MapContext,
+} from "./components/Map/MapContext";
 
 const outcodeData = require("./rightmoveOutcodeData.json"); // https://github.com/ISNIT0/rightmove-outcode-scraper
-
-const MIN_BEDROOMS = 0;
-const MAX_BEDROOMS = 2;
-const MIN_PRICE = 0;
-const MAX_PRICE = 1750;
-const RADIUS_MILES = 0.5;
 
 const KM_PER_MILE = 1.609;
 
 const getOnthemarketLink = ({ postcode }) => {
+  // ${DEFAULT_MIN_PRICE && `min-price=${DEFAULT_MIN_PRICE}`}
   if (!postcode) return null;
+  const { filterData } = useContext(MapContext);
   // eslint-disable-next-line prettier/prettier
   const url = `https://www.onthemarket.com/to-rent/property/${postcode.toLowerCase().replace(" ", "-")}/?furnished=furnished
-max-bedrooms=${MAX_BEDROOMS}
-max-price=${MAX_PRICE}
-min-bedrooms=${MIN_BEDROOMS}
-${MIN_PRICE && `min-price=${MIN_PRICE}`}
-radius=${RADIUS_MILES}
+max-bedrooms=${filterData["max-bedrooms"]}
+max-price=${filterData["max-price"]}
+min-bedrooms=${filterData["min-bedrooms"]}
+radius=${filterData["home-radius"]}
 view=grid`;
   return url.replace(/(?:\r\n|\r|\n)/g, "&");
 };
 
 const getOpenrentLink = ({ postcode }) => {
+  // prices_min=${DEFAULT_MIN_PRICE}
   if (!postcode) return null;
+  const { filterData } = useContext(MapContext);
   // eslint-disable-next-line prettier/prettier
   const url = `https://www.openrent.co.uk/properties-to-rent/?term=${postcode}
-area=${RADIUS_MILES * KM_PER_MILE}
-prices_min=${MIN_PRICE}
-prices_max=${MAX_PRICE}
-bedrooms_min=${MIN_BEDROOMS}
-bedrooms_max=${MAX_BEDROOMS}
+area=${filterData["home-radius"] * KM_PER_MILE}
+prices_max=${filterData["max-price"]}
+bedrooms_min=${filterData["min-bedrooms"]}
+bedrooms_max=${filterData["max-bedrooms"]}
 searchType=km
 furnishedType=1`;
   return url.replace(/(?:\r\n|\r|\n)/g, "&");
 };
 
 const getZooplaLink = ({ postcode }) => {
+  // price_min=${DEFAULT_MIN_PRICE}
   if (!postcode) return null;
+  const { filterData } = useContext(MapContext);
   const url = `https://www.zoopla.co.uk/search/?q=${postcode}
-beds_min=${MIN_BEDROOMS}
-beds_max=${MAX_BEDROOMS}
+beds_min=${filterData["min-bedrooms"]}
+beds_max=${filterData["max-bedrooms"]}
 price_frequency=per_month
-price_min=${MIN_PRICE}
-price_max=${MAX_PRICE}
+price_max=${filterData["max-price"]}
 view_type=list
 category=residential
 section=to-rent
 results_sort=newest_listings
 search_source=home
-radius=${RADIUS_MILES}
+radius=${filterData["home-radius"]}
 furnished_state=furnished`;
   return url.replace(/(?:\r\n|\r|\n)/g, "&");
 };
@@ -70,15 +72,16 @@ const getRightmoveLink = ({ postcode }) => {
   } else {
     return null;
   }
+  // minPrice=${DEFAULT_MIN_PRICE}
+  const { filterData } = useContext(MapContext);
   const url = `https://www.rightmove.co.uk/property-to-rent/find.html?
 searchType=RENT
 locationIdentifier=OUTCODE%5E${codedOutcode}
 insId=1
 radius=0
-minPrice=${MIN_PRICE}
-maxPrice=${MAX_PRICE}
-minBedrooms=${MIN_BEDROOMS}
-maxBedrooms=${MAX_BEDROOMS}
+maxPrice=${filterData["max-price"]}
+minBedrooms=${filterData["min-bedrooms"]}
+maxBedrooms=${filterData["max-bedrooms"]}
 displayPropertyType=
 maxDaysSinceAdded=
 sortByPriceDescending=

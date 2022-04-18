@@ -9,8 +9,8 @@
 // https://github.com/coryasilva/Leaflet.ExtraMarkers/issues/53#issuecomment-643551999
 import L from "leaflet";
 
-import React, { useEffect, useState } from "react";
-import toast from "react-hot-toast";
+import React, { useContext, useEffect, useState } from "react";
+
 import {
   MapContainer,
   TileLayer,
@@ -42,25 +42,26 @@ import {
   RightmoveLink,
   ZooplaLink,
 } from "../../properties";
+import { MapContext, MapProvider } from "./MapContext";
 
 // import the LEM css
 require("leaflet-extra-markers");
 
-const TileLayerDefault = () => (
+const TileLayerDefault = ({ attribution }) => (
   <TileLayer
     attribution={
       // eslint-disable-next-line prettier/prettier
-    "&copy; <a href=\"https://www.openstreetmap.org/copyright\">OpenStreetMap</a> contributors"
+    `&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors | ${attribution}`
     }
     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
   />
 );
 
-const TileLayerCustom = ({ styleId = "jawg_streets" }) => (
+const TileLayerCustom = ({ styleId = "jawg_streets", attribution }) => (
   <TileLayer
     attribution={
       // eslint-disable-next-line prettier/prettier
-      "<a href=\"https://www.jawg.io\" target=\"_blank\">&copy; Jawg</a> - <a href=\"https://www.openstreetmap.org\" target=\"_blank\">&copy; OpenStreetMap</a>&nbsp;contributors"
+      `<a href="https://www.jawg.io" target="_blank">&copy; Jawg</a> - <a href="https://www.openstreetmap.org" target="_blank">&copy; OpenStreetMap</a>&nbsp;contributors${attribution}`
     }
     url={`https://tile.jawg.io/${styleId}/{z}/{x}/{y}{r}.png?access-token=${process.env.REACT_APP_JAWG_KEY}`}
   />
@@ -72,6 +73,7 @@ const MapTileLayer = () => {
     return <TileLayerDefault />;
   }
   const styleId = process.env.REACT_APP_JAWG_STYLE_ID || "jawg-streets";
+  const attribution = "";
   useEffect(() => {
     (async () => {
       const response = await fetch(
@@ -83,9 +85,9 @@ const MapTileLayer = () => {
   return (
     useCustomMap !== undefined &&
     (useCustomMap ? (
-      <TileLayerCustom styleId={styleId} />
+      <TileLayerCustom styleId={styleId} attribution={attribution} />
     ) : (
-      <TileLayerDefault />
+      <TileLayerDefault attribution={attribution} />
     ))
   );
 };

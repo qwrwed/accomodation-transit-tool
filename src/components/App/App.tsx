@@ -11,7 +11,7 @@
 /* eslint-disable no-param-reassign */
 // /* eslint-disable */
 // @ts-nocheck
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback, useContext } from "react";
 // import React, { useState } from "react";
 // import Button from "react-bootstrap/Button";
 import toast, { Toaster } from "react-hot-toast";
@@ -28,6 +28,8 @@ import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
 // import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
+// import Stack from "@mui/material/Stack";
+import Grid from "@mui/material/Grid";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import {
@@ -41,7 +43,11 @@ import {
 // import logo from './logo.svg';
 import logo from "../../tfl_roundel_no_text.svg";
 import "./App.css";
-import { mapArrayOfKeysToObject, setNestedObject } from "../../utils";
+import {
+  mapArrayOfKeysToObject,
+  objectFilter,
+  setNestedObject,
+} from "../../utils";
 import Map from "../Map/Map";
 
 import {
@@ -62,6 +68,14 @@ import {
 import { components as StopPointComponents } from "../../types/StopPoint";
 import { components as LineComponents } from "../../types/Line";
 import ModeCheckList from "../ModeCheckList";
+
+import {
+  DEFAULT_MAX_BEDROOMS,
+  DEFAULT_MIN_BEDROOMS,
+  DEFAULT_HOME_RADIUS_MILES,
+  DEFAULT_MAX_PRICE,
+} from "../../properties";
+import { defaultFilterData, MapContext } from "../Map/MapContext";
 
 // type LineModeGroup = StopPointComponents["schemas"]["Tfl-8"];
 type StopPoint = StopPointComponents["schemas"]["Tfl-11"];
@@ -95,6 +109,76 @@ const withToast = (fn: any, info: any, show = true) =>
     return promise;
   };
 
+const handleKeyDown = (e) => {
+  if (e.key === "Enter" || e.key === "Escape") {
+    if (e.key === "Enter") {
+      const { form } = e.target;
+      const index = [...form].indexOf(e.target);
+      for (let i = index + 1; i < form.length; i++) {
+        const element = form.elements[i];
+        if (element.localName === "input") {
+          element.focus();
+          break;
+        }
+      }
+      e.preventDefault();
+    } else {
+      e.target.blur();
+    }
+  }
+};
+
+const TextInputCustom = ({
+  name,
+  label,
+  dataObject,
+  handleFormChange,
+  error,
+}) => (
+  <TextField
+    id={`input-${name}`}
+    name={name}
+    label={label || name}
+    variant="outlined"
+    defaultValue={dataObject[name]}
+    onBlur={handleFormChange}
+    onKeyDown={handleKeyDown}
+    error={error || false}
+  />
+);
+
+const NumInputCustom = ({
+  name,
+  label,
+  dataObject,
+  handleNumChange,
+  adornment,
+  error,
+  float = false,
+}) => (
+  <TextField
+    id={`input-${name}`}
+    name={name}
+    label={label || name}
+    variant="outlined"
+    value={dataObject[name]}
+    onChange={(e) => handleNumChange(e, float)}
+    onKeyDown={handleKeyDown}
+    InputProps={
+      adornment
+        ? {
+            [`${adornment.type}Adornment`]: (
+              <InputAdornment position={adornment.type}>
+                {adornment.text}
+              </InputAdornment>
+            ),
+          }
+        : null
+    }
+    error={error || false}
+  />
+);
+
 const App = () => {
   const [info, setInfo] = useState("Waiting for search...");
   const [isBusy, setBusy] = useState(true);
@@ -113,42 +197,60 @@ const App = () => {
   const [graphSerialized, setGraphSerialized] = useState<any>();
 
   const [getModeCheckList, setModeCheckList] = useState<string[]>([]);
-  const [formData, setFormData] = useState({
+
+  const defaultFormData = {
     "destination-postcode": DEFAULT_POSTCODE,
     "destination-radius": DEFAULT_RADIUS,
-  });
+  };
+
+  const [formData, setFormData] = useState(defaultFormData);
+  // const [filterData, setFilterData] = useState(defaultFilterData);
+  const { filterData, setFilterData } = useContext(MapContext);
 
   useEffect(() => {
     // (async () => {
     // })();
     const urlParams = new URLSearchParams(window.location.search);
     const params = Object.fromEntries(urlParams);
-    setFormData({ ...formData, ...params });
+    const _formData = objectFilter(params, (v, k) => k in defaultFormData);
+    const _filterData = objectFilter(params, (v, k) => k in defaultFilterData);
+    setFormData({ ...formData, ..._formData });
+    setFilterData({ ...filterData, ..._filterData });
     setBusy(false);
   }, []);
 
   const handleFormChange = (e, value = null) => {
-    setFormData({
-      ...formData,
+    const cnd = e.target.name in defaultFormData;
+    const setFn = cnd ? setFormData : setFilterData;
+    const dataObject = cnd ? formData : filterData;
+    setFn({
+      ...dataObject,
       [e.target.name]: value !== null ? value : e.target.value,
     });
   };
 
-  const handleRadiusChange = (e) => {
-    // const handleRadiusChange = (e) => {
+  const handleNumChange = (e, allowFloat = false) => {
     // https://stackoverflow.com/a/43177957
-    const onlyInts = e.target.value.replace(/[^0-9]/g, "");
-    setRadius(+onlyInts);
+
+    // pattern = '[0-9]*\.?[0-9]*'
+    const pattern = allowFloat ? /[^0-9.]/g : /[^0-9]/g;
+    const onlyInts = e.target.value.replace(pattern, "");
     handleFormChange(e, onlyInts);
     // setFormData({ ...formData, [e.target.name]: onlyInts });
   };
 
+  const updateUrl = () => {
+    const queryString = new URLSearchParams({
+      ...formData,
+      ...filterData,
+    }).toString();
+    window.history.pushState({}, "", `?${queryString}`);
+  };
+
   const handleButtonClick = async (e) => {
     e.preventDefault();
-    const form = e.target;
-    const _formData = new FormData(form);
-    const queryString = new URLSearchParams(formData).toString();
-    window.history.pushState({}, "", `?${queryString}`);
+    updateUrl();
+
     // return;
 
     let _info;
@@ -329,25 +431,25 @@ const App = () => {
     toast.success(_info, { id: toastId });
   };
 
-  const handleKeyDown = (e) => {
-    if (e.key === "Enter" || e.key === "Escape") {
-      if (e.key === "Enter") {
-        const { form } = e.target;
-        const index = [...form].indexOf(e.target);
-        for (let i = index + 1; i < form.length; i++) {
-          const element = form.elements[i];
-          if (element.localName === "input") {
-            element.focus();
-            break;
+  const SearchButton = useCallback(
+    () => (
+      <div>
+        <Button
+          variant="contained"
+          color="primary"
+          type="submit"
+          // onClick={handleButtonClick}
+          disabled={
+            formData["destination-radius"] <= 0 ||
+            !formData["destination-postcode"]
           }
-        }
-        e.preventDefault();
-      } else {
-        e.target.blur();
-      }
-    }
-  };
-
+        >
+          Get Data
+        </Button>
+      </div>
+    ),
+    [],
+  );
   // const handleFormUpdate = (e) => {};
   if (isBusy) return null;
   return (
@@ -361,67 +463,97 @@ const App = () => {
           stateGetter={getModeCheckList}
           stateSetter={setModeCheckList}
         />
-        <Paper
-          elevation={3}
-          component="form"
-          onSubmit={handleButtonClick}
+        <Grid
+          container
+          elevation={2}
           sx={{ "& .MuiTextField-root": { m: 1, width: "25ch" } }}
-          // noValidate
-          // autoComplete="off"
+          alignItems="center"
         >
-          <Typography variant="h5">Destination</Typography>
-          <div>
-            <TextField
-              id="input-destination-postcode"
+          <Grid
+            item
+            xs={12}
+            sm={6}
+            component="form"
+            onSubmit={handleButtonClick}
+          >
+            <Typography variant="h5">Search</Typography>
+            <TextInputCustom
               name="destination-postcode"
-              label="Destination Postcode"
-              variant="outlined"
-              defaultValue={formData["destination-postcode"]}
-              onBlur={handleFormChange}
-              onKeyDown={handleKeyDown}
+              label="Commute Destination Postcode"
+              dataObject={formData}
+              handleFormChange={handleFormChange}
               error={!formData["destination-postcode"]}
             />
-          </div>
-          <div>
-            <TextField
-              id="input-destination-radius"
+            <NumInputCustom
               name="destination-radius"
-              label="Destination Search Radius"
-              variant="outlined"
-              value={formData["destination-radius"]}
-              onChange={handleRadiusChange}
-              onKeyDown={handleKeyDown}
-              InputProps={{
-                endAdornment: <InputAdornment position="end">m</InputAdornment>,
-              }}
+              label="Commute Destination Search Radius"
+              dataObject={formData}
+              handleNumChange={handleNumChange}
+              adornment={{ type: "end", text: "m" }}
               error={formData["destination-radius"] <= 0}
             />
-          </div>
-          <div>
-            <Button
-              variant="contained"
-              color="primary"
-              type="submit"
-              // onClick={handleButtonClick}
-              disabled={
-                formData["destination-radius"] <= 0 ||
-                !formData["destination-postcode"]
-              }
-            >
-              Get Data
-            </Button>
-          </div>
-        </Paper>
-
+            <SearchButton />
+          </Grid>
+          <Grid
+            item
+            // sx={{ m: 2 }}
+            xs={12}
+            sm={6}
+          >
+            <Typography variant="h5">Filters</Typography>
+            <NumInputCustom
+              name="min-bedrooms"
+              label="Min. Bedrooms"
+              dataObject={filterData}
+              handleNumChange={handleNumChange}
+              adornment={{ type: "end", text: "beds" }}
+            />
+            <NumInputCustom
+              name="max-bedrooms"
+              label="Max. Bedrooms"
+              dataObject={filterData}
+              handleNumChange={handleNumChange}
+              adornment={{ type: "end", text: "beds" }}
+            />
+            <NumInputCustom
+              name="max-price"
+              label="Max. Price"
+              dataObject={filterData}
+              handleNumChange={handleNumChange}
+              adornment={{ type: "start", text: "£" }}
+            />
+            <NumInputCustom
+              float
+              id="input-home-radius"
+              name="home-radius"
+              label="Home Station Search Radius"
+              variant="outlined"
+              dataObject={filterData}
+              handleNumChange={handleNumChange}
+              adornment={{ type: "end", text: "miles" }}
+            />
+          </Grid>
+        </Grid>
         <p>{info}</p>
+        {/* <p>{JSON.stringify(formData)}</p>
+        <p>{JSON.stringify(filterData)}</p> */}
         <Map
           originInfo={originInfo}
           nearbyStopPoints={nearbyStopPoints}
           graphSerialized={graphSerialized}
+          // filterData={filterData}
         />
         {/* <GraphComponent graph={displayedGraph} style={{}} /> */}
-        <p>Powered by TfL Open Data</p>
-        <p>
+        <p style={{ fontSize: 10 }}>
+          <a
+            style={{ fontSize: 12 }}
+            href="https://github.com/qwrwed/accomodation-transit-tool"
+          >
+            Source Code
+          </a>
+          <br />
+          Powered by TfL Open Data
+          <br />
           Contains OS data © Crown copyright and database rights (2016) and
           Geomni UK Map data © and database rights (2019)
         </p>

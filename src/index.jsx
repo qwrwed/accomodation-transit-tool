@@ -10,12 +10,15 @@ import App from "./components/App/App";
 import theme from "./theme";
 
 import reportWebVitals from "./reportWebVitals";
+import { MapProvider } from "./components/Map/MapContext";
 
 ReactDOM.render(
   <React.StrictMode>
     <ThemeProvider theme={theme}>
-      <CssBaseline />
-      <App />
+      <MapProvider>
+        <CssBaseline />
+        <App />
+      </MapProvider>
     </ThemeProvider>
   </React.StrictMode>,
   document.getElementById("root"),
