@@ -534,7 +534,7 @@ const App = () => {
             />
           </Grid>
         </Grid>
-        <p>{info}</p>
+        {/* <p>{info}</p> */}
         {/* <p>{JSON.stringify(formData)}</p>
         <p>{JSON.stringify(filterData)}</p> */}
         <Map
