@@ -1,9 +1,9 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <!-- source: https://en.m.wikipedia.org/wiki/File:TfL_roundel_(no_text).svg -->
 <!-- Generator: Adobe Illustrator 23.0.1, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
-<svg version="1.1" id="svg2158" xmlns:svg="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 615.3 500" enable-background="new 0 0 615.3 500" xml:space="preserve">
-<g>
-	<path fill="#0019A8" d="M469.5,250c0,89.1-72.3,161.3-161.3,161.3c-89.1,0-161.3-72.2-161.3-161.3c0-89.1,72.2-161.3,161.3-161.3   C397.2,88.7,469.5,160.9,469.5,250 M308.1,0C170,0,58.1,111.9,58.1,250c0,138.1,111.9,250,250,250c138.1,0,250-111.9,250-250   C558.1,111.9,446.2,0,308.1,0"/>
-	<rect y="199.5" fill="#0019A8" width="615.3" height="101.1"/>
-</g>
+<!-- https://jakearchibald.github.io/svgomg/ -->
+<svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" viewBox="0 0 615.3 500">
+  <g fill="#0019A8">
+    <path d="M469.5 250c0 89.1-72.3 161.3-161.3 161.3-89.1 0-161.3-72.2-161.3-161.3 0-89.1 72.2-161.3 161.3-161.3 89 0 161.3 72.2 161.3 161.3M308.1 0C170 0 58.1 111.9 58.1 250s111.9 250 250 250 250-111.9 250-250S446.2 0 308.1 0"/>
+    <path d="M0 199.5h615.3v101.1H0z"/>
+  </g>
 </svg>
