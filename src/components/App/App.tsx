@@ -41,8 +41,8 @@ import {
 } from "../../constants";
 
 // import logo from './logo.svg';
-// import logo from "../../tfl_roundel_no_text.svg";
-import logo from "../SVG/TflRoundelNoText";
+import logo from "../../assets/tfl_roundel_no_text.svg";
+// import logo from "../SVG/TflRoundelNoText";
 import "./App.css";
 import {
   mapArrayOfKeysToObject,
