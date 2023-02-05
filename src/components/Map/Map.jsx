@@ -43,6 +43,7 @@ import {
   ZooplaLink,
 } from "../../properties";
 import { MapContext, MapProvider } from "./MapContext";
+import { getPropertyByKeyArray } from "../../utils";
 
 // import the LEM css
 require("leaflet-extra-markers");
@@ -250,7 +251,10 @@ const MapStation = ({ station }) => {
 const MapStations = ({ stations }) =>
   (stations &&
     stations.map((station) => (
-      <MapStation station={station} key={station.label} />
+      <MapStation
+        station={station}
+        key={getPropertyByKeyArray(station, ["stationId", "topMostParentId"])}
+      />
     ))) ||
   null;
 

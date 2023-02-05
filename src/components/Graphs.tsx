@@ -14,7 +14,7 @@ import {
   LINE_COLORS,
   MODES_INFO_ALL,
 } from "../constants";
-import { objectKeysToList, objectMap, setUnion } from "../utils";
+import { getPropertyByKeyArray, objectKeysToList, objectMap, setUnion } from "../utils";
 
 const defaultSigmaContainerStyle = { height: "500px", width: "100%" };
 
@@ -91,12 +91,12 @@ export const GraphComponent = ({
 export const getLineGraphFromLine = async ({
   lineId,
   direction,
-  branchDataKey = "stationId",
+  branchDataKeys = ["stationId", "topMostParentId"],
   multi = true,
 }: {
   lineId: LineId;
   direction: Direction;
-  branchDataKey?: string;
+  branchDataKeys?: Array<string>;
   multi?: boolean;
 }) => {
   const lineGraph = new Graph({multi});
@@ -119,7 +119,7 @@ export const getLineGraphFromLine = async ({
         const spFrom = stopPointArray[i];
         const spTo = stopPointArray[i + 1];
         if (i === 0) {
-          lineGraph.mergeNode(spFrom[branchDataKey], {
+          lineGraph.mergeNode(getPropertyByKeyArray(spFrom, branchDataKeys), {
             ...spFrom,
             x: spFrom.lon,
             y: spFrom.lat,
@@ -128,7 +128,7 @@ export const getLineGraphFromLine = async ({
             size: GRAPH_NODE_SIZE,
           });
         }
-        lineGraph.mergeNode(spTo[branchDataKey], {
+        lineGraph.mergeNode(getPropertyByKeyArray(spTo, branchDataKeys), {
           ...spTo,
           x: spTo.lon,
           y: spTo.lat,
@@ -136,7 +136,7 @@ export const getLineGraphFromLine = async ({
           color: lineColor,
           size: GRAPH_NODE_SIZE,
         });
-        const fromTo = [spFrom[branchDataKey], spTo[branchDataKey]]
+        const fromTo = [getPropertyByKeyArray(spFrom, branchDataKeys), getPropertyByKeyArray(spTo, branchDataKeys)]
         // fromTo.sort();
         lineGraph.mergeEdgeWithKey(
           JSON.stringify({lineId, fromTo}),

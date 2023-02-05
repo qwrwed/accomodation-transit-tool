@@ -35,9 +35,12 @@ export const getLatLonFromPostCode = async (
 export const getPostCodeFromLatLon = async(
   latLon: LatLon,
 ) => {
-  let { result: res } = await postcodes.geo(...latLon, {limit: 1000});
-  if (res){
-    return res[0].postcode;
+  const [latitude, longitude] = latLon
+  // need to wrap `geo` in a list so we can enable wideSearch
+  const response  = await postcodes.geo([{latitude, longitude, wideSearch: true}]);
+  const postcode = response.result[0].result[0].postcode
+  if (postcode){
+    return postcode;
   }
 }
 

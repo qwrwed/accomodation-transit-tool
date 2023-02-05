@@ -45,6 +45,7 @@ import logo from "../../assets/tfl_roundel_no_text.svg";
 // import logo from "../SVG/TflRoundelNoText";
 import "./App.css";
 import {
+  getPropertyByKeyArray,
   mapArrayOfKeysToObject,
   objectFilter,
   setNestedObject,
@@ -87,8 +88,8 @@ const mergeStopPoint = (
   stopPoint: MatchedStop,
   lineName: string,
 ) => {
-  const branchDataKey = "stationId";
-  graph.mergeNode(stopPoint[branchDataKey], {
+  const branchDataKeys = ["stationId", "topMostParentId"];
+  graph.mergeNode(getPropertyByKeyArray(stopPoint, branchDataKeys), {
     ...stopPoint,
     x: stopPoint.lon,
     y: stopPoint.lat,
@@ -383,7 +384,7 @@ const App = () => {
             const graphDirectionLine = lineGraphObjectInDirection[lineId];
             for (const stopPoint of nearbyStopPointsOnLines[modeName][lineId]) {
               // console.log(
-              //   `Graphing line "${lineName}" stop "${stopPoint.commonName}" (${stopPoint.stationNaptan}) in direction "${direction}" (reverseGraph=${reverseGraph})`,
+              //   `Graphing line "${lineId}" stop "${stopPoint.commonName}" (${stopPoint.stationNaptan}) in direction "${direction}" (reverseGraph=${reverseGraph})`,
               // );
               if (graphDirectionLine.hasNode(stopPoint.stationNaptan)) {
                 dfsFromNode(

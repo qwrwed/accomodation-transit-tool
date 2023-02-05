@@ -123,3 +123,19 @@ export const catchHttpError = (fn) => {
     }
   })
 };
+
+export const ensureArray = (content) => {
+  return Array.isArray(content)? content : new Array(content)
+}
+
+export const getPropertyByKeyArray = (object, keys) => {
+  // takes a list of keys and an object
+  // loops over the list, trying each key and returning the value for the first one that works
+  keys = ensureArray(keys);
+  for (const key of keys){
+    if (object[key] !== undefined){
+      return object[key]
+    }
+  }
+  console.error(`Could not find any of properties ${JSON.stringify(keys)} in object: `, object)
+}
