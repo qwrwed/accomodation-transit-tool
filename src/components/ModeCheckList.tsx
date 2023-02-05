@@ -12,23 +12,6 @@ import { getModes, getLinesByModes } from "../api";
 type Mode = LineComponents["schemas"]["Tfl"];
 type Line = LineComponents["schemas"]["Tfl-19"];
 
-// const linesToModes = {};
-// {
-//   const modes = await getModes();
-//   let modeNames = modes.map(({ modeName }) => modeName);
-//   // remove elizabeth line result while api does not support it
-//   modeNames = modeNames.filter((modeName) => modeName !== "elizabeth-line");
-//   const lines = await getLinesByModes(modeNames);
-//   for (const { modeName, id: lineId } of lines) {
-//     if (lineId in linesToModes && linesToModes[lineId] !== modeName) {
-//       console.warn(`line ${lineId} already corresponds to mode ${modeName}`);
-//     } else {
-//       linesToModes[lineId] = modeName;
-//     }
-//   }
-// }
-// export { linesToModes };
-
 const ModeCheckList = ({
   stateGetter,
   stateSetter,

@@ -59,8 +59,6 @@ const getlineModeDictionary = async () => {
   const lineModeDictionary = {};
   const modes = await getModes();
   let modeNames = modes.map(({ modeName }) => modeName);
-  // remove elizabeth line result while api does not support it
-  modeNames = modeNames.filter((modeName) => modeName !== "elizabeth-line");
   const lines = await getLinesByModes(modeNames);
   for (const line of lines) {
     const { modeName: modeId, id: lineId, name: lineName } = line;

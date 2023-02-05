@@ -10,9 +10,8 @@ import "react-sigma-v2/lib/react-sigma-v2.css";
 import { getLinesFromModes, getRoutesOnLine } from "../api";
 import {
   EDGE_TYPE,
+  getLineModeColor,
   GRAPH_NODE_SIZE,
-  LINE_COLORS,
-  MODES_INFO_ALL,
 } from "../constants";
 import { getPropertyByKeyArray, objectKeysToList, objectMap, setUnion } from "../utils";
 
@@ -108,9 +107,7 @@ export const getLineGraphFromLine = async ({
     console.error(info);
     toast.error(info, { id: info })
   }
-  const lineColor =
-    LINE_COLORS[routeSequence.lineId] ||
-    MODES_INFO_ALL[routeSequence.mode].color;
+  const lineColor = getLineModeColor(routeSequence.lineId, routeSequence.mode);
   const { mode: modeName } = routeSequence
   for (const stopPointSequence of routeSequence.stopPointSequences) {
     if (stopPointSequence.direction === direction) {

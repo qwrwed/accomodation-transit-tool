@@ -140,10 +140,13 @@ export const LINE_COLORS: Record<string, string> = {
   ...objectMap(MODES_INFO_ALL, ({ color }: { color: string }) => color),
   ...NATIONAL_RAIL_LINE_COLORS,
   ...LONDON_UNDERGROUND_LINE_COLORS,
-  // elizabeth: pantonePalette["266"],
-  "london-overground": MODES_INFO_ALL.overground.color!,
-  "tfl-rail": MODES_INFO_ALL.tflrail.color!,
+  // elizabeth: MODES_INFO_ALL["elizabeth-line"].color!,
+  // "london-overground": MODES_INFO_ALL.overground.color!,
+  // "tfl-rail": MODES_INFO_ALL.tflrail.color!,
 };
+
+export const getLineModeColor = (line: string, mode: string) =>
+  LINE_COLORS[line] || LINE_COLORS[mode];
 
 export const TFL_API_URL_ROOT = "https://api.tfl.gov.uk";
 

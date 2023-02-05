@@ -29,7 +29,7 @@ import Graph from "graphology";
 import "@fortawesome/fontawesome-free/css/all.css"; // e.g. using FA icons
 import "leaflet-extra-markers/dist/css/leaflet.extra-markers.min.css"; // Do the L extension.
 
-import { LINE_COLORS } from "../../constants";
+import { getLineModeColor, LINE_COLORS } from "../../constants";
 import {
   lineModeDictionary,
   // getStopPointsInfo,
@@ -182,12 +182,12 @@ const MapLines = ({ mapLineSegments }) =>
   (mapLineSegments &&
     mapLineSegments.map((seg, i) => {
       const lineWeight = 10;
-      const segmentWidth = seg.lineIds.length * lineWeight;
+      const segmentWidth = seg.lineModeInfo.length * lineWeight;
       return (
         <React.Fragment key={`pl-seg_${i}`}>
-          {seg.lineIds.map((lineId, j) => (
+          {seg.lineModeInfo.map(({ lineId, modeId }, j) => (
             <Polyline
-              color={LINE_COLORS[lineId]}
+              color={getLineModeColor(lineId, modeId)}
               opacity={0.75}
               positions={seg.lineCoords}
               offset={j * lineWeight - segmentWidth / 2 + lineWeight / 2}
@@ -265,6 +265,8 @@ const Map = ({ originInfo, nearbyStopPoints, graphSerialized }) => {
   useEffect(() => {
     (async () => {
       if (!graphSerialized) return;
+      const lmd = await lineModeDictionary;
+
       const _displayedGraph = new Graph({ multi: true });
       _displayedGraph.import(graphSerialized);
       const _mapLineSegments = {};
@@ -280,13 +282,13 @@ const Map = ({ originInfo, nearbyStopPoints, graphSerialized }) => {
               [fromLat, fromLon],
               [toLat, toLon],
             ],
-            lineIds: [],
+            lineModeInfo: [],
           };
         }
-        _mapLineSegments[fromTo].lineIds.push(lineId);
+        _mapLineSegments[fromTo].lineModeInfo.push(lmd[lineId]);
       });
       setMapLineSegments(Object.values(_mapLineSegments));
-      const lmd = await lineModeDictionary;
+
       const _stations = [];
       _displayedGraph.forEachNode((key, attributes) => {
         const { lat, lon, lines, ...rest } = attributes;
