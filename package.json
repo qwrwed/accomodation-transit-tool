@@ -72,5 +72,10 @@
     "eslint-plugin-prettier": "^4.0.0",
     "gh-pages": "^3.2.3",
     "prettier": "^2.5.1"
+  },
+  "pnpm": {
+    "patchedDependencies": {
+      "url@0.11.0": "patches/url@0.11.0.patch"
+    }
   }
 }
