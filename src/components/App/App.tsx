@@ -9,6 +9,7 @@
 /* eslint-disable no-await-in-loop */
 /* eslint-disable no-restricted-syntax */
 /* eslint-disable no-param-reassign */
+/* eslint-disable no-console */
 // /* eslint-disable */
 // @ts-nocheck
 import React, { useState, useEffect, useCallback, useContext } from "react";
@@ -211,6 +212,7 @@ const App = () => {
   const [formData, setFormData] = useState(defaultFormData);
   // const [filterData, setFilterData] = useState(defaultFilterData);
   const { filterData, setFilterData } = useContext(MapContext);
+  const [executeOnload, setExecuteOnload] = useState(undefined);
 
   useEffect(() => {
     // (async () => {
@@ -221,8 +223,24 @@ const App = () => {
     const _filterData = objectFilter(params, (v, k) => k in defaultFilterData);
     setFormData({ ...formData, ..._formData });
     setFilterData({ ...filterData, ..._filterData });
+    setExecuteOnload(params.onload);
     setBusy(false);
   }, []);
+
+  useEffect(() => {
+    if (
+      !executeOnload ||
+      !filterData ||
+      !formData ||
+      getModeCheckList.length === 0 ||
+      isBusy
+    ) {
+      return;
+    }
+    // eslint-disable-next-line @typescript-eslint/no-use-before-define
+    execute();
+    setExecuteOnload(false);
+  }, [executeOnload, filterData, formData, getModeCheckList, isBusy]);
 
   const handleFormChange = (e, value = null) => {
     const cnd = e.target.name in defaultFormData;
@@ -244,18 +262,17 @@ const App = () => {
     // setFormData({ ...formData, [e.target.name]: onlyInts });
   };
 
-  const updateUrl = () => {
+  const updateUrl = (onload = true) => {
+    const onloadData = onload ? { onload: 1 } : {};
     const queryString = new URLSearchParams({
       ...formData,
       ...filterData,
+      ...onloadData,
     }).toString();
     window.history.pushState({}, "", `?${queryString}`);
   };
 
-  const handleButtonClick = async (e) => {
-    e.preventDefault();
-    updateUrl();
-
+  const execute = async () => {
     // return;
 
     let _info;
@@ -264,6 +281,7 @@ const App = () => {
     // convert postcode to latitude, longitude
     _info = `Getting latitude/longitude of postcode ${formData["destination-postcode"]}...`;
     setInfo(_info);
+    console.info(_info);
     toast.loading(_info, { id: toastId });
     const latLong = await getLatLonFromPostCode(
       formData["destination-postcode"],
@@ -273,6 +291,7 @@ const App = () => {
     } else {
       _info = `Postcode "${formData["destination-postcode"]}" not found`;
       setInfo(_info);
+      console.info(_info);
       toast.error(_info, { id: toastId });
       return;
     }
@@ -290,6 +309,7 @@ const App = () => {
       latLong,
     )})...`;
     setInfo(_info);
+    console.info(_info);
     toast.loading(_info, { id: toastId });
     let stopPoints = await getStopPointsByRadius(
       NAPTAN_STOPTYPES,
@@ -301,11 +321,12 @@ const App = () => {
 
     // check for no result
     if (stopPoints.length === 0) {
-      setInfo(
-        `No stops found within ${formData["destination-radius"]} metres of postcode ${formData["destination-postcode"]}`,
-      );
+      _info = `No stops found within ${formData["destination-radius"]} metres of postcode ${formData["destination-postcode"]}`;
+      setInfo(_info);
+      console.info(_info);
       return;
     }
+    console.info("stopPoints:", stopPoints);
 
     const chosenModesSet = new Set(getModeCheckList);
     stopPoints = await filterStopPoints(
@@ -315,6 +336,7 @@ const App = () => {
       undefined,
     );
     setNearbyStopPoints(stopPoints);
+    console.info("stopPoints for modes", chosenModesSet, stopPoints);
 
     const summary = stopPoints.map(({ commonName, distance }) => ({
       commonName,
@@ -324,13 +346,16 @@ const App = () => {
     const summaryText = summary.map(
       ({ commonName, distance }) => `${commonName} (${distance}m)`,
     );
-    setInfo(
-      `Stops within ${formData["destination-radius"]} metres of postcode ${
-        formData["destination-postcode"]
-      } (${JSON.stringify(latLong)}): ${summaryText.join(", ")}`,
-    );
+    _info = `Stops within ${
+      formData["destination-radius"]
+    } metres of postcode ${formData["destination-postcode"]} (${JSON.stringify(
+      latLong,
+    )}): ${summaryText.join(", ")}`;
+    setInfo(_info);
+    console.info(_info);
 
     _info = "Plotting map...";
+    console.info(_info);
     toast.loading(_info, { id: toastId });
     // organise the nearby stopPoints by mode and line; {mode: {line: [stopPoint]}}
     const nearbyLineIdList: string[] = [];
@@ -434,6 +459,12 @@ const App = () => {
     setDisplayedGraph(_displayedGraph.copy()); // changes input for some reason, so pass a copy
     setGraphSerialized(makeLineGraphUndirected(_displayedGraph).export());
     toast.success(_info, { id: toastId });
+  };
+
+  const handleButtonClick = async (e) => {
+    e.preventDefault();
+    updateUrl();
+    await execute();
   };
 
   const SearchButton = useCallback(
