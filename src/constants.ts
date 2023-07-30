@@ -30,7 +30,7 @@ export const MODES_INFO_ALL: ModeInfoContainer = {
     label: "Docklands Light Railway",
     color: pantonePalette["326"],
     icon: "fa-subway",
-    selectedByDefault: false,
+    selectedByDefault: true,
   },
   "national-rail": {
     label: "National Rail",
@@ -53,7 +53,7 @@ export const MODES_INFO_ALL: ModeInfoContainer = {
   "river-tour": { hidden: true },
   tflrail: {
     label: "TfL Rail",
-    hidden: false,
+    hidden: true,
     icon: "fa-train",
     color: pantonePalette["266"],
     selectedByDefault: false,
@@ -63,13 +63,13 @@ export const MODES_INFO_ALL: ModeInfoContainer = {
     hidden: false,
     icon: "fa-subway",
     color: pantonePalette["266"],
-    selectedByDefault: false,
+    selectedByDefault: true,
   },
   tram: {
     label: "London Tramlink",
     color: pantonePalette["368"],
     icon: "fa-subway",
-    selectedByDefault: false,
+    selectedByDefault: true,
   },
   tube: {
     label: "London Underground",

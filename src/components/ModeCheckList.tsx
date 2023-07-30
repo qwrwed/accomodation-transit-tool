@@ -22,7 +22,7 @@ const ModeCheckList = ({
   const useLines = false;
 
   const parentId = "parent:all";
-  const parentLabel = "All Modes";
+  const parentLabel = "All Transport Modes";
 
   const [data, setData] = useState<RenderTree | undefined>();
   // const defaultExpanded = [parentId];
