@@ -229,6 +229,7 @@ const MapStation = ({ station }) => {
           // console.log(station);
         },
       }}
+      pane="markerPane"
     >
       <Popup>
         <div style={{ whiteSpace: "pre" }}>
