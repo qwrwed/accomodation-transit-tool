@@ -9,7 +9,7 @@
 // https://github.com/coryasilva/Leaflet.ExtraMarkers/issues/53#issuecomment-643551999
 import L from "leaflet";
 
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import {
   MapContainer,
@@ -29,7 +29,7 @@ import Graph from "graphology";
 import "@fortawesome/fontawesome-free/css/all.css"; // e.g. using FA icons
 import "leaflet-extra-markers/dist/css/leaflet.extra-markers.min.css"; // Do the L extension.
 
-import { getLineModeColor, LINE_COLORS } from "../../constants";
+import { getLineModeColor } from "../../constants";
 import {
   lineModeDictionary,
   // getStopPointsInfo,
@@ -39,10 +39,10 @@ import {
 import {
   OnthemarketLink,
   OpenrentLink,
+  postcode_to_outcode,
   RightmoveLink,
   ZooplaLink,
 } from "../../properties";
-import { MapContext, MapProvider } from "./MapContext";
 import { getPropertyByKeyArray } from "../../utils";
 
 // import the LEM css
@@ -238,7 +238,10 @@ const MapStation = ({ station }) => {
           Zone {station.zone}
           <br />
           {formatLineModes(station.lineModes)}
-          <RightmoveLink postcode={postcode} />
+          <RightmoveLink
+            station_name={station.label}
+            outcode={postcode_to_outcode(postcode)}
+          />
           <ZooplaLink postcode={postcode} />
           <OpenrentLink postcode={postcode} />
           <OnthemarketLink postcode={postcode} />
