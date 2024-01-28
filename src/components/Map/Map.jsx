@@ -34,7 +34,7 @@ import {
   lineModeDictionary,
   // getStopPointsInfo,
   getPostCodeFromLatLon,
-} from "../../api";
+} from "../../api/api";
 
 import {
   OnthemarketLink,
@@ -42,7 +42,7 @@ import {
   postcode_to_outcode,
   RightmoveLink,
   ZooplaLink,
-} from "../../properties";
+} from "../../api/properties";
 import { getPropertyByKeyArray } from "../../utils";
 
 // import the LEM css

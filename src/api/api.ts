@@ -11,11 +11,11 @@ import {
   objectMap,
   roundAccurately,
   setIntersection,
-} from "./utils";
+} from "../utils";
 
-import { MODES_INFO_ALL, TFL_API_URL_ROOT } from "./constants";
-import { components as StopPointComponents } from "./types/StopPoint";
-import { components as LineComponents } from "./types/Line";
+import { MODES_INFO_ALL, TFL_API_URL_ROOT } from "../constants";
+import { components as StopPointComponents } from "../types/StopPoint";
+import { components as LineComponents } from "../types/Line";
 
 import postcodes from "node-postcodes.io";
 

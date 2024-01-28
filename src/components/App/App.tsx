@@ -58,7 +58,7 @@ import {
   getStopPointsByRadius,
   filterStopPoints,
   // lineModeDictionary,
-} from "../../api";
+} from "../../api/api";
 
 import {
   getLineGraphObjectFromLineIdList,
@@ -77,7 +77,7 @@ import {
   DEFAULT_MIN_BEDROOMS,
   DEFAULT_HOME_RADIUS_MILES,
   DEFAULT_MAX_PRICE,
-} from "../../properties";
+} from "../../api/properties";
 import { defaultFilterData, MapContext } from "../Map/MapContext";
 
 // type LineModeGroup = StopPointComponents["schemas"]["Tfl-8"];

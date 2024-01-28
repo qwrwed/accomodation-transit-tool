@@ -7,7 +7,7 @@ import { MODES_DEFAULT, MODES_INFO_ALL } from "../constants";
 import CheckBoxTreeView from "./CheckBoxTreeView";
 import { components as LineComponents } from "../types/Line";
 import { catchHttpError } from "../utils";
-import { getModes, getLinesByModes } from "../api";
+import { getModes, getLinesByModes } from "../api/api";
 
 type Mode = LineComponents["schemas"]["Tfl"];
 type Line = LineComponents["schemas"]["Tfl-19"];

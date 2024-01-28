@@ -7,7 +7,7 @@ import React from "react";
 import toast from "react-hot-toast";
 import { SigmaContainer, useSigma } from "react-sigma-v2";
 import "react-sigma-v2/lib/react-sigma-v2.css";
-import { getLinesFromModes, getRoutesOnLine } from "../api";
+import { getLinesFromModes, getRoutesOnLine } from "../api/api";
 import {
   EDGE_TYPE,
   getLineModeColor,

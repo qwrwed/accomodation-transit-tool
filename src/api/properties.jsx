@@ -4,10 +4,10 @@ import {
   // DEFAULT_MIN_PRICE,
   MapContext,
   // MapContext,
-} from "./components/Map/MapContext";
+} from "../components/Map/MapContext";
 
-const outcodeData = require("./rightmoveOutcodeData.json"); // https://github.com/ISNIT0/rightmove-outcode-scraper
-const rightmoveStationNameToIdentifier = require("./rightmove_name_to_identifier_STATION.json");
+const outcodeData = require("./rightmove/rightmoveOutcodeData.json"); // https://github.com/ISNIT0/rightmove-outcode-scraper
+const rightmoveStationNameToIdentifier = require("./rightmove/rightmove_name_to_identifier_STATION.json");
 
 const KM_PER_MILE = 1.609;
 

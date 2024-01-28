@@ -1,4 +1,4 @@
-import pantonePalette from "./pantonePalette";
+import pantonePalette from "./pantone/pantonePalette";
 import { objectFilter, objectMap } from "./utils";
 
 type ModeInfo = {
