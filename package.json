@@ -75,7 +75,7 @@
   },
   "pnpm": {
     "patchedDependencies": {
-      "url@0.11.0": "patches/url@0.11.0.patch"
+      "url": "patches/url.patch"
     }
   }
 }

@@ -1,0 +1,11 @@
+diff --git a/url.js b/url.js
+index a2d65e11378d6da585da855f206bdfb721a51580..e009dccca84016382d3e7d3ac827942a22675b86 100644
+--- a/url.js
++++ b/url.js
+@@ -773,4 +773,6 @@ exports.resolve = urlResolve;
+ exports.resolveObject = urlResolveObject;
+ exports.format = urlFormat;
+ 
++exports.URLSearchParams = URLSearchParams;
++
+ exports.Url = Url;
