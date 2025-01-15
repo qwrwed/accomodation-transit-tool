@@ -6,10 +6,7 @@
 // https://github.com/mui-org/material-ui/issues/17407#issuecomment-969029758
 import React from "react";
 
-import ChevronRight from "@mui/icons-material/ChevronRight";
-import ExpandMore from "@mui/icons-material/ExpandMore";
-import TreeItem from "@mui/lab/TreeItem";
-import TreeView from "@mui/lab/TreeView";
+import { SimpleTreeView, TreeItem } from "@mui/x-tree-view";
 import Checkbox from "@mui/material/Checkbox";
 import FormControlLabel from "@mui/material/FormControlLabel";
 
@@ -70,12 +67,12 @@ export default ({
   data,
   stateGetter,
   stateSetter,
-  defaultExpanded = [],
+  defaultExpandedItems = [],
 }: {
   data: RenderTree;
   stateGetter: string[];
   stateSetter: UseStateSetter<string[]>;
-  defaultExpanded?: string[];
+  defaultExpandedItems?: string[];
 }) => {
   // const [selected, setSelected] = React.useState<string[]>([]);
   if (VERBOSE) console.log(stateGetter);
@@ -115,7 +112,8 @@ export default ({
     return (
       <TreeItem
         key={nodes.id}
-        nodeId={nodes.id}
+        itemId={nodes.id}
+        style={{ textAlign: "initial" }}
         label={
           <FormControlLabel
             control={
@@ -141,13 +139,11 @@ export default ({
   };
 
   return (
-    <TreeView
-      defaultExpanded={defaultExpanded}
-      defaultExpandIcon={<ChevronRight />}
-      defaultCollapseIcon={<ExpandMore />}
+    <SimpleTreeView
+      defaultExpandedItems={defaultExpandedItems}
       style={{ textAlign: "initial" }}
     >
       {renderTree(data)}
-    </TreeView>
+    </SimpleTreeView>
   );
 };

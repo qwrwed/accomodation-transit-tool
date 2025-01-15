@@ -43,7 +43,7 @@ const App = () => {
           data={data}
           stateGetter={selected}
           stateSetter={setSelected}
-          defaultExpanded={["0", "3", "4"]}
+          defaultExpandedItems={["0", "3", "4"]}
         />
         <Container>{objectKeysToList(sampleListState)}</Container>
         <Container>===</Container>

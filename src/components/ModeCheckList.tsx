@@ -25,8 +25,8 @@ const ModeCheckList = ({
   const parentLabel = "All Transport Modes";
 
   const [data, setData] = useState<RenderTree | undefined>();
-  // const defaultExpanded = [parentId];
-  const defaultExpanded: string[] = [];
+  // const defaultExpandedItems = [parentId];
+  const defaultExpandedItems: string[] = [];
   useEffect(() => {
     (async () => {
       const modeLineTree: RenderTree = {
@@ -84,7 +84,7 @@ const ModeCheckList = ({
         data={data}
         stateGetter={stateGetter}
         stateSetter={stateSetter}
-        defaultExpanded={defaultExpanded}
+        defaultExpandedItems={defaultExpandedItems}
       />
     );
   }
