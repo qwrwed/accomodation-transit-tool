@@ -1,3 +1,4 @@
+import Color from "color";
 import pantonePalette from "./pantone/pantonePalette";
 import { objectFilter, objectMap } from "./utils";
 
@@ -109,6 +110,15 @@ const LONDON_UNDERGROUND_LINE_COLORS = {
   northern: pantonePalette.Black,
 };
 
+const LONDON_OVERGROUND_LINE_COLORS = {
+  liberty: Color.rgb(93, 96, 97).hex(),
+  lioness: Color.rgb(250, 166, 26).hex(),
+  mildmay: Color.rgb(0, 119, 173).hex(),
+  suffragette: Color.rgb(91, 189, 114).hex(),
+  weaver: Color.rgb(130, 58, 98).hex(),
+  windrush: Color.rgb(237, 27, 0).hex(),
+};
+
 const NATIONAL_RAIL_LINE_COLORS = {
   "avanti-west-coast": "#AAAAAA",
   c2c: "#AF8EC7",
@@ -140,9 +150,7 @@ export const LINE_COLORS: Record<string, string> = {
   ...objectMap(MODES_INFO_ALL, ({ color }: { color: string }) => color),
   ...NATIONAL_RAIL_LINE_COLORS,
   ...LONDON_UNDERGROUND_LINE_COLORS,
-  // elizabeth: MODES_INFO_ALL["elizabeth-line"].color!,
-  // "london-overground": MODES_INFO_ALL.overground.color!,
-  // "tfl-rail": MODES_INFO_ALL.tflrail.color!,
+  ...LONDON_OVERGROUND_LINE_COLORS,
 };
 
 export const getLineModeColor = (line: string, mode: string) =>
