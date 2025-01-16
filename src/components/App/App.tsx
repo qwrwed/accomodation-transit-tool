@@ -196,7 +196,7 @@ const App = () => {
   // map data
   const [originInfo, setOriginInfo] = useState<{
     postcode: string;
-    latLong: LatLon;
+    latLon: LatLon;
     radius: number;
   }>();
   const [nearbyStopPoints, setNearbyStopPoints] = useState<StopPoint[]>([]);
@@ -283,10 +283,10 @@ const App = () => {
     setInfo(_info);
     console.info(_info);
     toast.loading(_info, { id: toastId });
-    const latLong = await getLatLonFromPostCode(
+    const latLon = await getLatLonFromPostCode(
       formData["destination-postcode"],
     );
-    if (latLong) {
+    if (latLon) {
       toast.success(_info, { id: toastId });
     } else {
       _info = `Postcode "${formData["destination-postcode"]}" not found`;
@@ -298,7 +298,7 @@ const App = () => {
 
     setOriginInfo({
       postcode: formData["destination-postcode"],
-      latLong,
+      latLon,
       radius: formData["destination-radius"],
     });
 
@@ -306,14 +306,14 @@ const App = () => {
     _info = `Searching for stops within ${
       formData["destination-radius"]
     } metres of ${formData["destination-postcode"]} (${JSON.stringify(
-      latLong,
+      latLon,
     )})...`;
     setInfo(_info);
     console.info(_info);
     toast.loading(_info, { id: toastId });
     let stopPoints = await getStopPointsByRadius(
       NAPTAN_STOPTYPES,
-      latLong,
+      latLon,
       formData["destination-radius"],
     );
     toast.success(_info, { id: toastId });
@@ -349,7 +349,7 @@ const App = () => {
     _info = `Stops within ${
       formData["destination-radius"]
     } metres of postcode ${formData["destination-postcode"]} (${JSON.stringify(
-      latLong,
+      latLon,
     )}): ${summaryText.join(", ")}`;
     setInfo(_info);
     console.info(_info);

@@ -156,6 +156,13 @@ export const LINE_COLORS: Record<string, string> = {
 export const getLineModeColor = (line: string, mode: string) =>
   LINE_COLORS[line] || LINE_COLORS[mode];
 
+export const getModeDashes = (mode: string) => {
+  if (mode === "tube") {
+    return [];
+  }
+  return [12];
+};
+
 export const TFL_API_URL_ROOT = "https://api.tfl.gov.uk";
 
 export const NAPTAN_STOPTYPES = [
@@ -180,6 +187,7 @@ export const DEFAULT_RADIUS = 800;
 // export const DEFAULT_POSTCODE = "CR0 2AF"; // west croydon (trams)
 // export const DEFAULT_POSTCODE = "W12 8EG"; // goldhawk road (h&c, circle in parallel)
 // export const DEFAULT_POSTCODE = "N1C 4TB"; // KGX/STP
+// export const DEFAULT_POSTCODE = "E14 5AB"; // canary wharf EL
 export const DEFAULT_POSTCODE = process.env.REACT_APP_DEFAULT_POSTCODE || "";
 
 // export const EDGE_TYPE = "line";

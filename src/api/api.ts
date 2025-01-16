@@ -101,10 +101,10 @@ export const makeTFLGetRequest = async (
 
 export const getStopPointsByRadius = async (
   stopTypes: string[],
-  latLong: [number, number],
+  latLon: [number, number],
   radius: number,
 ) => {
-  const [lat, lon] = latLong;
+  const [lat, lon] = latLon;
 
   const res = await stopPointInstance.getInRadius(
     stopTypes,

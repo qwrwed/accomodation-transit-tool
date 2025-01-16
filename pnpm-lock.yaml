@@ -55,6 +55,9 @@ importers:
       leaflet:
         specifier: ^1.7.1
         version: 1.9.4
+      leaflet-arrowheads:
+        specifier: ^1.4.0
+        version: 1.4.0
       leaflet-extra-markers:
         specifier: ^1.2.1
         version: 1.2.2(leaflet@1.9.4)
@@ -4041,10 +4044,16 @@ packages:
   launch-editor@2.9.1:
     resolution: {integrity: sha512-Gcnl4Bd+hRO9P9icCP/RVVT2o8SFlPXofuCxvA2SaZuH45whSvf5p8x5oih5ftLiVhEI4sp5xDY+R+b3zJBh5w==}
 
+  leaflet-arrowheads@1.4.0:
+    resolution: {integrity: sha512-aIjsmoWe1VJXaGOpKpS6E8EzN2vpx3GGCNP/FxQteLVzAg5xMID7elf9hj/1CWLJo8FuGRjSvKkUQDj7mocrYA==}
+
   leaflet-extra-markers@1.2.2:
     resolution: {integrity: sha512-LQUicXhyOwq0wOFtEftJg9IzAGcQI+6mHgh3wsVntrid149BTqsEgh1UcxPPtzcL7xt8jXY0rssfz7DUZuQudg==}
     peerDependencies:
       leaflet: '>= 0.5 < 2'
+
+  leaflet-geometryutil@0.10.3:
+    resolution: {integrity: sha512-Qeas+KsnenE0Km/ydt8km3AqFe7kJhVwuLdbCYM2xe2epsxv5UFEaVJiagvP9fnxS8QvBNbm7DJlDA0tkKo9VA==}
 
   leaflet-polylineoffset@1.1.1:
     resolution: {integrity: sha512-WcEjAROx9IhIVwSMoFy9p2QBCG9YeuGtJl4ZdunIgj4xbCdTrUkBj8JdonUeCyLPnD2/Vrem/raOPHm5LvebSw==}
@@ -11079,7 +11088,16 @@ snapshots:
       picocolors: 1.1.1
       shell-quote: 1.8.2
 
+  leaflet-arrowheads@1.4.0:
+    dependencies:
+      leaflet: 1.9.4
+      leaflet-geometryutil: 0.10.3
+
   leaflet-extra-markers@1.2.2(leaflet@1.9.4):
+    dependencies:
+      leaflet: 1.9.4
+
+  leaflet-geometryutil@0.10.3:
     dependencies:
       leaflet: 1.9.4
 

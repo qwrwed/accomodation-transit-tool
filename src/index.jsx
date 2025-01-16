@@ -7,6 +7,7 @@ import App from "./components/App/App";
 // import App from "./components/test";
 // import App from "./components/GraphScreen/GraphScreen";
 // import App from "./components/CheckBoxTreeView";
+// import App from "./components/Map/MapTest";
 import theme from "./theme";
 
 import { MapProvider } from "./components/Map/MapContext";
