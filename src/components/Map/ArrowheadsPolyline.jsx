@@ -1,34 +1,26 @@
-import React from "react";
+import React, { useRef, useEffect } from "react";
 import { Polyline } from "react-leaflet";
 import "leaflet-arrowheads";
 
-export default class ArrowheadsPolyline extends React.Component {
-  componentDidMount() {
-    const { arrowheads } = this.props;
-    const polyline = this.polylineRef;
-    if (arrowheads) {
+const ArrowheadsPolyline = ({ arrowheads, ...props }) => {
+  const polylineRef = useRef();
+
+  useEffect(() => {
+    const polyline = polylineRef.current;
+    if (arrowheads && polyline) {
       polyline.arrowheads(arrowheads);
       polyline._update();
     }
-  }
 
-  componentWillUnmount() {
-    const { arrowheads } = this.props;
-    if (arrowheads) {
-      const polyline = this.polylineRef;
-      polyline.deleteArrowheads();
-      polyline.remove();
-    }
-  }
+    return () => {
+      if (arrowheads && polyline) {
+        polyline.deleteArrowheads();
+        polyline.remove();
+      }
+    };
+  }, [arrowheads]);
 
-  render() {
-    return (
-      <Polyline
-        {...this.props}
-        ref={(polylineRef) => {
-          this.polylineRef = polylineRef;
-        }}
-      />
-    );
-  }
-}
+  return <Polyline ref={polylineRef} {...props} />;
+};
+
+export default ArrowheadsPolyline;
