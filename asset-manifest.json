@@ -1,8 +1,7 @@
 {
   "files": {
-    "main.css": "/accomodation-transit-tool/static/css/main.93b36267.css",
-    "main.js": "/accomodation-transit-tool/static/js/main.f5123330.js",
-    "static/js/350.9a2d5dec.chunk.js": "/accomodation-transit-tool/static/js/350.9a2d5dec.chunk.js",
+    "main.css": "/accomodation-transit-tool/static/css/main.97ed71cb.css",
+    "main.js": "/accomodation-transit-tool/static/js/main.46711309.js",
     "static/media/fa-solid-900.svg": "/accomodation-transit-tool/static/media/fa-solid-900.7a8b4f130182d19a2d7c.svg",
     "static/media/fa-brands-400.svg": "/accomodation-transit-tool/static/media/fa-brands-400.2f517e09eb2ca6650ff5.svg",
     "static/media/markers_default@2x.png": "/accomodation-transit-tool/static/media/markers_default@2x.9593b3c72f31a3f4b403.png",
@@ -22,12 +21,11 @@
     "static/media/fa-regular-400.woff2": "/accomodation-transit-tool/static/media/fa-regular-400.7a3337626410ca2f4071.woff2",
     "index.html": "/accomodation-transit-tool/index.html",
     "static/media/tfl_roundel_no_text.svg": "/accomodation-transit-tool/static/media/tfl_roundel_no_text.093b6a35fd639eb374f560cff30cda03.svg",
-    "main.93b36267.css.map": "/accomodation-transit-tool/static/css/main.93b36267.css.map",
-    "main.f5123330.js.map": "/accomodation-transit-tool/static/js/main.f5123330.js.map",
-    "350.9a2d5dec.chunk.js.map": "/accomodation-transit-tool/static/js/350.9a2d5dec.chunk.js.map"
+    "main.97ed71cb.css.map": "/accomodation-transit-tool/static/css/main.97ed71cb.css.map",
+    "main.46711309.js.map": "/accomodation-transit-tool/static/js/main.46711309.js.map"
   },
   "entrypoints": [
-    "static/css/main.93b36267.css",
-    "static/js/main.f5123330.js"
+    "static/css/main.97ed71cb.css",
+    "static/js/main.46711309.js"
   ]
 }
