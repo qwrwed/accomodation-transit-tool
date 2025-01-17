@@ -1,21 +1,28 @@
 import React, { useRef, useEffect } from "react";
-import { Polyline } from "react-leaflet";
+import { Polyline, PolylineProps } from "react-leaflet";
 import "leaflet-arrowheads";
 
-const ArrowheadsPolyline = ({ arrowheads, ...props }) => {
-  const polylineRef = useRef();
+interface ArrowheadsPolylineProps extends PolylineProps {
+  arrowheads: boolean;
+}
+
+const ArrowheadsPolyline: React.FC<ArrowheadsPolylineProps> = ({
+  arrowheads,
+  ...props
+}) => {
+  const polylineRef = useRef<L.Polyline | null>(null);
 
   useEffect(() => {
     const polyline = polylineRef.current;
     if (arrowheads && polyline) {
-      polyline.arrowheads(arrowheads);
-      // eslint-disable-next-line no-underscore-dangle
-      polyline._update();
+      polyline.arrowheads({});
+      // // eslint-disable-next-line no-underscore-dangle
+      // polyline._update();
     }
 
     return () => {
       if (arrowheads && polyline) {
-        polyline.deleteArrowheads();
+        // polyline.deleteArrowheads();
         polyline.remove();
       }
     };
