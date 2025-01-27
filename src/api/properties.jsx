@@ -24,7 +24,7 @@ const getOnthemarketLink = ({ postcode }) => {
   if (!postcode) return null;
   const { filterData } = useContext(MapContext);
   // eslint-disable-next-line prettier/prettier
-  const url = `https://www.onthemarket.com/to-rent/property/${postcode
+  let url = `https://www.onthemarket.com/to-rent/property/${postcode
     .toLowerCase()
     .replace(" ", "-")}/?furnished=furnished
 max-bedrooms=${filterData["max-bedrooms"]}
@@ -32,6 +32,10 @@ max-price=${filterData["max-price"]}
 min-bedrooms=${filterData["min-bedrooms"]}
 radius=${filterData["home-radius"]}
 view=grid`;
+
+  if ([true, false].includes(filterData["house-share"])) {
+    url += `\nshared=${filterData["house-share"]}`;
+  }
   return url.replace(/(?:\r\n|\r|\n)/g, "&");
 };
 
@@ -42,12 +46,23 @@ const getOpenrentLink = ({ postcode }) => {
   const area_km = Math.round(
     Math.max(filterData["home-radius"] * KM_PER_MILE, 1),
   );
+  let min_bedrooms = filterData["min-bedrooms"];
+  let max_bedrooms = filterData["max-bedrooms"];
+  if (filterData["house-share"] === true) {
+    min_bedrooms = -1;
+    max_bedrooms = -1;
+  } else if (filterData["house-share"] === false) {
+    min_bedrooms = Math.max(min_bedrooms, 0);
+    max_bedrooms = Math.max(max_bedrooms, 0);
+  } else {
+    min_bedrooms = -1;
+  }
   // eslint-disable-next-line prettier/prettier
   const url = `https://www.openrent.co.uk/properties-to-rent/?isLive=true&term=${postcode}
 area=${area_km}
 prices_max=${filterData["max-price"]}
-bedrooms_min=${filterData["min-bedrooms"]}
-bedrooms_max=${filterData["max-bedrooms"]}
+bedrooms_min=${min_bedrooms}
+bedrooms_max=${max_bedrooms}
 searchType=km
 furnishedType=1`;
   return url.replace(/(?:\r\n|\r|\n)/g, "&");
@@ -57,7 +72,7 @@ const getZooplaLink = ({ postcode }) => {
   // price_min=${DEFAULT_MIN_PRICE}
   if (!postcode) return null;
   const { filterData } = useContext(MapContext);
-  const url = `https://www.zoopla.co.uk/search/?q=${postcode}
+  let url = `https://www.zoopla.co.uk/search/?q=${postcode}
 beds_min=${filterData["min-bedrooms"]}
 beds_max=${filterData["max-bedrooms"]}
 price_frequency=per_month
@@ -69,12 +84,22 @@ results_sort=newest_listings
 search_source=home
 radius=${filterData["home-radius"]}
 furnished_state=furnished`;
+  if ([true, false].includes(filterData["house-share"])) {
+    url += `\nis_shared_accommodation=${filterData["house-share"]}`;
+  }
   return url.replace(/(?:\r\n|\r|\n)/g, "&");
 };
 
 const getRightmoveBaseLink = ({ identifier, remove_radius }) => {
   const { filterData } = useContext(MapContext);
   const radius = remove_radius ? 0 : filterData["home-radius"];
+  const must_have_list = [];
+  const dont_show_list = [];
+  if (filterData["house-share"] === true) {
+    must_have_list.push("houseShare");
+  } else if (filterData["house-share"] === false) {
+    dont_show_list.push("houseShare");
+  }
   const url = `https://www.rightmove.co.uk/property-to-rent/find.html?
 searchType=RENT
 locationIdentifier=${identifier}
@@ -93,7 +118,8 @@ oldDisplayPropertyType=
 oldPrimaryDisplayPropertyType=
 letType=
 letFurnishType=furnished
-houseFlatShare=
+mustHave=${must_have_list.join("%2C")}
+dontShow=${dont_show_list.join("%2C")}
 `;
   return url.replace(/(?:\r\n|\r|\n)/g, "&");
 };
@@ -156,7 +182,7 @@ export const OnthemarketLink = ({ postcode }) => (
 
 export const OpenrentLink = ({ postcode }) => (
   <PropertyLink href={getOpenrentLink({ postcode })}>
-    OpenRent (min radius 2km)
+    OpenRent (min radius 1km)
   </PropertyLink>
 );
 

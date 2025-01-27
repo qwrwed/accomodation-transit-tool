@@ -11,6 +11,7 @@ export const defaultFilterData = {
   "max-bedrooms": DEFAULT_MAX_BEDROOMS,
   "max-price": DEFAULT_MAX_PRICE,
   "home-radius": DEFAULT_HOME_RADIUS_MILES,
+  "house-share": false,
 };
 
 export const MapContext = createContext();

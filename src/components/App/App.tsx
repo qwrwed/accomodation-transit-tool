@@ -22,6 +22,7 @@ import { dfsFromNode } from "graphology-traversal/dfs";
 import subgraph from "graphology-operators/subgraph";
 import reverse from "graphology-operators/reverse";
 
+import { MenuItem } from "@mui/material";
 import Button from "@mui/material/Button";
 import InputAdornment from "@mui/material/InputAdornment";
 import Container from "@mui/material/Container";
@@ -180,6 +181,31 @@ const NumInputCustom = ({
     }
     error={error || false}
   />
+);
+
+const SelectInputCustom = ({
+  name,
+  label,
+  dataObject,
+  handleFormChange,
+  options,
+}) => (
+  <TextField
+    id={`input-${name}`}
+    name={name}
+    label={label || name}
+    select
+    variant="outlined"
+    defaultValue={dataObject[name]}
+    onBlur={handleFormChange}
+    onKeyDown={handleKeyDown}
+  >
+    {Object.entries(options).map(([k, v], i) => (
+      <MenuItem id={k} key={k} value={v}>
+        {k}
+      </MenuItem>
+    ))}
+  </TextField>
 );
 
 const App = () => {
@@ -568,6 +594,13 @@ const App = () => {
               dataObject={filterData}
               handleNumChange={handleNumChange}
               adornment={{ type: "end", text: "miles" }}
+            />
+            <SelectInputCustom
+              name="house-share"
+              label="House Share?"
+              dataObject={filterData}
+              handleFormChange={handleFormChange}
+              options={{ Include: 2, Exclude: false, "Show only": true }}
             />
           </Grid>
         </Grid>
