@@ -198,6 +198,7 @@ const SelectInputCustom = ({
     variant="outlined"
     defaultValue={dataObject[name]}
     onBlur={handleFormChange}
+    onChange={handleFormChange}
     onKeyDown={handleKeyDown}
   >
     {Object.entries(options).map(([k, v], i) => (
@@ -268,6 +269,21 @@ const App = () => {
     setExecuteOnload(false);
   }, [executeOnload, filterData, formData, getModeCheckList, isBusy]);
 
+  const updateUrl = (onload = true) => {
+    const onloadData = onload ? { onload: 1 } : {};
+    const queryString = new URLSearchParams({
+      ...formData,
+      ...filterData,
+      ...onloadData,
+    }).toString();
+
+    window.history.pushState({}, "", `?${queryString}`);
+  };
+
+  useEffect(() => {
+    updateUrl();
+  }, [filterData]);
+
   const handleFormChange = (e, value = null) => {
     const cnd = e.target.name in defaultFormData;
     const setFn = cnd ? setFormData : setFilterData;
@@ -286,16 +302,6 @@ const App = () => {
     const onlyInts = e.target.value.replace(pattern, "");
     handleFormChange(e, onlyInts);
     // setFormData({ ...formData, [e.target.name]: onlyInts });
-  };
-
-  const updateUrl = (onload = true) => {
-    const onloadData = onload ? { onload: 1 } : {};
-    const queryString = new URLSearchParams({
-      ...formData,
-      ...filterData,
-      ...onloadData,
-    }).toString();
-    window.history.pushState({}, "", `?${queryString}`);
   };
 
   const execute = async () => {
@@ -599,7 +605,7 @@ const App = () => {
               name="house-share"
               label="House Share?"
               dataObject={filterData}
-              handleFormChange={handleFormChange}
+              handleFormChange={(e) => handleFormChange(e)}
               options={{ Include: 2, Exclude: false, "Show only": true }}
             />
           </Grid>
