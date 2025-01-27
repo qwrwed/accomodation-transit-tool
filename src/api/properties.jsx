@@ -39,9 +39,12 @@ const getOpenrentLink = ({ postcode }) => {
   // prices_min=${DEFAULT_MIN_PRICE}
   if (!postcode) return null;
   const { filterData } = useContext(MapContext);
+  const area_km = Math.round(
+    Math.max(filterData["home-radius"] * KM_PER_MILE, 1),
+  );
   // eslint-disable-next-line prettier/prettier
   const url = `https://www.openrent.co.uk/properties-to-rent/?isLive=true&term=${postcode}
-area=${filterData["home-radius"] * KM_PER_MILE}
+area=${area_km}
 prices_max=${filterData["max-price"]}
 bedrooms_min=${filterData["min-bedrooms"]}
 bedrooms_max=${filterData["max-bedrooms"]}
