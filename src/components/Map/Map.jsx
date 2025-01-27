@@ -43,6 +43,7 @@ import {
   OpenrentLink,
   postcode_to_outcode,
   RightmoveLink,
+  RightmoveMapLink,
   ZooplaLink,
 } from "../../api/properties";
 import { getPropertyByKeyArray } from "../../utils";
@@ -254,6 +255,10 @@ const MapStation = ({ station }) => {
           <br />
           {formatLineModes(station.lineModes)}
           <RightmoveLink
+            station_name={station.label}
+            outcode={postcode_to_outcode(postcode)}
+          />
+          <RightmoveMapLink
             station_name={station.label}
             outcode={postcode_to_outcode(postcode)}
           />

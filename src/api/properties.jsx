@@ -90,7 +90,7 @@ furnished_state=furnished`;
   return url.replace(/(?:\r\n|\r|\n)/g, "&");
 };
 
-const getRightmoveBaseLink = ({ identifier, remove_radius }) => {
+const getRightmoveBaseLink = ({ identifier, remove_radius, map }) => {
   const { filterData } = useContext(MapContext);
   const radius = remove_radius ? 0 : filterData["home-radius"];
   const must_have_list = [];
@@ -100,7 +100,9 @@ const getRightmoveBaseLink = ({ identifier, remove_radius }) => {
   } else if (filterData["house-share"] === false) {
     dont_show_list.push("houseShare");
   }
-  const url = `https://www.rightmove.co.uk/property-to-rent/find.html?
+  let url = `https://www.rightmove.co.uk/property-to-rent/${
+    map ? "map" : "find"
+  }.html?
 searchType=RENT
 locationIdentifier=${identifier}
 insId=1
@@ -119,12 +121,14 @@ oldPrimaryDisplayPropertyType=
 letType=
 letFurnishType=furnished
 mustHave=${must_have_list.join("%2C")}
-dontShow=${dont_show_list.join("%2C")}
-`;
+dontShow=${dont_show_list.join("%2C")}`;
+  if (map) {
+    url += "\nviewType=MAP";
+  }
   return url.replace(/(?:\r\n|\r|\n)/g, "&");
 };
 
-const getRightmoveStationHref = ({ station_name }) => {
+const getRightmoveStationHref = ({ station_name, map }) => {
   if (!station_name) {
     return null;
   }
@@ -143,10 +147,10 @@ const getRightmoveStationHref = ({ station_name }) => {
   if (!station_identifier) {
     return null;
   }
-  return getRightmoveBaseLink({ identifier: station_identifier });
+  return getRightmoveBaseLink({ identifier: station_identifier, map });
 };
 
-const getRightmoveOutcodeHref = ({ outcode }) => {
+const getRightmoveOutcodeHref = ({ outcode, map }) => {
   if (!outcode) {
     return null;
   }
@@ -163,6 +167,7 @@ const getRightmoveOutcodeHref = ({ outcode }) => {
   return getRightmoveBaseLink({
     identifier: `OUTCODE%5E${codedOutcode}`,
     remove_radius: true,
+    map,
   });
 };
 
@@ -194,6 +199,20 @@ export const RightmoveLink = ({ station_name, outcode }) => {
   const outcodeHref = getRightmoveOutcodeHref({ outcode });
   return <PropertyLink href={outcodeHref}>Rightmove ({outcode})</PropertyLink>;
 };
+
+export const RightmoveMapLink = ({ station_name, outcode }) => {
+  const stationHref = getRightmoveStationHref({ station_name, map: true });
+  if (stationHref) {
+    return <PropertyLink href={stationHref}>Rightmove (map view)</PropertyLink>;
+  }
+  const outcodeHref = getRightmoveOutcodeHref({ outcode, map: true });
+  return (
+    <PropertyLink href={outcodeHref}>
+      Rightmove (map view)({outcode})
+    </PropertyLink>
+  );
+};
+
 export const ZooplaLink = ({ postcode }) => (
   <PropertyLink href={getZooplaLink({ postcode })}>Zoopla</PropertyLink>
 );

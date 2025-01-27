@@ -1,7 +1,7 @@
 {
   "name": "accomodation-transit-tool",
   "homepage": "https://qwrwed.github.io/accomodation-transit-tool/",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "private": true,
   "dependencies": {
     "@emotion/react": "^11.7.1",
