@@ -535,6 +535,7 @@ const App = () => {
             // sx={{ m: 2 }}
             xs={12}
             sm={6}
+            component="form"
           >
             <Typography variant="h5">Filters</Typography>
             <NumInputCustom
