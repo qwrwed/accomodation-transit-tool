@@ -1,0 +1,3290 @@
+{
+    "Abbey Road DLR Station": {
+        "tfl_name": "Abbey Road DLR Station",
+        "rightmove_identifier": "STATION^16813",
+        "rightmove_name": "Abbey Road Station",
+        "rightmove_area": "London"
+    },
+    "All Saints DLR Station": {
+        "tfl_name": "All Saints DLR Station",
+        "rightmove_identifier": "STATION^161",
+        "rightmove_name": "All Saints Station",
+        "rightmove_area": "London"
+    },
+    "Beckton DLR Station": {
+        "tfl_name": "Beckton DLR Station",
+        "rightmove_identifier": "STATION^755",
+        "rightmove_name": "Beckton Station",
+        "rightmove_area": "London"
+    },
+    "Blackwall DLR Station": {
+        "tfl_name": "Blackwall DLR Station",
+        "rightmove_identifier": "STATION^1073",
+        "rightmove_name": "Blackwall Station",
+        "rightmove_area": "Canary Wharf, East London"
+    },
+    "Bank DLR Station": {
+        "tfl_name": "Bank DLR Station",
+        "rightmove_identifier": "STATION^551",
+        "rightmove_name": "Bank Station",
+        "rightmove_area": "London"
+    },
+    "Bow Church DLR Station": {
+        "tfl_name": "Bow Church DLR Station",
+        "rightmove_identifier": "STATION^1238",
+        "rightmove_name": "Bow Church Station",
+        "rightmove_area": "London"
+    },
+    "Beckton Park DLR Station": {
+        "tfl_name": "Beckton Park DLR Station",
+        "rightmove_identifier": "STATION^758",
+        "rightmove_name": "Beckton Park Station",
+        "rightmove_area": "London"
+    },
+    "Canary Wharf DLR Station": {
+        "tfl_name": "Canary Wharf DLR Station",
+        "rightmove_identifier": "STATION^1724",
+        "rightmove_name": "Canary Wharf Station",
+        "rightmove_area": "London"
+    },
+    "Canning Town DLR Station": {
+        "tfl_name": "Canning Town DLR Station",
+        "rightmove_identifier": "STATION^1733",
+        "rightmove_name": "Canning Town Station",
+        "rightmove_area": "London"
+    },
+    "Crossharbour DLR Station": {
+        "tfl_name": "Crossharbour DLR Station",
+        "rightmove_identifier": "STATION^2465",
+        "rightmove_name": "Crossharbour & London Arena Station",
+        "rightmove_area": "London"
+    },
+    "Custom House (for ExCel) DLR Station": {
+        "tfl_name": "Custom House (for ExCel) DLR Station",
+        "rightmove_identifier": "STATION^2540",
+        "rightmove_name": "Custom House Station",
+        "rightmove_area": "London"
+    },
+    "Cutty Sark (for Maritime Greenwich) DLR Station": {
+        "tfl_name": "Cutty Sark (for Maritime Greenwich) DLR Station",
+        "rightmove_identifier": "STATION^2546",
+        "rightmove_name": "Cutty Sark Station",
+        "rightmove_area": "London"
+    },
+    "Cyprus DLR Station": {
+        "tfl_name": "Cyprus DLR Station",
+        "rightmove_identifier": "STATION^2567",
+        "rightmove_name": "Cyprus Station",
+        "rightmove_area": "London"
+    },
+    "Deptford Bridge DLR Station": {
+        "tfl_name": "Deptford Bridge DLR Station",
+        "rightmove_identifier": "STATION^2726",
+        "rightmove_name": "Deptford Bridge Station",
+        "rightmove_area": "London"
+    },
+    "Devons Road DLR Station": {
+        "tfl_name": "Devons Road DLR Station",
+        "rightmove_identifier": "STATION^2750",
+        "rightmove_name": "Devons Road Station",
+        "rightmove_area": "London"
+    },
+    "East India DLR Station": {
+        "tfl_name": "East India DLR Station",
+        "rightmove_identifier": "STATION^3083",
+        "rightmove_name": "East India Station",
+        "rightmove_area": "London"
+    },
+    "Elverson Road DLR Station": {
+        "tfl_name": "Elverson Road DLR Station",
+        "rightmove_identifier": "STATION^3245",
+        "rightmove_name": "Elverson Road Station",
+        "rightmove_area": "London"
+    },
+    "Gallions Reach DLR Station": {
+        "tfl_name": "Gallions Reach DLR Station",
+        "rightmove_identifier": "STATION^3665",
+        "rightmove_name": "Gallions Reach Station",
+        "rightmove_area": "London"
+    },
+    "Greenwich DLR Station": {
+        "tfl_name": "Greenwich DLR Station",
+        "rightmove_identifier": "STATION^4001",
+        "rightmove_name": "Greenwich Station",
+        "rightmove_area": "London"
+    },
+    "Heron Quays DLR Station": {
+        "tfl_name": "Heron Quays DLR Station",
+        "rightmove_identifier": "STATION^4517",
+        "rightmove_name": "Heron Quays Station",
+        "rightmove_area": "London"
+    },
+    "Island Gardens DLR Station": {
+        "tfl_name": "Island Gardens DLR Station",
+        "rightmove_identifier": "STATION^4937",
+        "rightmove_name": "Island Gardens Station",
+        "rightmove_area": "London"
+    },
+    "King George V DLR Station": {
+        "tfl_name": "King George V DLR Station",
+        "rightmove_identifier": "STATION^10412",
+        "rightmove_name": "King George V Station",
+        "rightmove_area": "London"
+    },
+    "London City Airport DLR Station": {
+        "tfl_name": "London City Airport DLR Station",
+        "rightmove_identifier": "STATION^5798",
+        "rightmove_name": "London City Airport Station",
+        "rightmove_area": "London"
+    },
+    "Langdon Park DLR Station": {
+        "tfl_name": "Langdon Park DLR Station",
+        "rightmove_identifier": "STATION^10459",
+        "rightmove_name": "Langdon Park Station",
+        "rightmove_area": "London"
+    },
+    "Lewisham DLR Station": {
+        "tfl_name": "Lewisham DLR Station",
+        "rightmove_identifier": "STATION^5525",
+        "rightmove_name": "Lewisham Station",
+        "rightmove_area": "London"
+    },
+    "Limehouse DLR Station": {
+        "tfl_name": "Limehouse DLR Station",
+        "rightmove_identifier": "STATION^5558",
+        "rightmove_name": "Limehouse Station",
+        "rightmove_area": "London"
+    },
+    "Mudchute DLR Station": {
+        "tfl_name": "Mudchute DLR Station",
+        "rightmove_identifier": "STATION^6443",
+        "rightmove_name": "Mudchute Station",
+        "rightmove_area": "London"
+    },
+    "Pontoon Dock DLR Station": {
+        "tfl_name": "Pontoon Dock DLR Station",
+        "rightmove_identifier": "STATION^7322",
+        "rightmove_name": "Pontoon Dock Station",
+        "rightmove_area": "London"
+    },
+    "Poplar DLR Station": {
+        "tfl_name": "Poplar DLR Station",
+        "rightmove_identifier": "STATION^7349",
+        "rightmove_name": "Poplar Station",
+        "rightmove_area": "London"
+    },
+    "Prince Regent DLR Station": {
+        "tfl_name": "Prince Regent DLR Station",
+        "rightmove_identifier": "STATION^7451",
+        "rightmove_name": "Prince Regent Station",
+        "rightmove_area": "London"
+    },
+    "Pudding Mill Lane DLR Station": {
+        "tfl_name": "Pudding Mill Lane DLR Station",
+        "rightmove_identifier": "STATION^7463",
+        "rightmove_name": "Pudding Mill Lane Station",
+        "rightmove_area": "London"
+    },
+    "Royal Albert DLR Station": {
+        "tfl_name": "Royal Albert DLR Station",
+        "rightmove_identifier": "STATION^7826",
+        "rightmove_name": "Royal Albert Station",
+        "rightmove_area": "London"
+    },
+    "Royal Victoria DLR Station": {
+        "tfl_name": "Royal Victoria DLR Station",
+        "rightmove_identifier": "STATION^7835",
+        "rightmove_name": "Royal Victoria Station",
+        "rightmove_area": "London"
+    },
+    "Shadwell DLR Station": {
+        "tfl_name": "Shadwell DLR Station",
+        "rightmove_identifier": "STATION^8102",
+        "rightmove_name": "Shadwell Station",
+        "rightmove_area": "London"
+    },
+    "Stratford High Street DLR Station": {
+        "tfl_name": "Stratford High Street DLR Station",
+        "rightmove_identifier": "STATION^16816",
+        "rightmove_name": "Stratford High Street Station",
+        "rightmove_area": "London"
+    },
+    "Stratford International DLR Station": {
+        "tfl_name": "Stratford International DLR Station",
+        "rightmove_identifier": "STATION^15135",
+        "rightmove_name": "Stratford International Station",
+        "rightmove_area": "London"
+    },
+    "South Quay DLR Station": {
+        "tfl_name": "South Quay DLR Station",
+        "rightmove_identifier": "STATION^8432",
+        "rightmove_name": "South Quay Station",
+        "rightmove_area": "London"
+    },
+    "Stratford DLR Station": {
+        "tfl_name": "Stratford DLR Station",
+        "rightmove_identifier": "STATION^8813",
+        "rightmove_name": "Stratford Station",
+        "rightmove_area": "London"
+    },
+    "Star Lane DLR Station": {
+        "tfl_name": "Star Lane DLR Station",
+        "rightmove_identifier": "STATION^16810",
+        "rightmove_name": "Star Lane Station",
+        "rightmove_area": "London"
+    },
+    "Tower Gateway DLR Station": {
+        "tfl_name": "Tower Gateway DLR Station",
+        "rightmove_identifier": "STATION^9287",
+        "rightmove_name": "Tower Gateway Station",
+        "rightmove_area": "London"
+    },
+    "Westferry DLR Station": {
+        "tfl_name": "Westferry DLR Station",
+        "rightmove_identifier": "STATION^9941",
+        "rightmove_name": "Westferry Station",
+        "rightmove_area": "London"
+    },
+    "West Ham DLR Station": {
+        "tfl_name": "West Ham DLR Station",
+        "rightmove_identifier": "STATION^9842",
+        "rightmove_name": "West Ham Station",
+        "rightmove_area": "London"
+    },
+    "West India Quay DLR Station": {
+        "tfl_name": "West India Quay DLR Station",
+        "rightmove_identifier": "STATION^9863",
+        "rightmove_name": "West India Quay Station",
+        "rightmove_area": "London"
+    },
+    "Woolwich Arsenal DLR Station": {
+        "tfl_name": "Woolwich Arsenal DLR Station",
+        "rightmove_identifier": "STATION^10286",
+        "rightmove_name": "Woolwich Arsenal Station",
+        "rightmove_area": "London"
+    },
+    "West Silvertown DLR Station": {
+        "tfl_name": "West Silvertown DLR Station",
+        "rightmove_identifier": "STATION^9896",
+        "rightmove_name": "West Silvertown Station",
+        "rightmove_area": "London"
+    },
+    "Abbey Wood": {
+        "tfl_name": "Abbey Wood",
+        "rightmove_identifier": "STATION^2",
+        "rightmove_name": "Abbey Wood Station",
+        "rightmove_area": "London"
+    },
+    "Acton Main Line Rail Station": {
+        "tfl_name": "Acton Main Line Rail Station",
+        "rightmove_identifier": "STATION^74",
+        "rightmove_name": "Acton Main Line Station",
+        "rightmove_area": "London"
+    },
+    "Burnham (Berks) Rail Station": {
+        "tfl_name": "Burnham (Berks) Rail Station",
+        "rightmove_identifier": "STATION^1577",
+        "rightmove_name": "Burnham Station",
+        "rightmove_area": "Slough, Berkshire"
+    },
+    "Bond Street": {
+        "tfl_name": "Bond Street",
+        "rightmove_identifier": "STATION^1166",
+        "rightmove_name": "Bond Street Station",
+        "rightmove_area": "London"
+    },
+    "Brentwood Rail Station": {
+        "tfl_name": "Brentwood Rail Station",
+        "rightmove_identifier": "STATION^1331",
+        "rightmove_name": "Brentwood Station",
+        "rightmove_area": "Brentwood, Essex"
+    },
+    "Canary Wharf": {
+        "tfl_name": "Canary Wharf",
+        "rightmove_identifier": "STATION^1724",
+        "rightmove_name": "Canary Wharf Station",
+        "rightmove_area": "London"
+    },
+    "Chadwell Heath Rail Station": {
+        "tfl_name": "Chadwell Heath Rail Station",
+        "rightmove_identifier": "STATION^1901",
+        "rightmove_name": "Chadwell Heath Station",
+        "rightmove_area": "Chadwell Heath, Romford, London"
+    },
+    "Custom House": {
+        "tfl_name": "Custom House",
+        "rightmove_identifier": "STATION^2540",
+        "rightmove_name": "Custom House Station",
+        "rightmove_area": "London"
+    },
+    "Ealing Broadway Rail Station": {
+        "tfl_name": "Ealing Broadway Rail Station",
+        "rightmove_identifier": "STATION^3023",
+        "rightmove_name": "Ealing Broadway Station",
+        "rightmove_area": "London"
+    },
+    "Farringdon": {
+        "tfl_name": "Farringdon",
+        "rightmove_identifier": "STATION^3431",
+        "rightmove_name": "Farringdon Station",
+        "rightmove_area": "London"
+    },
+    "Forest Gate Rail Station": {
+        "tfl_name": "Forest Gate Rail Station",
+        "rightmove_identifier": "STATION^3578",
+        "rightmove_name": "Forest Gate Station",
+        "rightmove_area": "London"
+    },
+    "Gidea Park Rail Station": {
+        "tfl_name": "Gidea Park Rail Station",
+        "rightmove_identifier": "STATION^3737",
+        "rightmove_name": "Gidea Park Station",
+        "rightmove_area": "Gidea Park, Romford, London"
+    },
+    "Goodmayes Rail Station": {
+        "tfl_name": "Goodmayes Rail Station",
+        "rightmove_identifier": "STATION^3866",
+        "rightmove_name": "Goodmayes Station",
+        "rightmove_area": "London"
+    },
+    "Hanwell Rail Station": {
+        "tfl_name": "Hanwell Rail Station",
+        "rightmove_identifier": "STATION^4226",
+        "rightmove_name": "Hanwell Station",
+        "rightmove_area": "London"
+    },
+    "Hayes & Harlington Rail Station": {
+        "tfl_name": "Hayes & Harlington Rail Station",
+        "rightmove_identifier": "STATION^4385",
+        "rightmove_name": "Hayes & Harlington Station",
+        "rightmove_area": "Hayes, Middlesex"
+    },
+    "Harold Wood Rail Station": {
+        "tfl_name": "Harold Wood Rail Station",
+        "rightmove_identifier": "STATION^4259",
+        "rightmove_name": "Harold Wood Station",
+        "rightmove_area": "Romford, London"
+    },
+    "Heathrow Terminals 2 & 3 Rail Station": {
+        "tfl_name": "Heathrow Terminals 2 & 3 Rail Station",
+        "rightmove_identifier": "STATION^5807",
+        "rightmove_name": "London Heathrow Airport Terminals 1, 2 & 3 Station",
+        "rightmove_area": "London Heathrow Airport, Hounslow, Middlesex"
+    },
+    "Heathrow Terminal 4 Rail Station": {
+        "tfl_name": "Heathrow Terminal 4 Rail Station",
+        "rightmove_identifier": "STATION^5804",
+        "rightmove_name": "London Heathrow Airport Terminal 4 Station",
+        "rightmove_area": "Feltham, Middlesex"
+    },
+    "Heathrow Terminal 5 Rail Station": {
+        "tfl_name": "Heathrow Terminal 5 Rail Station",
+        "rightmove_identifier": "STATION^10465",
+        "rightmove_name": "Heathrow Terminal 5 Station",
+        "rightmove_area": "London"
+    },
+    "Ilford Rail Station": {
+        "tfl_name": "Ilford Rail Station",
+        "rightmove_identifier": "STATION^4877",
+        "rightmove_name": "Ilford Station",
+        "rightmove_area": "Ilford, London"
+    },
+    "Iver Rail Station": {
+        "tfl_name": "Iver Rail Station",
+        "rightmove_identifier": "STATION^4952",
+        "rightmove_name": "Iver Station",
+        "rightmove_area": "Iver, Buckinghamshire"
+    },
+    "Langley (Berks) Rail Station": {
+        "tfl_name": "Langley (Berks) Rail Station",
+        "rightmove_identifier": "STATION^5372",
+        "rightmove_name": "Langley Station",
+        "rightmove_area": "Langley, Slough, Berkshire"
+    },
+    "London Liverpool Street Rail Station": {
+        "tfl_name": "London Liverpool Street Rail Station",
+        "rightmove_identifier": "STATION^5615",
+        "rightmove_name": "Liverpool Street Station",
+        "rightmove_area": "London"
+    },
+    "Liverpool Street": {
+        "tfl_name": "Liverpool Street",
+        "rightmove_identifier": "STATION^5615",
+        "rightmove_name": "Liverpool Street Station",
+        "rightmove_area": "London"
+    },
+    "Manor Park Rail Station": {
+        "tfl_name": "Manor Park Rail Station",
+        "rightmove_identifier": "STATION^6005",
+        "rightmove_name": "Manor Park Station",
+        "rightmove_area": "London"
+    },
+    "Maidenhead Rail Station": {
+        "tfl_name": "Maidenhead Rail Station",
+        "rightmove_identifier": "STATION^5951",
+        "rightmove_name": "Maidenhead Station",
+        "rightmove_area": "Maidenhead, Berkshire"
+    },
+    "Maryland Rail Station": {
+        "tfl_name": "Maryland Rail Station",
+        "rightmove_identifier": "STATION^6092",
+        "rightmove_name": "Maryland Station",
+        "rightmove_area": "London"
+    },
+    "Paddington": {
+        "tfl_name": "Paddington",
+        "rightmove_identifier": "STATION^6965",
+        "rightmove_name": "Paddington Station",
+        "rightmove_area": "London"
+    },
+    "London Paddington Rail Station": {
+        "tfl_name": "London Paddington Rail Station",
+        "rightmove_identifier": "STATION^6965",
+        "rightmove_name": "Paddington Station",
+        "rightmove_area": "London"
+    },
+    "Reading Rail Station": {
+        "tfl_name": "Reading Rail Station",
+        "rightmove_identifier": "STATION^7610",
+        "rightmove_name": "Reading Station",
+        "rightmove_area": "Reading, Berkshire"
+    },
+    "Romford Rail Station": {
+        "tfl_name": "Romford Rail Station",
+        "rightmove_identifier": "STATION^7769",
+        "rightmove_name": "Romford Station",
+        "rightmove_area": "Romford, London"
+    },
+    "Shenfield Rail Station": {
+        "tfl_name": "Shenfield Rail Station",
+        "rightmove_identifier": "STATION^8144",
+        "rightmove_name": "Shenfield Station",
+        "rightmove_area": "Brentwood, Essex"
+    },
+    "Slough Rail Station": {
+        "tfl_name": "Slough Rail Station",
+        "rightmove_identifier": "STATION^8315",
+        "rightmove_name": "Slough Station",
+        "rightmove_area": "Slough, Berkshire"
+    },
+    "Stratford (London) Rail Station": {
+        "tfl_name": "Stratford (London) Rail Station",
+        "rightmove_identifier": "STATION^8813",
+        "rightmove_name": "Stratford Station",
+        "rightmove_area": "London"
+    },
+    "Southall Rail Station": {
+        "tfl_name": "Southall Rail Station",
+        "rightmove_identifier": "STATION^8459",
+        "rightmove_name": "Southall Station",
+        "rightmove_area": "Southall, Middlesex"
+    },
+    "Seven Kings Rail Station": {
+        "tfl_name": "Seven Kings Rail Station",
+        "rightmove_identifier": "STATION^8072",
+        "rightmove_name": "Seven Kings Station",
+        "rightmove_area": "London"
+    },
+    "Taplow Rail Station": {
+        "tfl_name": "Taplow Rail Station",
+        "rightmove_identifier": "STATION^9047",
+        "rightmove_name": "Taplow Station",
+        "rightmove_area": "Maidenhead, Berkshire"
+    },
+    "Tottenham Court Road": {
+        "tfl_name": "Tottenham Court Road",
+        "rightmove_identifier": "STATION^9272",
+        "rightmove_name": "Tottenham Court Road Station",
+        "rightmove_area": "London"
+    },
+    "Twyford Rail Station": {
+        "tfl_name": "Twyford Rail Station",
+        "rightmove_identifier": "STATION^9368",
+        "rightmove_name": "Twyford Station",
+        "rightmove_area": "Twyford, Reading, Berkshire"
+    },
+    "Whitechapel": {
+        "tfl_name": "Whitechapel",
+        "rightmove_identifier": "STATION^10022",
+        "rightmove_name": "Whitechapel Station",
+        "rightmove_area": "London"
+    },
+    "West Drayton Rail Station": {
+        "tfl_name": "West Drayton Rail Station",
+        "rightmove_identifier": "STATION^9824",
+        "rightmove_name": "West Drayton Station",
+        "rightmove_area": "West Drayton, Middlesex"
+    },
+    "West Ealing Rail Station": {
+        "tfl_name": "West Ealing Rail Station",
+        "rightmove_identifier": "STATION^9830",
+        "rightmove_name": "West Ealing Station",
+        "rightmove_area": "London"
+    },
+    "Woolwich": {
+        "tfl_name": "Woolwich",
+        "rightmove_identifier": "STATION^15846",
+        "rightmove_name": "Woolwich Station",
+        "rightmove_area": "Woolwich, South East London"
+    },
+    "Emerson Park Rail Station": {
+        "tfl_name": "Emerson Park Rail Station",
+        "rightmove_identifier": "STATION^3260",
+        "rightmove_name": "Emerson Park Station",
+        "rightmove_area": "Hornchurch, London"
+    },
+    "Upminster Rail Station": {
+        "tfl_name": "Upminster Rail Station",
+        "rightmove_identifier": "STATION^9434",
+        "rightmove_name": "Upminster Station",
+        "rightmove_area": "Upminster, London"
+    },
+    "Bushey Rail Station": {
+        "tfl_name": "Bushey Rail Station",
+        "rightmove_identifier": "STATION^1631",
+        "rightmove_name": "Bushey Station",
+        "rightmove_area": "Bushey, Hertfordshire"
+    },
+    "Carpenders Park Rail Station": {
+        "tfl_name": "Carpenders Park Rail Station",
+        "rightmove_identifier": "STATION^1823",
+        "rightmove_name": "Carpenders Park Station",
+        "rightmove_area": "Watford, Hertfordshire"
+    },
+    "London Euston Rail Station": {
+        "tfl_name": "London Euston Rail Station",
+        "rightmove_identifier": "STATION^3311",
+        "rightmove_name": "Euston Station",
+        "rightmove_area": "London"
+    },
+    "Harlesden Rail Station": {
+        "tfl_name": "Harlesden Rail Station",
+        "rightmove_identifier": "STATION^4238",
+        "rightmove_name": "Harlesden Station",
+        "rightmove_area": "London"
+    },
+    "Headstone Lane Rail Station": {
+        "tfl_name": "Headstone Lane Rail Station",
+        "rightmove_identifier": "STATION^4409",
+        "rightmove_name": "Headstone Lane Station",
+        "rightmove_area": "Harrow, Middlesex"
+    },
+    "Harrow & Wealdstone Rail Station": {
+        "tfl_name": "Harrow & Wealdstone Rail Station",
+        "rightmove_identifier": "STATION^4283",
+        "rightmove_name": "Harrow & Wealdstone Station",
+        "rightmove_area": "Wealdstone, Harrow, Middlesex"
+    },
+    "Hatch End Rail Station": {
+        "tfl_name": "Hatch End Rail Station",
+        "rightmove_identifier": "STATION^4322",
+        "rightmove_name": "Hatch End Station",
+        "rightmove_area": "Hatch End, Pinner, Middlesex"
+    },
+    "Kensal Green Rail Station": {
+        "tfl_name": "Kensal Green Rail Station",
+        "rightmove_identifier": "STATION^5045",
+        "rightmove_name": "Kensal Green Station",
+        "rightmove_area": "London"
+    },
+    "Kilburn High Road Rail Station": {
+        "tfl_name": "Kilburn High Road Rail Station",
+        "rightmove_identifier": "STATION^5123",
+        "rightmove_name": "Kilburn High Road Station",
+        "rightmove_area": "London"
+    },
+    "Kenton Rail Station": {
+        "tfl_name": "Kenton Rail Station",
+        "rightmove_identifier": "STATION^5078",
+        "rightmove_name": "Kenton Station",
+        "rightmove_area": "Kenton, Harrow, Middlesex"
+    },
+    "North Wembley Rail Station": {
+        "tfl_name": "North Wembley Rail Station",
+        "rightmove_identifier": "STATION^6749",
+        "rightmove_name": "North Wembley Station",
+        "rightmove_area": "London"
+    },
+    "Queens Park (London) Rail Station": {
+        "tfl_name": "Queens Park (London) Rail Station",
+        "rightmove_identifier": "STATION^7502",
+        "rightmove_name": "Queen's Park Station",
+        "rightmove_area": "London"
+    },
+    "South Hampstead Rail Station": {
+        "tfl_name": "South Hampstead Rail Station",
+        "rightmove_identifier": "STATION^8405",
+        "rightmove_name": "South Hampstead Station",
+        "rightmove_area": "London"
+    },
+    "South Kenton Rail Station": {
+        "tfl_name": "South Kenton Rail Station",
+        "rightmove_identifier": "STATION^8420",
+        "rightmove_name": "South Kenton Station",
+        "rightmove_area": "Kenton, Harrow, Middlesex"
+    },
+    "Stonebridge Park Rail Station": {
+        "tfl_name": "Stonebridge Park Rail Station",
+        "rightmove_identifier": "STATION^8780",
+        "rightmove_name": "Stonebridge Park Station",
+        "rightmove_area": "London"
+    },
+    "Watford High Street Rail Station": {
+        "tfl_name": "Watford High Street Rail Station",
+        "rightmove_identifier": "STATION^9683",
+        "rightmove_name": "Watford High Street Station",
+        "rightmove_area": "Watford, Hertfordshire"
+    },
+    "Watford Junction Rail Station": {
+        "tfl_name": "Watford Junction Rail Station",
+        "rightmove_identifier": "STATION^9686",
+        "rightmove_name": "Watford Junction Station",
+        "rightmove_area": "Watford, Hertfordshire"
+    },
+    "Willesden Junction Rail Station": {
+        "tfl_name": "Willesden Junction Rail Station",
+        "rightmove_identifier": "STATION^10103",
+        "rightmove_name": "Willesden Junction Station",
+        "rightmove_area": "London"
+    },
+    "Wembley Central Rail Station": {
+        "tfl_name": "Wembley Central Rail Station",
+        "rightmove_identifier": "STATION^9776",
+        "rightmove_name": "Wembley Central Station",
+        "rightmove_area": "Wembley, Middlesex"
+    },
+    "Acton Central Rail Station": {
+        "tfl_name": "Acton Central Rail Station",
+        "rightmove_identifier": "STATION^71",
+        "rightmove_name": "Acton Central Station",
+        "rightmove_area": "London"
+    },
+    "Brondesbury Rail Station": {
+        "tfl_name": "Brondesbury Rail Station",
+        "rightmove_identifier": "STATION^1454",
+        "rightmove_name": "Brondesbury Station",
+        "rightmove_area": "London"
+    },
+    "Brondesbury Park Rail Station": {
+        "tfl_name": "Brondesbury Park Rail Station",
+        "rightmove_identifier": "STATION^1451",
+        "rightmove_name": "Brondesbury Park Station",
+        "rightmove_area": "London"
+    },
+    "Caledonian Road & Barnsbury Rail Station": {
+        "tfl_name": "Caledonian Road & Barnsbury Rail Station",
+        "rightmove_identifier": "STATION^1682",
+        "rightmove_name": "Caledonian Road & Barnsbury Station",
+        "rightmove_area": "London"
+    },
+    "Clapham Junction Rail Station": {
+        "tfl_name": "Clapham Junction Rail Station",
+        "rightmove_identifier": "STATION^2156",
+        "rightmove_name": "Clapham Junction Station",
+        "rightmove_area": "Battersea, South West London"
+    },
+    "Camden Road Rail Station": {
+        "tfl_name": "Camden Road Rail Station",
+        "rightmove_identifier": "STATION^1709",
+        "rightmove_name": "Camden Road Station",
+        "rightmove_area": "London"
+    },
+    "Canonbury Rail Station": {
+        "tfl_name": "Canonbury Rail Station",
+        "rightmove_identifier": "STATION^1751",
+        "rightmove_name": "Canonbury Station",
+        "rightmove_area": "London"
+    },
+    "Imperial Wharf Rail Station": {
+        "tfl_name": "Imperial Wharf Rail Station",
+        "rightmove_identifier": "STATION^15028",
+        "rightmove_name": "Imperial Wharf Station",
+        "rightmove_area": "London"
+    },
+    "Dalston Kingsland Rail Station": {
+        "tfl_name": "Dalston Kingsland Rail Station",
+        "rightmove_identifier": "STATION^2603",
+        "rightmove_name": "Dalston Kingsland Station",
+        "rightmove_area": "London"
+    },
+    "Finchley Road & Frognal Rail Station": {
+        "tfl_name": "Finchley Road & Frognal Rail Station",
+        "rightmove_identifier": "STATION^3512",
+        "rightmove_name": "Finchley Road & Frognal Station",
+        "rightmove_area": "London"
+    },
+    "Gunnersbury Rail Station": {
+        "tfl_name": "Gunnersbury Rail Station",
+        "rightmove_identifier": "STATION^4043",
+        "rightmove_name": "Gunnersbury Station",
+        "rightmove_area": "London"
+    },
+    "Gospel Oak Rail Station": {
+        "tfl_name": "Gospel Oak Rail Station",
+        "rightmove_identifier": "STATION^3890",
+        "rightmove_name": "Gospel Oak Station",
+        "rightmove_area": "London"
+    },
+    "Hackney Central Rail Station": {
+        "tfl_name": "Hackney Central Rail Station",
+        "rightmove_identifier": "STATION^4073",
+        "rightmove_name": "Hackney Central Station",
+        "rightmove_area": "London"
+    },
+    "Hackney Wick Rail Station": {
+        "tfl_name": "Hackney Wick Rail Station",
+        "rightmove_identifier": "STATION^4079",
+        "rightmove_name": "Hackney Wick Station",
+        "rightmove_area": "London"
+    },
+    "Highbury & Islington Rail Station": {
+        "tfl_name": "Highbury & Islington Rail Station",
+        "rightmove_identifier": "STATION^4583",
+        "rightmove_name": "Highbury & Islington Station",
+        "rightmove_area": "London"
+    },
+    "Hampstead Heath Rail Station": {
+        "tfl_name": "Hampstead Heath Rail Station",
+        "rightmove_identifier": "STATION^4190",
+        "rightmove_name": "Hampstead Heath Station",
+        "rightmove_area": "London"
+    },
+    "Homerton Rail Station": {
+        "tfl_name": "Homerton Rail Station",
+        "rightmove_identifier": "STATION^4694",
+        "rightmove_name": "Homerton Station",
+        "rightmove_area": "London"
+    },
+    "Kensington (Olympia) Rail Station": {
+        "tfl_name": "Kensington (Olympia) Rail Station",
+        "rightmove_identifier": "STATION^5054",
+        "rightmove_name": "Kensington Olympia Station",
+        "rightmove_area": "London"
+    },
+    "Kensal Rise Rail Station": {
+        "tfl_name": "Kensal Rise Rail Station",
+        "rightmove_identifier": "STATION^5051",
+        "rightmove_name": "Kensal Rise Station",
+        "rightmove_area": "London"
+    },
+    "Kew Gardens Rail Station": {
+        "tfl_name": "Kew Gardens Rail Station",
+        "rightmove_identifier": "STATION^5093",
+        "rightmove_name": "Kew Gardens Station",
+        "rightmove_area": "Kew, Richmond, London"
+    },
+    "Kentish Town West Rail Station": {
+        "tfl_name": "Kentish Town West Rail Station",
+        "rightmove_identifier": "STATION^5075",
+        "rightmove_name": "Kentish Town West Station",
+        "rightmove_area": "London"
+    },
+    "Richmond (London) Rail Station": {
+        "tfl_name": "Richmond (London) Rail Station",
+        "rightmove_identifier": "STATION^7703",
+        "rightmove_name": "Richmond Station",
+        "rightmove_area": "Richmond, Surrey"
+    },
+    "South Acton Rail Station": {
+        "tfl_name": "South Acton Rail Station",
+        "rightmove_identifier": "STATION^8372",
+        "rightmove_name": "South Acton Station",
+        "rightmove_area": "London"
+    },
+    "Shepherds Bush Rail Station": {
+        "tfl_name": "Shepherds Bush Rail Station",
+        "rightmove_identifier": "STATION^8153",
+        "rightmove_name": "Shepherd's Bush (Central) Station",
+        "rightmove_area": "London"
+    },
+    "West Brompton Rail Station": {
+        "tfl_name": "West Brompton Rail Station",
+        "rightmove_identifier": "STATION^9803",
+        "rightmove_name": "West Brompton Station",
+        "rightmove_area": "Kensington, West London"
+    },
+    "West Hampstead Rail Station": {
+        "tfl_name": "West Hampstead Rail Station",
+        "rightmove_identifier": "STATION^9848",
+        "rightmove_name": "West Hampstead Station",
+        "rightmove_area": "London"
+    },
+    "Barking Rail Station": {
+        "tfl_name": "Barking Rail Station",
+        "rightmove_identifier": "STATION^587",
+        "rightmove_name": "Barking Station",
+        "rightmove_area": "Barking, London"
+    },
+    "Barking Riverside": {
+        "tfl_name": "Barking Riverside",
+        "rightmove_identifier": "STATION^15966",
+        "rightmove_name": "Barking Riverside Station",
+        "rightmove_area": "Barking And Dagenham (London Borough)"
+    },
+    "Blackhorse Road Rail Station": {
+        "tfl_name": "Blackhorse Road Rail Station",
+        "rightmove_identifier": "STATION^1055",
+        "rightmove_name": "Blackhorse Road Station",
+        "rightmove_area": "London"
+    },
+    "Crouch Hill Rail Station": {
+        "tfl_name": "Crouch Hill Rail Station",
+        "rightmove_identifier": "STATION^2477",
+        "rightmove_name": "Crouch Hill Station",
+        "rightmove_area": "London"
+    },
+    "Harringay Green Lanes Rail Station": {
+        "tfl_name": "Harringay Green Lanes Rail Station",
+        "rightmove_identifier": "STATION^4271",
+        "rightmove_name": "Harringay Green Lanes Station",
+        "rightmove_area": "London"
+    },
+    "Leyton Midland Road Rail Station": {
+        "tfl_name": "Leyton Midland Road Rail Station",
+        "rightmove_identifier": "STATION^5540",
+        "rightmove_name": "Leyton Midland Road Station",
+        "rightmove_area": "London"
+    },
+    "Leytonstone High Road Rail Station": {
+        "tfl_name": "Leytonstone High Road Rail Station",
+        "rightmove_identifier": "STATION^5546",
+        "rightmove_name": "Leytonstone High Road Station",
+        "rightmove_area": "London"
+    },
+    "South Tottenham Rail Station": {
+        "tfl_name": "South Tottenham Rail Station",
+        "rightmove_identifier": "STATION^8444",
+        "rightmove_name": "South Tottenham Station",
+        "rightmove_area": "London"
+    },
+    "Upper Holloway Rail Station": {
+        "tfl_name": "Upper Holloway Rail Station",
+        "rightmove_identifier": "STATION^9449",
+        "rightmove_name": "Upper Holloway Station",
+        "rightmove_area": "London"
+    },
+    "Woodgrange Park Rail Station": {
+        "tfl_name": "Woodgrange Park Rail Station",
+        "rightmove_identifier": "STATION^10244",
+        "rightmove_name": "Woodgrange Park Station",
+        "rightmove_area": "London"
+    },
+    "Walthamstow Queens Road Rail Station": {
+        "tfl_name": "Walthamstow Queens Road Rail Station",
+        "rightmove_identifier": "STATION^9563",
+        "rightmove_name": "Walthamstow Queens Road Station",
+        "rightmove_area": "London"
+    },
+    "Wanstead Park Rail Station": {
+        "tfl_name": "Wanstead Park Rail Station",
+        "rightmove_identifier": "STATION^9599",
+        "rightmove_name": "Wanstead Park Station",
+        "rightmove_area": "London"
+    },
+    "Bush Hill Park Rail Station": {
+        "tfl_name": "Bush Hill Park Rail Station",
+        "rightmove_identifier": "STATION^1628",
+        "rightmove_name": "Bush Hill Park Station",
+        "rightmove_area": "London"
+    },
+    "Bruce Grove Rail Station": {
+        "tfl_name": "Bruce Grove Rail Station",
+        "rightmove_identifier": "STATION^1496",
+        "rightmove_name": "Bruce Grove Station",
+        "rightmove_area": "London"
+    },
+    "Bethnal Green Rail Station": {
+        "tfl_name": "Bethnal Green Rail Station",
+        "rightmove_identifier": "STATION^905",
+        "rightmove_name": "Bethnal Green (Mainline) Station",
+        "rightmove_area": "London"
+    },
+    "Cambridge Heath (London) Rail Station": {
+        "tfl_name": "Cambridge Heath (London) Rail Station",
+        "rightmove_identifier": "STATION^1700",
+        "rightmove_name": "Cambridge Heath Station",
+        "rightmove_area": "London"
+    },
+    "Cheshunt Rail Station": {
+        "tfl_name": "Cheshunt Rail Station",
+        "rightmove_identifier": "STATION^2012",
+        "rightmove_name": "Cheshunt Station",
+        "rightmove_area": "Cheshunt, Waltham Cross, Hertfordshire"
+    },
+    "Chingford Rail Station": {
+        "tfl_name": "Chingford Rail Station",
+        "rightmove_identifier": "STATION^2057",
+        "rightmove_name": "Chingford Station",
+        "rightmove_area": "London"
+    },
+    "Clapton Rail Station": {
+        "tfl_name": "Clapton Rail Station",
+        "rightmove_identifier": "STATION^2168",
+        "rightmove_name": "Clapton Station",
+        "rightmove_area": "London"
+    },
+    "Edmonton Green Rail Station": {
+        "tfl_name": "Edmonton Green Rail Station",
+        "rightmove_identifier": "STATION^3179",
+        "rightmove_name": "Edmonton Green Station",
+        "rightmove_area": "London"
+    },
+    "Enfield Town Rail Station": {
+        "tfl_name": "Enfield Town Rail Station",
+        "rightmove_identifier": "STATION^3272",
+        "rightmove_name": "Enfield Town Station",
+        "rightmove_area": "Enfield, Middlesex"
+    },
+    "Hackney Downs Rail Station": {
+        "tfl_name": "Hackney Downs Rail Station",
+        "rightmove_identifier": "STATION^4076",
+        "rightmove_name": "Hackney Downs Station",
+        "rightmove_area": "London"
+    },
+    "Highams Park Rail Station": {
+        "tfl_name": "Highams Park Rail Station",
+        "rightmove_identifier": "STATION^4577",
+        "rightmove_name": "Highams Park Station",
+        "rightmove_area": "London"
+    },
+    "London Fields Rail Station": {
+        "tfl_name": "London Fields Rail Station",
+        "rightmove_identifier": "STATION^5801",
+        "rightmove_name": "London Fields Station",
+        "rightmove_area": "London"
+    },
+    "Rectory Road Rail Station": {
+        "tfl_name": "Rectory Road Rail Station",
+        "rightmove_identifier": "STATION^7616",
+        "rightmove_name": "Rectory Road Station",
+        "rightmove_area": "London"
+    },
+    "Southbury Rail Station": {
+        "tfl_name": "Southbury Rail Station",
+        "rightmove_identifier": "STATION^8471",
+        "rightmove_name": "Southbury Station",
+        "rightmove_area": "London"
+    },
+    "Seven Sisters Rail Station": {
+        "tfl_name": "Seven Sisters Rail Station",
+        "rightmove_identifier": "STATION^8075",
+        "rightmove_name": "Seven Sisters Station",
+        "rightmove_area": "London"
+    },
+    "Silver Street Rail Station": {
+        "tfl_name": "Silver Street Rail Station",
+        "rightmove_identifier": "STATION^8264",
+        "rightmove_name": "Silver Street Station",
+        "rightmove_area": "London"
+    },
+    "St James Street (London) Rail Station": {
+        "tfl_name": "St James Street (London) Rail Station",
+        "rightmove_identifier": "STATION^8615",
+        "rightmove_name": "St. James Street Station",
+        "rightmove_area": "London"
+    },
+    "Stoke Newington Rail Station": {
+        "tfl_name": "Stoke Newington Rail Station",
+        "rightmove_identifier": "STATION^8768",
+        "rightmove_name": "Stoke Newington Station",
+        "rightmove_area": "London"
+    },
+    "Stamford Hill Rail Station": {
+        "tfl_name": "Stamford Hill Rail Station",
+        "rightmove_identifier": "STATION^8675",
+        "rightmove_name": "Stamford Hill Station",
+        "rightmove_area": "London"
+    },
+    "Theobalds Grove Rail Station": {
+        "tfl_name": "Theobalds Grove Rail Station",
+        "rightmove_identifier": "STATION^9128",
+        "rightmove_name": "Theobalds Grove Station",
+        "rightmove_area": "Waltham Cross, Hertfordshire"
+    },
+    "Turkey Street Rail Station": {
+        "tfl_name": "Turkey Street Rail Station",
+        "rightmove_identifier": "STATION^9353",
+        "rightmove_name": "Turkey Street Station",
+        "rightmove_area": "Enfield, Middlesex"
+    },
+    "Wood Street Rail Station": {
+        "tfl_name": "Wood Street Rail Station",
+        "rightmove_identifier": "STATION^10232",
+        "rightmove_name": "Wood Street Station",
+        "rightmove_area": "London"
+    },
+    "White Hart Lane Rail Station": {
+        "tfl_name": "White Hart Lane Rail Station",
+        "rightmove_identifier": "STATION^10013",
+        "rightmove_name": "White Hart Lane Station",
+        "rightmove_area": "London"
+    },
+    "Walthamstow Central Rail Station": {
+        "tfl_name": "Walthamstow Central Rail Station",
+        "rightmove_identifier": "STATION^9557",
+        "rightmove_name": "Walthamstow Central Station",
+        "rightmove_area": "London"
+    },
+    "Anerley Rail Station": {
+        "tfl_name": "Anerley Rail Station",
+        "rightmove_identifier": "STATION^242",
+        "rightmove_name": "Anerley Station",
+        "rightmove_area": "London"
+    },
+    "Brockley Rail Station": {
+        "tfl_name": "Brockley Rail Station",
+        "rightmove_identifier": "STATION^1424",
+        "rightmove_name": "Brockley Station",
+        "rightmove_area": "London"
+    },
+    "Clapham High Street Rail Station": {
+        "tfl_name": "Clapham High Street Rail Station",
+        "rightmove_identifier": "STATION^2153",
+        "rightmove_name": "Clapham High Street Station",
+        "rightmove_area": "London"
+    },
+    "Canada Water Rail Station": {
+        "tfl_name": "Canada Water Rail Station",
+        "rightmove_identifier": "STATION^1721",
+        "rightmove_name": "Canada Water Station",
+        "rightmove_area": "London"
+    },
+    "Crystal Palace Rail Station": {
+        "tfl_name": "Crystal Palace Rail Station",
+        "rightmove_identifier": "STATION^2507",
+        "rightmove_name": "Crystal Palace Station",
+        "rightmove_area": "London"
+    },
+    "Dalston Junction Rail Station": {
+        "tfl_name": "Dalston Junction Rail Station",
+        "rightmove_identifier": "STATION^15132",
+        "rightmove_name": "Dalston Junction Station",
+        "rightmove_area": "London"
+    },
+    "Denmark Hill Rail Station": {
+        "tfl_name": "Denmark Hill Rail Station",
+        "rightmove_identifier": "STATION^2714",
+        "rightmove_name": "Denmark Hill Station",
+        "rightmove_area": "London"
+    },
+    "Forest Hill Rail Station": {
+        "tfl_name": "Forest Hill Rail Station",
+        "rightmove_identifier": "STATION^3581",
+        "rightmove_name": "Forest Hill Station",
+        "rightmove_area": "London"
+    },
+    "Haggerston Rail Station": {
+        "tfl_name": "Haggerston Rail Station",
+        "rightmove_identifier": "STATION^15129",
+        "rightmove_name": "Haggerston Station",
+        "rightmove_area": "London"
+    },
+    "Honor Oak Park Rail Station": {
+        "tfl_name": "Honor Oak Park Rail Station",
+        "rightmove_identifier": "STATION^4706",
+        "rightmove_name": "Honor Oak Park Station",
+        "rightmove_area": "London"
+    },
+    "Hoxton Rail Station": {
+        "tfl_name": "Hoxton Rail Station",
+        "rightmove_identifier": "STATION^15126",
+        "rightmove_name": "Hoxton Station",
+        "rightmove_area": "London"
+    },
+    "London Bridge Rail Station": {
+        "tfl_name": "London Bridge Rail Station",
+        "rightmove_identifier": "STATION^5792",
+        "rightmove_name": "London Bridge Station",
+        "rightmove_area": "London"
+    },
+    "New Cross Gate Rail Station": {
+        "tfl_name": "New Cross Gate Rail Station",
+        "rightmove_identifier": "STATION^6542",
+        "rightmove_name": "New Cross Gate Station",
+        "rightmove_area": "London"
+    },
+    "Norwood Junction Rail Station": {
+        "tfl_name": "Norwood Junction Rail Station",
+        "rightmove_identifier": "STATION^6815",
+        "rightmove_name": "Norwood Junction Station",
+        "rightmove_area": "London"
+    },
+    "New Cross ELL Rail Station": {
+        "tfl_name": "New Cross ELL Rail Station",
+        "rightmove_identifier": "STATION^6536",
+        "rightmove_name": "New Cross Station",
+        "rightmove_area": "London"
+    },
+    "Queens Road Peckham Rail Station": {
+        "tfl_name": "Queens Road Peckham Rail Station",
+        "rightmove_identifier": "STATION^7517",
+        "rightmove_name": "Queens Road Peckham Station",
+        "rightmove_area": "Peckham, South East London"
+    },
+    "Peckham Rye Rail Station": {
+        "tfl_name": "Peckham Rye Rail Station",
+        "rightmove_identifier": "STATION^7070",
+        "rightmove_name": "Peckham Rye Station",
+        "rightmove_area": "London"
+    },
+    "Penge West Rail Station": {
+        "tfl_name": "Penge West Rail Station",
+        "rightmove_identifier": "STATION^7106",
+        "rightmove_name": "Penge West Station",
+        "rightmove_area": "London"
+    },
+    "Rotherhithe Rail Station": {
+        "tfl_name": "Rotherhithe Rail Station",
+        "rightmove_identifier": "STATION^7805",
+        "rightmove_name": "Rotherhithe Station",
+        "rightmove_area": "London"
+    },
+    "Shadwell Rail Station": {
+        "tfl_name": "Shadwell Rail Station",
+        "rightmove_identifier": "STATION^8102",
+        "rightmove_name": "Shadwell Station",
+        "rightmove_area": "London"
+    },
+    "Shoreditch High Street Rail Station": {
+        "tfl_name": "Shoreditch High Street Rail Station",
+        "rightmove_identifier": "STATION^10415",
+        "rightmove_name": "Shoreditch High Street Station",
+        "rightmove_area": "Bethnal Green, East London"
+    },
+    "Surrey Quays Rail Station": {
+        "tfl_name": "Surrey Quays Rail Station",
+        "rightmove_identifier": "STATION^8915",
+        "rightmove_name": "Surrey Quays Station",
+        "rightmove_area": "London"
+    },
+    "Sydenham Rail Station": {
+        "tfl_name": "Sydenham Rail Station",
+        "rightmove_identifier": "STATION^8984",
+        "rightmove_name": "Sydenham Station",
+        "rightmove_area": "London"
+    },
+    "Wapping Rail Station": {
+        "tfl_name": "Wapping Rail Station",
+        "rightmove_identifier": "STATION^9602",
+        "rightmove_name": "Wapping Station",
+        "rightmove_area": "London"
+    },
+    "Whitechapel Rail Station": {
+        "tfl_name": "Whitechapel Rail Station",
+        "rightmove_identifier": "STATION^10022",
+        "rightmove_name": "Whitechapel Station",
+        "rightmove_area": "London"
+    },
+    "West Croydon Rail Station": {
+        "tfl_name": "West Croydon Rail Station",
+        "rightmove_identifier": "STATION^9818",
+        "rightmove_name": "West Croydon Station",
+        "rightmove_area": "Croydon, London"
+    },
+    "Wandsworth Road Rail Station": {
+        "tfl_name": "Wandsworth Road Rail Station",
+        "rightmove_identifier": "STATION^9584",
+        "rightmove_name": "Wandsworth Road Station",
+        "rightmove_area": "London"
+    },
+    "Addiscombe": {
+        "tfl_name": "Addiscombe",
+        "rightmove_identifier": "STATION^89",
+        "rightmove_name": "Addiscombe Tram Stop",
+        "rightmove_area": "Croydon, London"
+    },
+    "Addington Village": {
+        "tfl_name": "Addington Village",
+        "rightmove_identifier": "STATION^86",
+        "rightmove_name": "Addington Village Tram Stop",
+        "rightmove_area": "Croydon, London"
+    },
+    "Ampere Way": {
+        "tfl_name": "Ampere Way",
+        "rightmove_identifier": "STATION^224",
+        "rightmove_name": "Ampere Way Tram Stop",
+        "rightmove_area": "Beddington, Croydon, Surrey"
+    },
+    "Arena": {
+        "tfl_name": "Arena",
+        "rightmove_identifier": "STATION^308",
+        "rightmove_name": "Arena Tram Stop",
+        "rightmove_area": "London"
+    },
+    "Avenue Road": {
+        "tfl_name": "Avenue Road",
+        "rightmove_identifier": "STATION^440",
+        "rightmove_name": "Avenue Road Tram Stop",
+        "rightmove_area": "London"
+    },
+    "Beddington Lane": {
+        "tfl_name": "Beddington Lane",
+        "rightmove_identifier": "STATION^767",
+        "rightmove_name": "Beddington Lane Tram Stop",
+        "rightmove_area": "London"
+    },
+    "Beckenham Junction": {
+        "tfl_name": "Beckenham Junction",
+        "rightmove_identifier": "STATION^743",
+        "rightmove_name": "Beckenham Junction Station",
+        "rightmove_area": "Beckenham, London"
+    },
+    "Belgrave Walk": {
+        "tfl_name": "Belgrave Walk",
+        "rightmove_identifier": "STATION^800",
+        "rightmove_name": "Belgrave Walk Tram Stop",
+        "rightmove_area": "London"
+    },
+    "Birkbeck": {
+        "tfl_name": "Birkbeck",
+        "rightmove_identifier": "STATION^974",
+        "rightmove_name": "Birkbeck Station",
+        "rightmove_area": "London"
+    },
+    "Blackhorse Lane": {
+        "tfl_name": "Blackhorse Lane",
+        "rightmove_identifier": "STATION^1052",
+        "rightmove_name": "Blackhorse Lane Tram Stop",
+        "rightmove_area": "Croydon, London"
+    },
+    "Beckenham Road": {
+        "tfl_name": "Beckenham Road",
+        "rightmove_identifier": "STATION^749",
+        "rightmove_name": "Beckenham Road Tram Stop",
+        "rightmove_area": "Beckenham, London"
+    },
+    "George Street": {
+        "tfl_name": "George Street",
+        "rightmove_identifier": "STATION^3728",
+        "rightmove_name": "George Street Tram Stop",
+        "rightmove_area": "Croydon, London"
+    },
+    "Church Street": {
+        "tfl_name": "Church Street",
+        "rightmove_identifier": "STATION^2117",
+        "rightmove_name": "Church Street Tram Stop",
+        "rightmove_area": "Croydon, London"
+    },
+    "Coombe Lane": {
+        "tfl_name": "Coombe Lane",
+        "rightmove_identifier": "STATION^2318",
+        "rightmove_name": "Coombe Lane Tram Stop",
+        "rightmove_area": "Croydon, London"
+    },
+    "Centrale": {
+        "tfl_name": "Centrale",
+        "rightmove_identifier": "STATION^10462",
+        "rightmove_name": "Centrale Tram Stop",
+        "rightmove_area": "London"
+    },
+    "Dundonald Road": {
+        "tfl_name": "Dundonald Road",
+        "rightmove_identifier": "STATION^2975",
+        "rightmove_name": "Dundonald Road Tram Stop",
+        "rightmove_area": "London"
+    },
+    "East Croydon": {
+        "tfl_name": "East Croydon",
+        "rightmove_identifier": "STATION^3056",
+        "rightmove_name": "East Croydon Station",
+        "rightmove_area": "Croydon, London"
+    },
+    "Elmers End": {
+        "tfl_name": "Elmers End",
+        "rightmove_identifier": "STATION^3215",
+        "rightmove_name": "Elmers End Station",
+        "rightmove_area": "London"
+    },
+    "Fieldway": {
+        "tfl_name": "Fieldway",
+        "rightmove_identifier": "STATION^3497",
+        "rightmove_name": "Fieldway Tram Stop",
+        "rightmove_area": "Croydon, London"
+    },
+    "Gravel Hill": {
+        "tfl_name": "Gravel Hill",
+        "rightmove_identifier": "STATION^3923",
+        "rightmove_name": "Gravel Hill Tram Stop",
+        "rightmove_area": "South Croydon, Surrey"
+    },
+    "Harrington Road": {
+        "tfl_name": "Harrington Road",
+        "rightmove_identifier": "STATION^4274",
+        "rightmove_name": "Harrington Rd Tram Stop",
+        "rightmove_area": "London"
+    },
+    "King Henry's Drive": {
+        "tfl_name": "King Henry's Drive",
+        "rightmove_identifier": "STATION^5153",
+        "rightmove_name": "King Henry's Drive Tram Stop",
+        "rightmove_area": "New Addington, Croydon, Surrey"
+    },
+    "Lebanon Road": {
+        "tfl_name": "Lebanon Road",
+        "rightmove_identifier": "STATION^5453",
+        "rightmove_name": "Lebanon Road Tram Stop",
+        "rightmove_area": "Croydon, London"
+    },
+    "Lloyd Park": {
+        "tfl_name": "Lloyd Park",
+        "rightmove_identifier": "STATION^5750",
+        "rightmove_name": "Lloyd Park Tram Stop",
+        "rightmove_area": "Croydon, London"
+    },
+    "Mitcham": {
+        "tfl_name": "Mitcham",
+        "rightmove_identifier": "STATION^6287",
+        "rightmove_name": "Mitcham Tram Stop",
+        "rightmove_area": "Mitcham, Surrey"
+    },
+    "Morden Road": {
+        "tfl_name": "Morden Road",
+        "rightmove_identifier": "STATION^6356",
+        "rightmove_name": "Morden Road Tram Stop",
+        "rightmove_area": "London"
+    },
+    "Mitcham Junction": {
+        "tfl_name": "Mitcham Junction",
+        "rightmove_identifier": "STATION^6290",
+        "rightmove_name": "Mitcham Junction Station",
+        "rightmove_area": "Mitcham, Surrey"
+    },
+    "Merton Park": {
+        "tfl_name": "Merton Park",
+        "rightmove_identifier": "STATION^6173",
+        "rightmove_name": "Merton Park Tram Stop",
+        "rightmove_area": "London"
+    },
+    "New Addington": {
+        "tfl_name": "New Addington",
+        "rightmove_identifier": "STATION^6521",
+        "rightmove_name": "New Addington Tram Stop",
+        "rightmove_area": "New Addington, Croydon, Surrey"
+    },
+    "Phipps Bridge": {
+        "tfl_name": "Phipps Bridge",
+        "rightmove_identifier": "STATION^7217",
+        "rightmove_name": "Phipps Bridge Tram Stop",
+        "rightmove_area": "London"
+    },
+    "Reeves Corner": {
+        "tfl_name": "Reeves Corner",
+        "rightmove_identifier": "STATION^7652",
+        "rightmove_name": "Reeves Corner Tram Stop",
+        "rightmove_area": "Croydon, London"
+    },
+    "Sandilands": {
+        "tfl_name": "Sandilands",
+        "rightmove_identifier": "STATION^7958",
+        "rightmove_name": "Sandilands Tram Stop",
+        "rightmove_area": "Croydon, London"
+    },
+    "Therapia Lane": {
+        "tfl_name": "Therapia Lane",
+        "rightmove_identifier": "STATION^9131",
+        "rightmove_name": "Therapia Lane Tram Stop",
+        "rightmove_area": "Beddington, Croydon, Surrey"
+    },
+    "Waddon Marsh": {
+        "tfl_name": "Waddon Marsh",
+        "rightmove_identifier": "STATION^9503",
+        "rightmove_name": "Waddon Marsh Tram Stop",
+        "rightmove_area": "Croydon, London"
+    },
+    "Wandle Park": {
+        "tfl_name": "Wandle Park",
+        "rightmove_identifier": "STATION^9578",
+        "rightmove_name": "Wandle Park Tram Stop",
+        "rightmove_area": "Croydon, London"
+    },
+    "West Croydon": {
+        "tfl_name": "West Croydon",
+        "rightmove_identifier": "STATION^9818",
+        "rightmove_name": "West Croydon Station",
+        "rightmove_area": "Croydon, London"
+    },
+    "Wellesley Road": {
+        "tfl_name": "Wellesley Road",
+        "rightmove_identifier": "STATION^9737",
+        "rightmove_name": "Wellesley Road Tram Stop",
+        "rightmove_area": "Croydon, London"
+    },
+    "Wimbledon": {
+        "tfl_name": "Wimbledon",
+        "rightmove_identifier": "STATION^10127",
+        "rightmove_name": "Wimbledon Station",
+        "rightmove_area": "London"
+    },
+    "Woodside": {
+        "tfl_name": "Woodside",
+        "rightmove_identifier": "STATION^10271",
+        "rightmove_name": "Woodside Tram Stop",
+        "rightmove_area": "London"
+    },
+    "Addiscombe Tram Stop": {
+        "tfl_name": "Addiscombe Tram Stop",
+        "rightmove_identifier": "STATION^89",
+        "rightmove_name": "Addiscombe Tram Stop",
+        "rightmove_area": "Croydon, London"
+    },
+    "Addington Village Tram Stop": {
+        "tfl_name": "Addington Village Tram Stop",
+        "rightmove_identifier": "STATION^86",
+        "rightmove_name": "Addington Village Tram Stop",
+        "rightmove_area": "Croydon, London"
+    },
+    "Ampere Way Tram Stop": {
+        "tfl_name": "Ampere Way Tram Stop",
+        "rightmove_identifier": "STATION^224",
+        "rightmove_name": "Ampere Way Tram Stop",
+        "rightmove_area": "Beddington, Croydon, Surrey"
+    },
+    "Arena Tram Stop": {
+        "tfl_name": "Arena Tram Stop",
+        "rightmove_identifier": "STATION^308",
+        "rightmove_name": "Arena Tram Stop",
+        "rightmove_area": "London"
+    },
+    "Avenue Road Tram Stop": {
+        "tfl_name": "Avenue Road Tram Stop",
+        "rightmove_identifier": "STATION^440",
+        "rightmove_name": "Avenue Road Tram Stop",
+        "rightmove_area": "London"
+    },
+    "Beddington Lane Tram Stop": {
+        "tfl_name": "Beddington Lane Tram Stop",
+        "rightmove_identifier": "STATION^767",
+        "rightmove_name": "Beddington Lane Tram Stop",
+        "rightmove_area": "London"
+    },
+    "Beckenham Junction Tram Stop": {
+        "tfl_name": "Beckenham Junction Tram Stop",
+        "rightmove_identifier": "STATION^743",
+        "rightmove_name": "Beckenham Junction Station",
+        "rightmove_area": "Beckenham, London"
+    },
+    "Belgrave Walk Tram Stop": {
+        "tfl_name": "Belgrave Walk Tram Stop",
+        "rightmove_identifier": "STATION^800",
+        "rightmove_name": "Belgrave Walk Tram Stop",
+        "rightmove_area": "London"
+    },
+    "Birkbeck Tram Stop": {
+        "tfl_name": "Birkbeck Tram Stop",
+        "rightmove_identifier": "STATION^974",
+        "rightmove_name": "Birkbeck Station",
+        "rightmove_area": "London"
+    },
+    "Blackhorse Lane Tram Stop": {
+        "tfl_name": "Blackhorse Lane Tram Stop",
+        "rightmove_identifier": "STATION^1052",
+        "rightmove_name": "Blackhorse Lane Tram Stop",
+        "rightmove_area": "Croydon, London"
+    },
+    "Beckenham Road Tram Stop": {
+        "tfl_name": "Beckenham Road Tram Stop",
+        "rightmove_identifier": "STATION^749",
+        "rightmove_name": "Beckenham Road Tram Stop",
+        "rightmove_area": "Beckenham, London"
+    },
+    "George Street Tram Stop": {
+        "tfl_name": "George Street Tram Stop",
+        "rightmove_identifier": "STATION^3728",
+        "rightmove_name": "George Street Tram Stop",
+        "rightmove_area": "Croydon, London"
+    },
+    "Church Street Tram Stop": {
+        "tfl_name": "Church Street Tram Stop",
+        "rightmove_identifier": "STATION^2117",
+        "rightmove_name": "Church Street Tram Stop",
+        "rightmove_area": "Croydon, London"
+    },
+    "Coombe Lane Tram Stop": {
+        "tfl_name": "Coombe Lane Tram Stop",
+        "rightmove_identifier": "STATION^2318",
+        "rightmove_name": "Coombe Lane Tram Stop",
+        "rightmove_area": "Croydon, London"
+    },
+    "Centrale Tram Stop": {
+        "tfl_name": "Centrale Tram Stop",
+        "rightmove_identifier": "STATION^10462",
+        "rightmove_name": "Centrale Tram Stop",
+        "rightmove_area": "London"
+    },
+    "Dundonald Road Tram Stop": {
+        "tfl_name": "Dundonald Road Tram Stop",
+        "rightmove_identifier": "STATION^2975",
+        "rightmove_name": "Dundonald Road Tram Stop",
+        "rightmove_area": "London"
+    },
+    "East Croydon Tram Stop": {
+        "tfl_name": "East Croydon Tram Stop",
+        "rightmove_identifier": "STATION^3056",
+        "rightmove_name": "East Croydon Station",
+        "rightmove_area": "Croydon, London"
+    },
+    "Elmers End Tram Stop": {
+        "tfl_name": "Elmers End Tram Stop",
+        "rightmove_identifier": "STATION^3215",
+        "rightmove_name": "Elmers End Station",
+        "rightmove_area": "London"
+    },
+    "Fieldway Tram Stop": {
+        "tfl_name": "Fieldway Tram Stop",
+        "rightmove_identifier": "STATION^3497",
+        "rightmove_name": "Fieldway Tram Stop",
+        "rightmove_area": "Croydon, London"
+    },
+    "Gravel Hill Tram Stop": {
+        "tfl_name": "Gravel Hill Tram Stop",
+        "rightmove_identifier": "STATION^3923",
+        "rightmove_name": "Gravel Hill Tram Stop",
+        "rightmove_area": "South Croydon, Surrey"
+    },
+    "Harrington Road Tram Stop": {
+        "tfl_name": "Harrington Road Tram Stop",
+        "rightmove_identifier": "STATION^4274",
+        "rightmove_name": "Harrington Rd Tram Stop",
+        "rightmove_area": "London"
+    },
+    "King Henry's Drive Tram Stop": {
+        "tfl_name": "King Henry's Drive Tram Stop",
+        "rightmove_identifier": "STATION^5153",
+        "rightmove_name": "King Henry's Drive Tram Stop",
+        "rightmove_area": "New Addington, Croydon, Surrey"
+    },
+    "Lebanon Road Tram Stop": {
+        "tfl_name": "Lebanon Road Tram Stop",
+        "rightmove_identifier": "STATION^5453",
+        "rightmove_name": "Lebanon Road Tram Stop",
+        "rightmove_area": "Croydon, London"
+    },
+    "Lloyd Park Tram Stop": {
+        "tfl_name": "Lloyd Park Tram Stop",
+        "rightmove_identifier": "STATION^5750",
+        "rightmove_name": "Lloyd Park Tram Stop",
+        "rightmove_area": "Croydon, London"
+    },
+    "Mitcham Tram Stop": {
+        "tfl_name": "Mitcham Tram Stop",
+        "rightmove_identifier": "STATION^6287",
+        "rightmove_name": "Mitcham Tram Stop",
+        "rightmove_area": "Mitcham, Surrey"
+    },
+    "Morden Road Tram Stop": {
+        "tfl_name": "Morden Road Tram Stop",
+        "rightmove_identifier": "STATION^6356",
+        "rightmove_name": "Morden Road Tram Stop",
+        "rightmove_area": "London"
+    },
+    "Mitcham Junction Tram Stop": {
+        "tfl_name": "Mitcham Junction Tram Stop",
+        "rightmove_identifier": "STATION^6290",
+        "rightmove_name": "Mitcham Junction Station",
+        "rightmove_area": "Mitcham, Surrey"
+    },
+    "Merton Park Tram Stop": {
+        "tfl_name": "Merton Park Tram Stop",
+        "rightmove_identifier": "STATION^6173",
+        "rightmove_name": "Merton Park Tram Stop",
+        "rightmove_area": "London"
+    },
+    "New Addington Tram Stop": {
+        "tfl_name": "New Addington Tram Stop",
+        "rightmove_identifier": "STATION^6521",
+        "rightmove_name": "New Addington Tram Stop",
+        "rightmove_area": "New Addington, Croydon, Surrey"
+    },
+    "Phipps Bridge Tram Stop": {
+        "tfl_name": "Phipps Bridge Tram Stop",
+        "rightmove_identifier": "STATION^7217",
+        "rightmove_name": "Phipps Bridge Tram Stop",
+        "rightmove_area": "London"
+    },
+    "Reeves Corner Tram Stop": {
+        "tfl_name": "Reeves Corner Tram Stop",
+        "rightmove_identifier": "STATION^7652",
+        "rightmove_name": "Reeves Corner Tram Stop",
+        "rightmove_area": "Croydon, London"
+    },
+    "Sandilands Tram Stop": {
+        "tfl_name": "Sandilands Tram Stop",
+        "rightmove_identifier": "STATION^7958",
+        "rightmove_name": "Sandilands Tram Stop",
+        "rightmove_area": "Croydon, London"
+    },
+    "Therapia Lane Tram Stop": {
+        "tfl_name": "Therapia Lane Tram Stop",
+        "rightmove_identifier": "STATION^9131",
+        "rightmove_name": "Therapia Lane Tram Stop",
+        "rightmove_area": "Beddington, Croydon, Surrey"
+    },
+    "Waddon Marsh Tram Stop": {
+        "tfl_name": "Waddon Marsh Tram Stop",
+        "rightmove_identifier": "STATION^9503",
+        "rightmove_name": "Waddon Marsh Tram Stop",
+        "rightmove_area": "Croydon, London"
+    },
+    "Wandle Park Tram Stop": {
+        "tfl_name": "Wandle Park Tram Stop",
+        "rightmove_identifier": "STATION^9578",
+        "rightmove_name": "Wandle Park Tram Stop",
+        "rightmove_area": "Croydon, London"
+    },
+    "West Croydon Tram Stop": {
+        "tfl_name": "West Croydon Tram Stop",
+        "rightmove_identifier": "STATION^9818",
+        "rightmove_name": "West Croydon Station",
+        "rightmove_area": "Croydon, London"
+    },
+    "Wellesley Road Tram Stop": {
+        "tfl_name": "Wellesley Road Tram Stop",
+        "rightmove_identifier": "STATION^9737",
+        "rightmove_name": "Wellesley Road Tram Stop",
+        "rightmove_area": "Croydon, London"
+    },
+    "Wimbledon Tram Stop": {
+        "tfl_name": "Wimbledon Tram Stop",
+        "rightmove_identifier": "STATION^10127",
+        "rightmove_name": "Wimbledon Station",
+        "rightmove_area": "London"
+    },
+    "Woodside Tram Stop": {
+        "tfl_name": "Woodside Tram Stop",
+        "rightmove_identifier": "STATION^10271",
+        "rightmove_name": "Woodside Tram Stop",
+        "rightmove_area": "London"
+    },
+    "Baker Street Underground Station": {
+        "tfl_name": "Baker Street Underground Station",
+        "rightmove_identifier": "STATION^488",
+        "rightmove_name": "Baker Street Station",
+        "rightmove_area": "London"
+    },
+    "Charing Cross Underground Station": {
+        "tfl_name": "Charing Cross Underground Station",
+        "rightmove_identifier": "STATION^1940",
+        "rightmove_name": "Charing Cross Station",
+        "rightmove_area": "London"
+    },
+    "Elephant & Castle Underground Station": {
+        "tfl_name": "Elephant & Castle Underground Station",
+        "rightmove_identifier": "STATION^3197",
+        "rightmove_name": "Elephant & Castle Station",
+        "rightmove_area": "London"
+    },
+    "Embankment Underground Station": {
+        "tfl_name": "Embankment Underground Station",
+        "rightmove_identifier": "STATION^3251",
+        "rightmove_name": "Embankment Station",
+        "rightmove_area": "London"
+    },
+    "Edgware Road (Bakerloo) Underground Station": {
+        "tfl_name": "Edgware Road (Bakerloo) Underground Station",
+        "rightmove_identifier": "STATION^3167",
+        "rightmove_name": "Edgware Road (Bakerloo) Station",
+        "rightmove_area": "London"
+    },
+    "Harrow & Wealdstone Underground Station": {
+        "tfl_name": "Harrow & Wealdstone Underground Station",
+        "rightmove_identifier": "STATION^4283",
+        "rightmove_name": "Harrow & Wealdstone Station",
+        "rightmove_area": "Wealdstone, Harrow, Middlesex"
+    },
+    "Harlesden Underground Station": {
+        "tfl_name": "Harlesden Underground Station",
+        "rightmove_identifier": "STATION^4238",
+        "rightmove_name": "Harlesden Station",
+        "rightmove_area": "London"
+    },
+    "Kenton Underground Station": {
+        "tfl_name": "Kenton Underground Station",
+        "rightmove_identifier": "STATION^5078",
+        "rightmove_name": "Kenton Station",
+        "rightmove_area": "Kenton, Harrow, Middlesex"
+    },
+    "Kilburn Park Underground Station": {
+        "tfl_name": "Kilburn Park Underground Station",
+        "rightmove_identifier": "STATION^5126",
+        "rightmove_name": "Kilburn Park Station",
+        "rightmove_area": "London"
+    },
+    "Kensal Green Underground Station": {
+        "tfl_name": "Kensal Green Underground Station",
+        "rightmove_identifier": "STATION^5045",
+        "rightmove_name": "Kensal Green Station",
+        "rightmove_area": "London"
+    },
+    "Lambeth North Underground Station": {
+        "tfl_name": "Lambeth North Underground Station",
+        "rightmove_identifier": "STATION^5345",
+        "rightmove_name": "Lambeth North Station",
+        "rightmove_area": "London"
+    },
+    "Maida Vale Underground Station": {
+        "tfl_name": "Maida Vale Underground Station",
+        "rightmove_identifier": "STATION^5945",
+        "rightmove_name": "Maida Vale Station",
+        "rightmove_area": "London"
+    },
+    "Marylebone Underground Station": {
+        "tfl_name": "Marylebone Underground Station",
+        "rightmove_identifier": "STATION^6095",
+        "rightmove_name": "Marylebone Station",
+        "rightmove_area": "London"
+    },
+    "North Wembley Underground Station": {
+        "tfl_name": "North Wembley Underground Station",
+        "rightmove_identifier": "STATION^6749",
+        "rightmove_name": "North Wembley Station",
+        "rightmove_area": "London"
+    },
+    "Oxford Circus Underground Station": {
+        "tfl_name": "Oxford Circus Underground Station",
+        "rightmove_identifier": "STATION^6953",
+        "rightmove_name": "Oxford Circus Station",
+        "rightmove_area": "London"
+    },
+    "Paddington Underground Station": {
+        "tfl_name": "Paddington Underground Station",
+        "rightmove_identifier": "STATION^6965",
+        "rightmove_name": "Paddington Station",
+        "rightmove_area": "London"
+    },
+    "Piccadilly Circus Underground Station": {
+        "tfl_name": "Piccadilly Circus Underground Station",
+        "rightmove_identifier": "STATION^7220",
+        "rightmove_name": "Piccadilly Circus Station",
+        "rightmove_area": "London"
+    },
+    "Queen's Park Underground Station": {
+        "tfl_name": "Queen's Park Underground Station",
+        "rightmove_identifier": "STATION^7502",
+        "rightmove_name": "Queen's Park Station",
+        "rightmove_area": "London"
+    },
+    "Regent's Park Underground Station": {
+        "tfl_name": "Regent's Park Underground Station",
+        "rightmove_identifier": "STATION^7658",
+        "rightmove_name": "Regent's Park Station",
+        "rightmove_area": "London"
+    },
+    "Stonebridge Park Underground Station": {
+        "tfl_name": "Stonebridge Park Underground Station",
+        "rightmove_identifier": "STATION^8780",
+        "rightmove_name": "Stonebridge Park Station",
+        "rightmove_area": "London"
+    },
+    "South Kenton Underground Station": {
+        "tfl_name": "South Kenton Underground Station",
+        "rightmove_identifier": "STATION^8420",
+        "rightmove_name": "South Kenton Station",
+        "rightmove_area": "Kenton, Harrow, Middlesex"
+    },
+    "Willesden Junction Underground Station": {
+        "tfl_name": "Willesden Junction Underground Station",
+        "rightmove_identifier": "STATION^10103",
+        "rightmove_name": "Willesden Junction Station",
+        "rightmove_area": "London"
+    },
+    "Warwick Avenue Underground Station": {
+        "tfl_name": "Warwick Avenue Underground Station",
+        "rightmove_identifier": "STATION^9635",
+        "rightmove_name": "Warwick Avenue Station",
+        "rightmove_area": "London"
+    },
+    "Waterloo Underground Station": {
+        "tfl_name": "Waterloo Underground Station",
+        "rightmove_identifier": "STATION^9662",
+        "rightmove_name": "Waterloo Station",
+        "rightmove_area": "London"
+    },
+    "Wembley Central Underground Station": {
+        "tfl_name": "Wembley Central Underground Station",
+        "rightmove_identifier": "STATION^9776",
+        "rightmove_name": "Wembley Central Station",
+        "rightmove_area": "Wembley, Middlesex"
+    },
+    "Barkingside Underground Station": {
+        "tfl_name": "Barkingside Underground Station",
+        "rightmove_identifier": "STATION^593",
+        "rightmove_name": "Barkingside Station",
+        "rightmove_area": "Barkingside, Ilford, Essex"
+    },
+    "Buckhurst Hill Underground Station": {
+        "tfl_name": "Buckhurst Hill Underground Station",
+        "rightmove_identifier": "STATION^1529",
+        "rightmove_name": "Buckhurst Hill Station",
+        "rightmove_area": "Buckhurst Hill, Essex"
+    },
+    "Bethnal Green Underground Station": {
+        "tfl_name": "Bethnal Green Underground Station",
+        "rightmove_identifier": "STATION^908",
+        "rightmove_name": "Bethnal Green (Underground) Station",
+        "rightmove_area": "London"
+    },
+    "Bond Street Underground Station": {
+        "tfl_name": "Bond Street Underground Station",
+        "rightmove_identifier": "STATION^1166",
+        "rightmove_name": "Bond Street Station",
+        "rightmove_area": "London"
+    },
+    "Bank Underground Station": {
+        "tfl_name": "Bank Underground Station",
+        "rightmove_identifier": "STATION^551",
+        "rightmove_name": "Bank Station",
+        "rightmove_area": "London"
+    },
+    "Chancery Lane Underground Station": {
+        "tfl_name": "Chancery Lane Underground Station",
+        "rightmove_identifier": "STATION^1919",
+        "rightmove_name": "Chancery Lane Station",
+        "rightmove_area": "London"
+    },
+    "Chigwell Underground Station": {
+        "tfl_name": "Chigwell Underground Station",
+        "rightmove_identifier": "STATION^2045",
+        "rightmove_name": "Chigwell Station",
+        "rightmove_area": "Chigwell, Essex"
+    },
+    "Debden Underground Station": {
+        "tfl_name": "Debden Underground Station",
+        "rightmove_identifier": "STATION^2690",
+        "rightmove_name": "Debden Station",
+        "rightmove_area": "London"
+    },
+    "East Acton Underground Station": {
+        "tfl_name": "East Acton Underground Station",
+        "rightmove_identifier": "STATION^3050",
+        "rightmove_name": "East Acton Station",
+        "rightmove_area": "London"
+    },
+    "Ealing Broadway Underground Station": {
+        "tfl_name": "Ealing Broadway Underground Station",
+        "rightmove_identifier": "STATION^3023",
+        "rightmove_name": "Ealing Broadway Station",
+        "rightmove_area": "London"
+    },
+    "Epping Underground Station": {
+        "tfl_name": "Epping Underground Station",
+        "rightmove_identifier": "STATION^3278",
+        "rightmove_name": "Epping Station",
+        "rightmove_area": "Epping, Essex"
+    },
+    "Fairlop Underground Station": {
+        "tfl_name": "Fairlop Underground Station",
+        "rightmove_identifier": "STATION^3374",
+        "rightmove_name": "Fairlop Station",
+        "rightmove_area": "London"
+    },
+    "Greenford Underground Station": {
+        "tfl_name": "Greenford Underground Station",
+        "rightmove_identifier": "STATION^3986",
+        "rightmove_name": "Greenford Station",
+        "rightmove_area": "Greenford, Middlesex"
+    },
+    "Grange Hill Underground Station": {
+        "tfl_name": "Grange Hill Underground Station",
+        "rightmove_identifier": "STATION^3902",
+        "rightmove_name": "Grange Hill Station",
+        "rightmove_area": "London"
+    },
+    "Gants Hill Underground Station": {
+        "tfl_name": "Gants Hill Underground Station",
+        "rightmove_identifier": "STATION^3668",
+        "rightmove_name": "Gants Hill Station",
+        "rightmove_area": "London"
+    },
+    "Holborn Underground Station": {
+        "tfl_name": "Holborn Underground Station",
+        "rightmove_identifier": "STATION^4655",
+        "rightmove_name": "Holborn Station",
+        "rightmove_area": "London"
+    },
+    "Hanger Lane Underground Station": {
+        "tfl_name": "Hanger Lane Underground Station",
+        "rightmove_identifier": "STATION^4223",
+        "rightmove_name": "Hanger Lane Station",
+        "rightmove_area": "London"
+    },
+    "Hainault Underground Station": {
+        "tfl_name": "Hainault Underground Station",
+        "rightmove_identifier": "STATION^4112",
+        "rightmove_name": "Hainault Station",
+        "rightmove_area": "London"
+    },
+    "Holland Park Underground Station": {
+        "tfl_name": "Holland Park Underground Station",
+        "rightmove_identifier": "STATION^4658",
+        "rightmove_name": "Holland Park Station",
+        "rightmove_area": "London"
+    },
+    "Loughton Underground Station": {
+        "tfl_name": "Loughton Underground Station",
+        "rightmove_identifier": "STATION^5873",
+        "rightmove_name": "Loughton Station",
+        "rightmove_area": "Loughton, Essex"
+    },
+    "Lancaster Gate Underground Station": {
+        "tfl_name": "Lancaster Gate Underground Station",
+        "rightmove_identifier": "STATION^5354",
+        "rightmove_name": "Lancaster Gate Station",
+        "rightmove_area": "London"
+    },
+    "Liverpool Street Underground Station": {
+        "tfl_name": "Liverpool Street Underground Station",
+        "rightmove_identifier": "STATION^5615",
+        "rightmove_name": "Liverpool Street Station",
+        "rightmove_area": "London"
+    },
+    "Leyton Underground Station": {
+        "tfl_name": "Leyton Underground Station",
+        "rightmove_identifier": "STATION^5537",
+        "rightmove_name": "Leyton Station",
+        "rightmove_area": "London"
+    },
+    "Leytonstone Underground Station": {
+        "tfl_name": "Leytonstone Underground Station",
+        "rightmove_identifier": "STATION^5543",
+        "rightmove_name": "Leytonstone Station",
+        "rightmove_area": "London"
+    },
+    "Marble Arch Underground Station": {
+        "tfl_name": "Marble Arch Underground Station",
+        "rightmove_identifier": "STATION^6032",
+        "rightmove_name": "Marble Arch Station",
+        "rightmove_area": "London"
+    },
+    "Mile End Underground Station": {
+        "tfl_name": "Mile End Underground Station",
+        "rightmove_identifier": "STATION^6221",
+        "rightmove_name": "Mile End Station",
+        "rightmove_area": "London"
+    },
+    "North Acton Underground Station": {
+        "tfl_name": "North Acton Underground Station",
+        "rightmove_identifier": "STATION^6704",
+        "rightmove_name": "North Acton Station",
+        "rightmove_area": "London"
+    },
+    "Newbury Park Underground Station": {
+        "tfl_name": "Newbury Park Underground Station",
+        "rightmove_identifier": "STATION^6593",
+        "rightmove_name": "Newbury Park Station",
+        "rightmove_area": "London"
+    },
+    "Notting Hill Gate Underground Station": {
+        "tfl_name": "Notting Hill Gate Underground Station",
+        "rightmove_identifier": "STATION^6818",
+        "rightmove_name": "Notting Hill Gate Station",
+        "rightmove_area": "London"
+    },
+    "Northolt Underground Station": {
+        "tfl_name": "Northolt Underground Station",
+        "rightmove_identifier": "STATION^6782",
+        "rightmove_name": "Northolt Station",
+        "rightmove_area": "Northolt, Middlesex"
+    },
+    "Perivale Underground Station": {
+        "tfl_name": "Perivale Underground Station",
+        "rightmove_identifier": "STATION^7175",
+        "rightmove_name": "Perivale Station",
+        "rightmove_area": "London"
+    },
+    "Queensway Underground Station": {
+        "tfl_name": "Queensway Underground Station",
+        "rightmove_identifier": "STATION^7526",
+        "rightmove_name": "Queensway Station",
+        "rightmove_area": "London"
+    },
+    "Redbridge Underground Station": {
+        "tfl_name": "Redbridge Underground Station",
+        "rightmove_identifier": "STATION^7619",
+        "rightmove_name": "Redbridge Station",
+        "rightmove_area": "East London"
+    },
+    "Ruislip Gardens Underground Station": {
+        "tfl_name": "Ruislip Gardens Underground Station",
+        "rightmove_identifier": "STATION^7862",
+        "rightmove_name": "Ruislip Gardens Station",
+        "rightmove_area": "Ruislip, Middlesex"
+    },
+    "Roding Valley Underground Station": {
+        "tfl_name": "Roding Valley Underground Station",
+        "rightmove_identifier": "STATION^7754",
+        "rightmove_name": "Roding Valley Station",
+        "rightmove_area": "London"
+    },
+    "Shepherd's Bush (Central) Underground Station": {
+        "tfl_name": "Shepherd's Bush (Central) Underground Station",
+        "rightmove_identifier": "STATION^8153",
+        "rightmove_name": "Shepherd's Bush (Central) Station",
+        "rightmove_area": "London"
+    },
+    "Snaresbrook Underground Station": {
+        "tfl_name": "Snaresbrook Underground Station",
+        "rightmove_identifier": "STATION^8345",
+        "rightmove_name": "Snaresbrook Station",
+        "rightmove_area": "London"
+    },
+    "St. Paul's Underground Station": {
+        "tfl_name": "St. Paul's Underground Station",
+        "rightmove_identifier": "STATION^8651",
+        "rightmove_name": "St. Paul's Station",
+        "rightmove_area": "London"
+    },
+    "South Ruislip Underground Station": {
+        "tfl_name": "South Ruislip Underground Station",
+        "rightmove_identifier": "STATION^8435",
+        "rightmove_name": "South Ruislip Station",
+        "rightmove_area": "South Ruislip, Ruislip, Middlesex"
+    },
+    "Stratford Underground Station": {
+        "tfl_name": "Stratford Underground Station",
+        "rightmove_identifier": "STATION^8813",
+        "rightmove_name": "Stratford Station",
+        "rightmove_area": "London"
+    },
+    "South Woodford Underground Station": {
+        "tfl_name": "South Woodford Underground Station",
+        "rightmove_identifier": "STATION^8456",
+        "rightmove_name": "South Woodford Station",
+        "rightmove_area": "London"
+    },
+    "Tottenham Court Road Underground Station": {
+        "tfl_name": "Tottenham Court Road Underground Station",
+        "rightmove_identifier": "STATION^9272",
+        "rightmove_name": "Tottenham Court Road Station",
+        "rightmove_area": "London"
+    },
+    "Theydon Bois Underground Station": {
+        "tfl_name": "Theydon Bois Underground Station",
+        "rightmove_identifier": "STATION^9137",
+        "rightmove_name": "Theydon Bois Station",
+        "rightmove_area": "Theydon Bois, Epping, Essex"
+    },
+    "White City Underground Station": {
+        "tfl_name": "White City Underground Station",
+        "rightmove_identifier": "STATION^10010",
+        "rightmove_name": "White City Station",
+        "rightmove_area": "London"
+    },
+    "Woodford Underground Station": {
+        "tfl_name": "Woodford Underground Station",
+        "rightmove_identifier": "STATION^10241",
+        "rightmove_name": "Woodford Station",
+        "rightmove_area": "London"
+    },
+    "West Ruislip Underground Station": {
+        "tfl_name": "West Ruislip Underground Station",
+        "rightmove_identifier": "STATION^9887",
+        "rightmove_name": "West Ruislip Station",
+        "rightmove_area": "Ruislip, Middlesex"
+    },
+    "Wanstead Underground Station": {
+        "tfl_name": "Wanstead Underground Station",
+        "rightmove_identifier": "STATION^9596",
+        "rightmove_name": "Wanstead Station",
+        "rightmove_area": "London"
+    },
+    "West Acton Underground Station": {
+        "tfl_name": "West Acton Underground Station",
+        "rightmove_identifier": "STATION^9797",
+        "rightmove_name": "West Acton Station",
+        "rightmove_area": "London"
+    },
+    "Aldgate Underground Station": {
+        "tfl_name": "Aldgate Underground Station",
+        "rightmove_identifier": "STATION^140",
+        "rightmove_name": "Aldgate Station",
+        "rightmove_area": "London"
+    },
+    "Barbican Underground Station": {
+        "tfl_name": "Barbican Underground Station",
+        "rightmove_identifier": "STATION^569",
+        "rightmove_name": "Barbican Station",
+        "rightmove_area": "London"
+    },
+    "Blackfriars Underground Station": {
+        "tfl_name": "Blackfriars Underground Station",
+        "rightmove_identifier": "STATION^1040",
+        "rightmove_name": "Blackfriars Station",
+        "rightmove_area": "London"
+    },
+    "Bayswater Underground Station": {
+        "tfl_name": "Bayswater Underground Station",
+        "rightmove_identifier": "STATION^707",
+        "rightmove_name": "Bayswater Station",
+        "rightmove_area": "London"
+    },
+    "Cannon Street Underground Station": {
+        "tfl_name": "Cannon Street Underground Station",
+        "rightmove_identifier": "STATION^1745",
+        "rightmove_name": "Cannon Street Station",
+        "rightmove_area": "London"
+    },
+    "Edgware Road (Circle Line) Underground Station": {
+        "tfl_name": "Edgware Road (Circle Line) Underground Station",
+        "rightmove_identifier": "STATION^3170",
+        "rightmove_name": "Edgware Road (Circle, District, Hammersmith & City) Station",
+        "rightmove_area": "London"
+    },
+    "Euston Square Underground Station": {
+        "tfl_name": "Euston Square Underground Station",
+        "rightmove_identifier": "STATION^3317",
+        "rightmove_name": "Euston Square Station",
+        "rightmove_area": "London"
+    },
+    "Farringdon Underground Station": {
+        "tfl_name": "Farringdon Underground Station",
+        "rightmove_identifier": "STATION^3431",
+        "rightmove_name": "Farringdon Station",
+        "rightmove_area": "London"
+    },
+    "Goldhawk Road Underground Station": {
+        "tfl_name": "Goldhawk Road Underground Station",
+        "rightmove_identifier": "STATION^3848",
+        "rightmove_name": "Goldhawk Road Station",
+        "rightmove_area": "London"
+    },
+    "Great Portland Street Underground Station": {
+        "tfl_name": "Great Portland Street Underground Station",
+        "rightmove_identifier": "STATION^3962",
+        "rightmove_name": "Great Portland Street Station",
+        "rightmove_area": "London"
+    },
+    "Gloucester Road Underground Station": {
+        "tfl_name": "Gloucester Road Underground Station",
+        "rightmove_identifier": "STATION^3809",
+        "rightmove_name": "Gloucester Road Station",
+        "rightmove_area": "London"
+    },
+    "Hammersmith (H&C Line) Underground Station": {
+        "tfl_name": "Hammersmith (H&C Line) Underground Station",
+        "rightmove_identifier": "STATION^4175",
+        "rightmove_name": "Hammersmith (Hammersmith & City) Station",
+        "rightmove_area": "London"
+    },
+    "High Street Kensington Underground Station": {
+        "tfl_name": "High Street Kensington Underground Station",
+        "rightmove_identifier": "STATION^4568",
+        "rightmove_name": "High Street Kensington Station",
+        "rightmove_area": "London"
+    },
+    "King's Cross St. Pancras Underground Station": {
+        "tfl_name": "King's Cross St. Pancras Underground Station",
+        "rightmove_identifier": "STATION^5165",
+        "rightmove_name": "King's Cross St. Pancras Station",
+        "rightmove_area": "London"
+    },
+    "Ladbroke Grove Underground Station": {
+        "tfl_name": "Ladbroke Grove Underground Station",
+        "rightmove_identifier": "STATION^5312",
+        "rightmove_name": "Ladbroke Grove Station",
+        "rightmove_area": "London"
+    },
+    "Latimer Road Underground Station": {
+        "tfl_name": "Latimer Road Underground Station",
+        "rightmove_identifier": "STATION^5411",
+        "rightmove_name": "Latimer Road Station",
+        "rightmove_area": "London"
+    },
+    "Moorgate Underground Station": {
+        "tfl_name": "Moorgate Underground Station",
+        "rightmove_identifier": "STATION^6332",
+        "rightmove_name": "Moorgate Station",
+        "rightmove_area": "London"
+    },
+    "Monument Underground Station": {
+        "tfl_name": "Monument Underground Station",
+        "rightmove_identifier": "STATION^6314",
+        "rightmove_name": "Monument Station",
+        "rightmove_area": "London"
+    },
+    "Mansion House Underground Station": {
+        "tfl_name": "Mansion House Underground Station",
+        "rightmove_identifier": "STATION^6026",
+        "rightmove_name": "Mansion House Station",
+        "rightmove_area": "London"
+    },
+    "Paddington (H&C Line)-Underground": {
+        "tfl_name": "Paddington (H&C Line)-Underground",
+        "rightmove_identifier": "STATION^6965",
+        "rightmove_name": "Paddington Station",
+        "rightmove_area": "London"
+    },
+    "Royal Oak Underground Station": {
+        "tfl_name": "Royal Oak Underground Station",
+        "rightmove_identifier": "STATION^7832",
+        "rightmove_name": "Royal Oak Station",
+        "rightmove_area": "London"
+    },
+    "Shepherd's Bush Market Underground Station": {
+        "tfl_name": "Shepherd's Bush Market Underground Station",
+        "rightmove_identifier": "STATION^8156",
+        "rightmove_name": "Shepherd's Bush (Hammersmith & City) Station",
+        "rightmove_area": "London"
+    },
+    "St. James's Park Underground Station": {
+        "tfl_name": "St. James's Park Underground Station",
+        "rightmove_identifier": "STATION^8621",
+        "rightmove_name": "St. James's Park Station",
+        "rightmove_area": "London"
+    },
+    "South Kensington Underground Station": {
+        "tfl_name": "South Kensington Underground Station",
+        "rightmove_identifier": "STATION^8414",
+        "rightmove_name": "South Kensington Station",
+        "rightmove_area": "London"
+    },
+    "Sloane Square Underground Station": {
+        "tfl_name": "Sloane Square Underground Station",
+        "rightmove_identifier": "STATION^8312",
+        "rightmove_name": "Sloane Square Station",
+        "rightmove_area": "London"
+    },
+    "Temple Underground Station": {
+        "tfl_name": "Temple Underground Station",
+        "rightmove_identifier": "STATION^9077",
+        "rightmove_name": "Temple Station",
+        "rightmove_area": "London"
+    },
+    "Tower Hill Underground Station": {
+        "tfl_name": "Tower Hill Underground Station",
+        "rightmove_identifier": "STATION^9290",
+        "rightmove_name": "Tower Hill Station",
+        "rightmove_area": "London"
+    },
+    "Victoria Underground Station": {
+        "tfl_name": "Victoria Underground Station",
+        "rightmove_identifier": "STATION^9491",
+        "rightmove_name": "Victoria Station",
+        "rightmove_area": "Pimlico, Central London"
+    },
+    "Wood Lane Underground Station": {
+        "tfl_name": "Wood Lane Underground Station",
+        "rightmove_identifier": "STATION^15065",
+        "rightmove_name": "Wood Lane Station",
+        "rightmove_area": "London"
+    },
+    "Westminster Underground Station": {
+        "tfl_name": "Westminster Underground Station",
+        "rightmove_identifier": "STATION^9953",
+        "rightmove_name": "Westminster Station",
+        "rightmove_area": "London"
+    },
+    "Westbourne Park Underground Station": {
+        "tfl_name": "Westbourne Park Underground Station",
+        "rightmove_identifier": "STATION^9917",
+        "rightmove_name": "Westbourne Park Station",
+        "rightmove_area": "London"
+    },
+    "Acton Town Underground Station": {
+        "tfl_name": "Acton Town Underground Station",
+        "rightmove_identifier": "STATION^77",
+        "rightmove_name": "Acton Town Station",
+        "rightmove_area": "London"
+    },
+    "Aldgate East Underground Station": {
+        "tfl_name": "Aldgate East Underground Station",
+        "rightmove_identifier": "STATION^143",
+        "rightmove_name": "Aldgate East Station",
+        "rightmove_area": "London"
+    },
+    "Bromley-by-Bow Underground Station": {
+        "tfl_name": "Bromley-by-Bow Underground Station",
+        "rightmove_identifier": "STATION^1445",
+        "rightmove_name": "Bromley-by-Bow Station",
+        "rightmove_area": "London"
+    },
+    "Becontree Underground Station": {
+        "tfl_name": "Becontree Underground Station",
+        "rightmove_identifier": "STATION^761",
+        "rightmove_name": "Becontree Station",
+        "rightmove_area": "London"
+    },
+    "Barking Underground Station": {
+        "tfl_name": "Barking Underground Station",
+        "rightmove_identifier": "STATION^587",
+        "rightmove_name": "Barking Station",
+        "rightmove_area": "Barking, London"
+    },
+    "Barons Court Underground Station": {
+        "tfl_name": "Barons Court Underground Station",
+        "rightmove_identifier": "STATION^632",
+        "rightmove_name": "Barons Court Station",
+        "rightmove_area": "London"
+    },
+    "Bow Road Underground Station": {
+        "tfl_name": "Bow Road Underground Station",
+        "rightmove_identifier": "STATION^1241",
+        "rightmove_name": "Bow Road Station",
+        "rightmove_area": "London"
+    },
+    "Chiswick Park Underground Station": {
+        "tfl_name": "Chiswick Park Underground Station",
+        "rightmove_identifier": "STATION^2084",
+        "rightmove_name": "Chiswick Park Station",
+        "rightmove_area": "London"
+    },
+    "Dagenham East Underground Station": {
+        "tfl_name": "Dagenham East Underground Station",
+        "rightmove_identifier": "STATION^2573",
+        "rightmove_name": "Dagenham East Station",
+        "rightmove_area": "Dagenham, London"
+    },
+    "Dagenham Heathway Underground Station": {
+        "tfl_name": "Dagenham Heathway Underground Station",
+        "rightmove_identifier": "STATION^2576",
+        "rightmove_name": "Dagenham Heathway Station",
+        "rightmove_area": "Dagenham, London"
+    },
+    "Ealing Common Underground Station": {
+        "tfl_name": "Ealing Common Underground Station",
+        "rightmove_identifier": "STATION^3029",
+        "rightmove_name": "Ealing Common Station",
+        "rightmove_area": "London"
+    },
+    "Earl's Court Underground Station": {
+        "tfl_name": "Earl's Court Underground Station",
+        "rightmove_identifier": "STATION^3038",
+        "rightmove_name": "Earls Court Station",
+        "rightmove_area": "Kensington, West London"
+    },
+    "East Ham Underground Station": {
+        "tfl_name": "East Ham Underground Station",
+        "rightmove_identifier": "STATION^3080",
+        "rightmove_name": "East Ham Station",
+        "rightmove_area": "London"
+    },
+    "Elm Park Underground Station": {
+        "tfl_name": "Elm Park Underground Station",
+        "rightmove_identifier": "STATION^3212",
+        "rightmove_name": "Elm Park Station",
+        "rightmove_area": "Hornchurch, London"
+    },
+    "East Putney Underground Station": {
+        "tfl_name": "East Putney Underground Station",
+        "rightmove_identifier": "STATION^3095",
+        "rightmove_name": "East Putney Station",
+        "rightmove_area": "London"
+    },
+    "Fulham Broadway Underground Station": {
+        "tfl_name": "Fulham Broadway Underground Station",
+        "rightmove_identifier": "STATION^3644",
+        "rightmove_name": "Fulham Broadway Station",
+        "rightmove_area": "London"
+    },
+    "Gunnersbury Underground Station": {
+        "tfl_name": "Gunnersbury Underground Station",
+        "rightmove_identifier": "STATION^4043",
+        "rightmove_name": "Gunnersbury Station",
+        "rightmove_area": "London"
+    },
+    "Hornchurch Underground Station": {
+        "tfl_name": "Hornchurch Underground Station",
+        "rightmove_identifier": "STATION^4730",
+        "rightmove_name": "Hornchurch Station",
+        "rightmove_area": "Hornchurch, London"
+    },
+    "Hammersmith (Dist&Picc Line) Underground Station": {
+        "tfl_name": "Hammersmith (Dist&Picc Line) Underground Station",
+        "rightmove_identifier": "STATION^4172",
+        "rightmove_name": "Hammersmith (District & Piccadilly) Station",
+        "rightmove_area": "London"
+    },
+    "Kensington (Olympia) Underground Station": {
+        "tfl_name": "Kensington (Olympia) Underground Station",
+        "rightmove_identifier": "STATION^5054",
+        "rightmove_name": "Kensington Olympia Station",
+        "rightmove_area": "London"
+    },
+    "Kew Gardens Underground Station": {
+        "tfl_name": "Kew Gardens Underground Station",
+        "rightmove_identifier": "STATION^5093",
+        "rightmove_name": "Kew Gardens Station",
+        "rightmove_area": "Kew, Richmond, London"
+    },
+    "Plaistow Underground Station": {
+        "tfl_name": "Plaistow Underground Station",
+        "rightmove_identifier": "STATION^7247",
+        "rightmove_name": "Plaistow Station",
+        "rightmove_area": "London"
+    },
+    "Parsons Green Underground Station": {
+        "tfl_name": "Parsons Green Underground Station",
+        "rightmove_identifier": "STATION^7046",
+        "rightmove_name": "Parsons Green Station",
+        "rightmove_area": "London"
+    },
+    "Putney Bridge Underground Station": {
+        "tfl_name": "Putney Bridge Underground Station",
+        "rightmove_identifier": "STATION^7481",
+        "rightmove_name": "Putney Bridge Station",
+        "rightmove_area": "London"
+    },
+    "Richmond Underground Station": {
+        "tfl_name": "Richmond Underground Station",
+        "rightmove_identifier": "STATION^7703",
+        "rightmove_name": "Richmond Station",
+        "rightmove_area": "Richmond, Surrey"
+    },
+    "Ravenscourt Park Underground Station": {
+        "tfl_name": "Ravenscourt Park Underground Station",
+        "rightmove_identifier": "STATION^7589",
+        "rightmove_name": "Ravenscourt Park Station",
+        "rightmove_area": "London"
+    },
+    "Stamford Brook Underground Station": {
+        "tfl_name": "Stamford Brook Underground Station",
+        "rightmove_identifier": "STATION^8672",
+        "rightmove_name": "Stamford Brook Station",
+        "rightmove_area": "London"
+    },
+    "Southfields Underground Station": {
+        "tfl_name": "Southfields Underground Station",
+        "rightmove_identifier": "STATION^8486",
+        "rightmove_name": "Southfields Station",
+        "rightmove_area": "Putney, South West London"
+    },
+    "Stepney Green Underground Station": {
+        "tfl_name": "Stepney Green Underground Station",
+        "rightmove_identifier": "STATION^8726",
+        "rightmove_name": "Stepney Green Station",
+        "rightmove_area": "London"
+    },
+    "Turnham Green Underground Station": {
+        "tfl_name": "Turnham Green Underground Station",
+        "rightmove_identifier": "STATION^9356",
+        "rightmove_name": "Turnham Green Station",
+        "rightmove_area": "London"
+    },
+    "Upminster Bridge Underground Station": {
+        "tfl_name": "Upminster Bridge Underground Station",
+        "rightmove_identifier": "STATION^9440",
+        "rightmove_name": "Upminster Bridge Station",
+        "rightmove_area": "Upminster, London"
+    },
+    "Upton Park Underground Station": {
+        "tfl_name": "Upton Park Underground Station",
+        "rightmove_identifier": "STATION^9458",
+        "rightmove_name": "Upton Park Station",
+        "rightmove_area": "London"
+    },
+    "Upminster Underground Station": {
+        "tfl_name": "Upminster Underground Station",
+        "rightmove_identifier": "STATION^9434",
+        "rightmove_name": "Upminster Station",
+        "rightmove_area": "Upminster, London"
+    },
+    "Upney Underground Station": {
+        "tfl_name": "Upney Underground Station",
+        "rightmove_identifier": "STATION^9443",
+        "rightmove_name": "Upney Station",
+        "rightmove_area": "London"
+    },
+    "West Brompton Underground Station": {
+        "tfl_name": "West Brompton Underground Station",
+        "rightmove_identifier": "STATION^9803",
+        "rightmove_name": "West Brompton Station",
+        "rightmove_area": "Kensington, West London"
+    },
+    "West Ham Underground Station": {
+        "tfl_name": "West Ham Underground Station",
+        "rightmove_identifier": "STATION^9842",
+        "rightmove_name": "West Ham Station",
+        "rightmove_area": "London"
+    },
+    "Wimbledon Underground Station": {
+        "tfl_name": "Wimbledon Underground Station",
+        "rightmove_identifier": "STATION^10127",
+        "rightmove_name": "Wimbledon Station",
+        "rightmove_area": "London"
+    },
+    "Wimbledon Park Underground Station": {
+        "tfl_name": "Wimbledon Park Underground Station",
+        "rightmove_identifier": "STATION^10139",
+        "rightmove_name": "Wimbledon Park Station",
+        "rightmove_area": "London"
+    },
+    "West Kensington Underground Station": {
+        "tfl_name": "West Kensington Underground Station",
+        "rightmove_identifier": "STATION^9869",
+        "rightmove_name": "West Kensington Station",
+        "rightmove_area": "Fulham, South West London"
+    },
+    "Whitechapel Underground Station": {
+        "tfl_name": "Whitechapel Underground Station",
+        "rightmove_identifier": "STATION^10022",
+        "rightmove_name": "Whitechapel Station",
+        "rightmove_area": "London"
+    },
+    "Bermondsey Underground Station": {
+        "tfl_name": "Bermondsey Underground Station",
+        "rightmove_identifier": "STATION^869",
+        "rightmove_name": "Bermondsey Station",
+        "rightmove_area": "London"
+    },
+    "Canning Town Underground Station": {
+        "tfl_name": "Canning Town Underground Station",
+        "rightmove_identifier": "STATION^1733",
+        "rightmove_name": "Canning Town Station",
+        "rightmove_area": "London"
+    },
+    "Canons Park Underground Station": {
+        "tfl_name": "Canons Park Underground Station",
+        "rightmove_identifier": "STATION^1754",
+        "rightmove_name": "Canons Park Station",
+        "rightmove_area": "London"
+    },
+    "Canada Water Underground Station": {
+        "tfl_name": "Canada Water Underground Station",
+        "rightmove_identifier": "STATION^1721",
+        "rightmove_name": "Canada Water Station",
+        "rightmove_area": "London"
+    },
+    "Canary Wharf Underground Station": {
+        "tfl_name": "Canary Wharf Underground Station",
+        "rightmove_identifier": "STATION^1724",
+        "rightmove_name": "Canary Wharf Station",
+        "rightmove_area": "London"
+    },
+    "Dollis Hill Underground Station": {
+        "tfl_name": "Dollis Hill Underground Station",
+        "rightmove_identifier": "STATION^2819",
+        "rightmove_name": "Dollis Hill Station",
+        "rightmove_area": "London"
+    },
+    "Finchley Road Underground Station": {
+        "tfl_name": "Finchley Road Underground Station",
+        "rightmove_identifier": "STATION^3509",
+        "rightmove_name": "Finchley Road Station",
+        "rightmove_area": "London"
+    },
+    "Green Park Underground Station": {
+        "tfl_name": "Green Park Underground Station",
+        "rightmove_identifier": "STATION^3971",
+        "rightmove_name": "Green Park Station",
+        "rightmove_area": "London"
+    },
+    "Kilburn Underground Station": {
+        "tfl_name": "Kilburn Underground Station",
+        "rightmove_identifier": "STATION^5120",
+        "rightmove_name": "Kilburn Station",
+        "rightmove_area": "London"
+    },
+    "Kingsbury Underground Station": {
+        "tfl_name": "Kingsbury Underground Station",
+        "rightmove_identifier": "STATION^5192",
+        "rightmove_name": "Kingsbury Station",
+        "rightmove_area": "London"
+    },
+    "London Bridge Underground Station": {
+        "tfl_name": "London Bridge Underground Station",
+        "rightmove_identifier": "STATION^5792",
+        "rightmove_name": "London Bridge Station",
+        "rightmove_area": "London"
+    },
+    "Neasden Underground Station": {
+        "tfl_name": "Neasden Underground Station",
+        "rightmove_identifier": "STATION^6488",
+        "rightmove_name": "Neasden Station",
+        "rightmove_area": "London"
+    },
+    "North Greenwich Underground Station": {
+        "tfl_name": "North Greenwich Underground Station",
+        "rightmove_identifier": "STATION^6719",
+        "rightmove_name": "North Greenwich Station",
+        "rightmove_area": "London"
+    },
+    "Queensbury Underground Station": {
+        "tfl_name": "Queensbury Underground Station",
+        "rightmove_identifier": "STATION^7520",
+        "rightmove_name": "Queensbury Station",
+        "rightmove_area": "Kenton, Harrow, Middlesex"
+    },
+    "St. John's Wood Underground Station": {
+        "tfl_name": "St. John's Wood Underground Station",
+        "rightmove_identifier": "STATION^8627",
+        "rightmove_name": "St. John's Wood Station",
+        "rightmove_area": "London"
+    },
+    "Stanmore Underground Station": {
+        "tfl_name": "Stanmore Underground Station",
+        "rightmove_identifier": "STATION^8690",
+        "rightmove_name": "Stanmore Station",
+        "rightmove_area": "Stanmore, Middlesex"
+    },
+    "Swiss Cottage Underground Station": {
+        "tfl_name": "Swiss Cottage Underground Station",
+        "rightmove_identifier": "STATION^8981",
+        "rightmove_name": "Swiss Cottage Station",
+        "rightmove_area": "London"
+    },
+    "Southwark Underground Station": {
+        "tfl_name": "Southwark Underground Station",
+        "rightmove_identifier": "STATION^8498",
+        "rightmove_name": "Southwark Station",
+        "rightmove_area": "London"
+    },
+    "West Hampstead Underground Station": {
+        "tfl_name": "West Hampstead Underground Station",
+        "rightmove_identifier": "STATION^9848",
+        "rightmove_name": "West Hampstead Station",
+        "rightmove_area": "London"
+    },
+    "Willesden Green Underground Station": {
+        "tfl_name": "Willesden Green Underground Station",
+        "rightmove_identifier": "STATION^10100",
+        "rightmove_name": "Willesden Green Station",
+        "rightmove_area": "London"
+    },
+    "Wembley Park Underground Station": {
+        "tfl_name": "Wembley Park Underground Station",
+        "rightmove_identifier": "STATION^9782",
+        "rightmove_name": "Wembley Park Station",
+        "rightmove_area": "Wembley, Middlesex"
+    },
+    "Amersham Underground Station": {
+        "tfl_name": "Amersham Underground Station",
+        "rightmove_identifier": "STATION^215",
+        "rightmove_name": "Amersham Station",
+        "rightmove_area": "Amersham, Buckinghamshire"
+    },
+    "Chalfont & Latimer Underground Station": {
+        "tfl_name": "Chalfont & Latimer Underground Station",
+        "rightmove_identifier": "STATION^1907",
+        "rightmove_name": "Chalfont & Latimer Station",
+        "rightmove_area": "Amersham, Buckinghamshire"
+    },
+    "Chesham Underground Station": {
+        "tfl_name": "Chesham Underground Station",
+        "rightmove_identifier": "STATION^2009",
+        "rightmove_name": "Chesham Station",
+        "rightmove_area": "Chesham, Buckinghamshire"
+    },
+    "Croxley Underground Station": {
+        "tfl_name": "Croxley Underground Station",
+        "rightmove_identifier": "STATION^2495",
+        "rightmove_name": "Croxley Station",
+        "rightmove_area": "Croxley Green, Rickmansworth, Hertfordshire"
+    },
+    "Chorleywood Underground Station": {
+        "tfl_name": "Chorleywood Underground Station",
+        "rightmove_identifier": "STATION^2099",
+        "rightmove_name": "Chorleywood Station",
+        "rightmove_area": "Rickmansworth, Hertfordshire"
+    },
+    "Eastcote Underground Station": {
+        "tfl_name": "Eastcote Underground Station",
+        "rightmove_identifier": "STATION^3119",
+        "rightmove_name": "Eastcote Station",
+        "rightmove_area": "Eastcote, Pinner, Middlesex"
+    },
+    "Hillingdon Underground Station": {
+        "tfl_name": "Hillingdon Underground Station",
+        "rightmove_identifier": "STATION^4613",
+        "rightmove_name": "Hillingdon Station",
+        "rightmove_area": "Uxbridge, Greater London"
+    },
+    "Harrow-on-the-Hill Underground Station": {
+        "tfl_name": "Harrow-on-the-Hill Underground Station",
+        "rightmove_identifier": "STATION^4289",
+        "rightmove_name": "Harrow-on-the-Hill Station",
+        "rightmove_area": "Harrow, Middlesex"
+    },
+    "Ickenham Underground Station": {
+        "tfl_name": "Ickenham Underground Station",
+        "rightmove_identifier": "STATION^4868",
+        "rightmove_name": "Ickenham Station",
+        "rightmove_area": "Ickenham, Uxbridge, Middlesex"
+    },
+    "Moor Park Underground Station": {
+        "tfl_name": "Moor Park Underground Station",
+        "rightmove_identifier": "STATION^6320",
+        "rightmove_name": "Moor Park Station",
+        "rightmove_area": "Northwood, Middlesex"
+    },
+    "North Harrow Underground Station": {
+        "tfl_name": "North Harrow Underground Station",
+        "rightmove_identifier": "STATION^6722",
+        "rightmove_name": "North Harrow Station",
+        "rightmove_area": "North Harrow, Harrow, Middlesex"
+    },
+    "Northwick Park Underground Station": {
+        "tfl_name": "Northwick Park Underground Station",
+        "rightmove_identifier": "STATION^6797",
+        "rightmove_name": "Northwick Park Station",
+        "rightmove_area": "Kenton, Harrow, Middlesex"
+    },
+    "Northwood Underground Station": {
+        "tfl_name": "Northwood Underground Station",
+        "rightmove_identifier": "STATION^6800",
+        "rightmove_name": "Northwood Station",
+        "rightmove_area": "Northwood, Middlesex"
+    },
+    "Northwood Hills Underground Station": {
+        "tfl_name": "Northwood Hills Underground Station",
+        "rightmove_identifier": "STATION^6806",
+        "rightmove_name": "Northwood Hills Station",
+        "rightmove_area": "Northwood, Middlesex"
+    },
+    "Pinner Underground Station": {
+        "tfl_name": "Pinner Underground Station",
+        "rightmove_identifier": "STATION^7238",
+        "rightmove_name": "Pinner Station",
+        "rightmove_area": "Eastcote, Pinner, Middlesex"
+    },
+    "Preston Road Underground Station": {
+        "tfl_name": "Preston Road Underground Station",
+        "rightmove_identifier": "STATION^7427",
+        "rightmove_name": "Preston Road Station",
+        "rightmove_area": "Kenton, Harrow, Middlesex"
+    },
+    "Rickmansworth Underground Station": {
+        "tfl_name": "Rickmansworth Underground Station",
+        "rightmove_identifier": "STATION^7709",
+        "rightmove_name": "Rickmansworth Station",
+        "rightmove_area": "Rickmansworth, Hertfordshire"
+    },
+    "Ruislip Manor Underground Station": {
+        "tfl_name": "Ruislip Manor Underground Station",
+        "rightmove_identifier": "STATION^7865",
+        "rightmove_name": "Ruislip Manor Station",
+        "rightmove_area": "Ruislip, Middlesex"
+    },
+    "Ruislip Underground Station": {
+        "tfl_name": "Ruislip Underground Station",
+        "rightmove_identifier": "STATION^7859",
+        "rightmove_name": "Ruislip Station",
+        "rightmove_area": "Eastcote, Pinner, Middlesex"
+    },
+    "Rayners Lane Underground Station": {
+        "tfl_name": "Rayners Lane Underground Station",
+        "rightmove_identifier": "STATION^7604",
+        "rightmove_name": "Rayners Lane Station",
+        "rightmove_area": "South Harrow, Harrow, Middlesex"
+    },
+    "Uxbridge Underground Station": {
+        "tfl_name": "Uxbridge Underground Station",
+        "rightmove_identifier": "STATION^9473",
+        "rightmove_name": "Uxbridge Station",
+        "rightmove_area": "Uxbridge, Greater London"
+    },
+    "Watford Underground Station": {
+        "tfl_name": "Watford Underground Station",
+        "rightmove_identifier": "STATION^9680",
+        "rightmove_name": "Watford Station",
+        "rightmove_area": "Watford, Hertfordshire"
+    },
+    "West Harrow Underground Station": {
+        "tfl_name": "West Harrow Underground Station",
+        "rightmove_identifier": "STATION^9857",
+        "rightmove_name": "West Harrow Station",
+        "rightmove_area": "Harrow, Middlesex"
+    },
+    "Battersea Power Station Underground Station": {
+        "tfl_name": "Battersea Power Station Underground Station",
+        "rightmove_identifier": "STATION^18250",
+        "rightmove_name": "Battersea Power Underground Station",
+        "rightmove_area": "Battersea, South West London"
+    },
+    "Archway Underground Station": {
+        "tfl_name": "Archway Underground Station",
+        "rightmove_identifier": "STATION^287",
+        "rightmove_name": "Archway Station",
+        "rightmove_area": "London"
+    },
+    "Angel Underground Station": {
+        "tfl_name": "Angel Underground Station",
+        "rightmove_identifier": "STATION^245",
+        "rightmove_name": "Angel Station",
+        "rightmove_area": "London"
+    },
+    "Balham Underground Station": {
+        "tfl_name": "Balham Underground Station",
+        "rightmove_identifier": "STATION^506",
+        "rightmove_name": "Balham Station",
+        "rightmove_area": "London"
+    },
+    "Borough Underground Station": {
+        "tfl_name": "Borough Underground Station",
+        "rightmove_identifier": "STATION^1193",
+        "rightmove_name": "Borough Station",
+        "rightmove_area": "London"
+    },
+    "Burnt Oak Underground Station": {
+        "tfl_name": "Burnt Oak Underground Station",
+        "rightmove_identifier": "STATION^1595",
+        "rightmove_name": "Burnt Oak Station",
+        "rightmove_area": "London"
+    },
+    "Brent Cross Underground Station": {
+        "tfl_name": "Brent Cross Underground Station",
+        "rightmove_identifier": "STATION^1325",
+        "rightmove_name": "Brent Cross Station",
+        "rightmove_area": "Golders Green, North West London"
+    },
+    "Belsize Park Underground Station": {
+        "tfl_name": "Belsize Park Underground Station",
+        "rightmove_identifier": "STATION^824",
+        "rightmove_name": "Belsize Park Station",
+        "rightmove_area": "London"
+    },
+    "Chalk Farm Underground Station": {
+        "tfl_name": "Chalk Farm Underground Station",
+        "rightmove_identifier": "STATION^1913",
+        "rightmove_name": "Chalk Farm Station",
+        "rightmove_area": "London"
+    },
+    "Colindale Underground Station": {
+        "tfl_name": "Colindale Underground Station",
+        "rightmove_identifier": "STATION^2252",
+        "rightmove_name": "Colindale Station",
+        "rightmove_area": "London"
+    },
+    "Clapham Common Underground Station": {
+        "tfl_name": "Clapham Common Underground Station",
+        "rightmove_identifier": "STATION^2150",
+        "rightmove_name": "Clapham Common Station",
+        "rightmove_area": "London"
+    },
+    "Clapham North Underground Station": {
+        "tfl_name": "Clapham North Underground Station",
+        "rightmove_identifier": "STATION^2159",
+        "rightmove_name": "Clapham North Station",
+        "rightmove_area": "London"
+    },
+    "Clapham South Underground Station": {
+        "tfl_name": "Clapham South Underground Station",
+        "rightmove_identifier": "STATION^2162",
+        "rightmove_name": "Clapham South Station",
+        "rightmove_area": "London"
+    },
+    "Colliers Wood Underground Station": {
+        "tfl_name": "Colliers Wood Underground Station",
+        "rightmove_identifier": "STATION^2255",
+        "rightmove_name": "Colliers Wood Station",
+        "rightmove_area": "London"
+    },
+    "Camden Town Underground Station": {
+        "tfl_name": "Camden Town Underground Station",
+        "rightmove_identifier": "STATION^1712",
+        "rightmove_name": "Camden Town Station",
+        "rightmove_area": "London"
+    },
+    "East Finchley Underground Station": {
+        "tfl_name": "East Finchley Underground Station",
+        "rightmove_identifier": "STATION^3071",
+        "rightmove_name": "East Finchley Station",
+        "rightmove_area": "London"
+    },
+    "Edgware Underground Station": {
+        "tfl_name": "Edgware Underground Station",
+        "rightmove_identifier": "STATION^3164",
+        "rightmove_name": "Edgware Station",
+        "rightmove_area": "Edgware, Middlesex"
+    },
+    "Euston Underground Station": {
+        "tfl_name": "Euston Underground Station",
+        "rightmove_identifier": "STATION^3311",
+        "rightmove_name": "Euston Station",
+        "rightmove_area": "London"
+    },
+    "Finchley Central Underground Station": {
+        "tfl_name": "Finchley Central Underground Station",
+        "rightmove_identifier": "STATION^3506",
+        "rightmove_name": "Finchley Central Station",
+        "rightmove_area": "London"
+    },
+    "Goodge Street Underground Station": {
+        "tfl_name": "Goodge Street Underground Station",
+        "rightmove_identifier": "STATION^3863",
+        "rightmove_name": "Goodge Street Station",
+        "rightmove_area": "London"
+    },
+    "Golders Green Underground Station": {
+        "tfl_name": "Golders Green Underground Station",
+        "rightmove_identifier": "STATION^3845",
+        "rightmove_name": "Golders Green Station",
+        "rightmove_area": "London"
+    },
+    "High Barnet Underground Station": {
+        "tfl_name": "High Barnet Underground Station",
+        "rightmove_identifier": "STATION^4553",
+        "rightmove_name": "High Barnet Station",
+        "rightmove_area": "High Barnet, Barnet, Hertfordshire"
+    },
+    "Hendon Central Underground Station": {
+        "tfl_name": "Hendon Central Underground Station",
+        "rightmove_identifier": "STATION^4478",
+        "rightmove_name": "Hendon Central Station",
+        "rightmove_area": "London"
+    },
+    "Highgate Underground Station": {
+        "tfl_name": "Highgate Underground Station",
+        "rightmove_identifier": "STATION^4595",
+        "rightmove_name": "Highgate Station",
+        "rightmove_area": "London"
+    },
+    "Hampstead Underground Station": {
+        "tfl_name": "Hampstead Underground Station",
+        "rightmove_identifier": "STATION^4187",
+        "rightmove_name": "Hampstead Station",
+        "rightmove_area": "London"
+    },
+    "Kennington Underground Station": {
+        "tfl_name": "Kennington Underground Station",
+        "rightmove_identifier": "STATION^5036",
+        "rightmove_name": "Kennington Station",
+        "rightmove_area": "London"
+    },
+    "Kentish Town Underground Station": {
+        "tfl_name": "Kentish Town Underground Station",
+        "rightmove_identifier": "STATION^5069",
+        "rightmove_name": "Kentish Town Station",
+        "rightmove_area": "London"
+    },
+    "Leicester Square Underground Station": {
+        "tfl_name": "Leicester Square Underground Station",
+        "rightmove_identifier": "STATION^5471",
+        "rightmove_name": "Leicester Square Station",
+        "rightmove_area": "London"
+    },
+    "Morden Underground Station": {
+        "tfl_name": "Morden Underground Station",
+        "rightmove_identifier": "STATION^6353",
+        "rightmove_name": "Morden Station",
+        "rightmove_area": "Morden, Surrey"
+    },
+    "Mill Hill East Underground Station": {
+        "tfl_name": "Mill Hill East Underground Station",
+        "rightmove_identifier": "STATION^6233",
+        "rightmove_name": "Mill Hill East Station",
+        "rightmove_area": "London"
+    },
+    "Mornington Crescent Underground Station": {
+        "tfl_name": "Mornington Crescent Underground Station",
+        "rightmove_identifier": "STATION^6380",
+        "rightmove_name": "Mornington Crescent Station",
+        "rightmove_area": "London"
+    },
+    "Old Street Underground Station": {
+        "tfl_name": "Old Street Underground Station",
+        "rightmove_identifier": "STATION^6881",
+        "rightmove_name": "Old Street Station",
+        "rightmove_area": "London"
+    },
+    "Oval Underground Station": {
+        "tfl_name": "Oval Underground Station",
+        "rightmove_identifier": "STATION^6938",
+        "rightmove_name": "Oval Station",
+        "rightmove_area": "London"
+    },
+    "Stockwell Underground Station": {
+        "tfl_name": "Stockwell Underground Station",
+        "rightmove_identifier": "STATION^8759",
+        "rightmove_name": "Stockwell Station",
+        "rightmove_area": "London"
+    },
+    "South Wimbledon Underground Station": {
+        "tfl_name": "South Wimbledon Underground Station",
+        "rightmove_identifier": "STATION^8453",
+        "rightmove_name": "South Wimbledon Station",
+        "rightmove_area": "London"
+    },
+    "Totteridge & Whetstone Underground Station": {
+        "tfl_name": "Totteridge & Whetstone Underground Station",
+        "rightmove_identifier": "STATION^9281",
+        "rightmove_name": "Totteridge & Whetstone Station",
+        "rightmove_area": "London"
+    },
+    "Tooting Bec Underground Station": {
+        "tfl_name": "Tooting Bec Underground Station",
+        "rightmove_identifier": "STATION^9248",
+        "rightmove_name": "Tooting Bec Station",
+        "rightmove_area": "London"
+    },
+    "Tooting Broadway Underground Station": {
+        "tfl_name": "Tooting Broadway Underground Station",
+        "rightmove_identifier": "STATION^9251",
+        "rightmove_name": "Tooting Broadway Station",
+        "rightmove_area": "London"
+    },
+    "Tufnell Park Underground Station": {
+        "tfl_name": "Tufnell Park Underground Station",
+        "rightmove_identifier": "STATION^9338",
+        "rightmove_name": "Tufnell Park Station",
+        "rightmove_area": "London"
+    },
+    "West Finchley Underground Station": {
+        "tfl_name": "West Finchley Underground Station",
+        "rightmove_identifier": "STATION^9839",
+        "rightmove_name": "West Finchley Station",
+        "rightmove_area": "London"
+    },
+    "Woodside Park Underground Station": {
+        "tfl_name": "Woodside Park Underground Station",
+        "rightmove_identifier": "STATION^10274",
+        "rightmove_name": "Woodside Park Station",
+        "rightmove_area": "London"
+    },
+    "Warren Street Underground Station": {
+        "tfl_name": "Warren Street Underground Station",
+        "rightmove_identifier": "STATION^9626",
+        "rightmove_name": "Warren Street Station",
+        "rightmove_area": "London"
+    },
+    "Nine Elms Underground Station": {
+        "tfl_name": "Nine Elms Underground Station",
+        "rightmove_identifier": "STATION^20525",
+        "rightmove_name": "Nine Elms Station",
+        "rightmove_area": "South East London"
+    },
+    "Alperton Underground Station": {
+        "tfl_name": "Alperton Underground Station",
+        "rightmove_identifier": "STATION^176",
+        "rightmove_name": "Alperton Station",
+        "rightmove_area": "London"
+    },
+    "Arnos Grove Underground Station": {
+        "tfl_name": "Arnos Grove Underground Station",
+        "rightmove_identifier": "STATION^329",
+        "rightmove_name": "Arnos Grove Station",
+        "rightmove_area": "London"
+    },
+    "Arsenal Underground Station": {
+        "tfl_name": "Arsenal Underground Station",
+        "rightmove_identifier": "STATION^341",
+        "rightmove_name": "Arsenal Station",
+        "rightmove_area": "London"
+    },
+    "Bounds Green Underground Station": {
+        "tfl_name": "Bounds Green Underground Station",
+        "rightmove_identifier": "STATION^1223",
+        "rightmove_name": "Bounds Green Station",
+        "rightmove_area": "London"
+    },
+    "Boston Manor Underground Station": {
+        "tfl_name": "Boston Manor Underground Station",
+        "rightmove_identifier": "STATION^1211",
+        "rightmove_name": "Boston Manor Station",
+        "rightmove_area": "London"
+    },
+    "Caledonian Road Underground Station": {
+        "tfl_name": "Caledonian Road Underground Station",
+        "rightmove_identifier": "STATION^1679",
+        "rightmove_name": "Caledonian Road Station",
+        "rightmove_area": "London"
+    },
+    "Covent Garden Underground Station": {
+        "tfl_name": "Covent Garden Underground Station",
+        "rightmove_identifier": "STATION^2375",
+        "rightmove_name": "Covent Garden Station",
+        "rightmove_area": "London"
+    },
+    "Cockfosters Underground Station": {
+        "tfl_name": "Cockfosters Underground Station",
+        "rightmove_identifier": "STATION^2228",
+        "rightmove_name": "Cockfosters Station",
+        "rightmove_area": "Cockfosters, Barnet, Hertfordshire"
+    },
+    "Finsbury Park Underground Station": {
+        "tfl_name": "Finsbury Park Underground Station",
+        "rightmove_identifier": "STATION^3515",
+        "rightmove_name": "Finsbury Park Station",
+        "rightmove_area": "London"
+    },
+    "Hatton Cross Underground Station": {
+        "tfl_name": "Hatton Cross Underground Station",
+        "rightmove_identifier": "STATION^4340",
+        "rightmove_name": "Hatton Cross Station",
+        "rightmove_area": "Feltham, Middlesex"
+    },
+    "Hyde Park Corner Underground Station": {
+        "tfl_name": "Hyde Park Corner Underground Station",
+        "rightmove_identifier": "STATION^4844",
+        "rightmove_name": "Hyde Park Corner Station",
+        "rightmove_area": "London"
+    },
+    "Heathrow Terminal 4 Underground Station": {
+        "tfl_name": "Heathrow Terminal 4 Underground Station",
+        "rightmove_identifier": "STATION^5804",
+        "rightmove_name": "London Heathrow Airport Terminal 4 Station",
+        "rightmove_area": "Feltham, Middlesex"
+    },
+    "Heathrow Terminal 5 Underground Station": {
+        "tfl_name": "Heathrow Terminal 5 Underground Station",
+        "rightmove_identifier": "STATION^10465",
+        "rightmove_name": "Heathrow Terminal 5 Station",
+        "rightmove_area": "London"
+    },
+    "Heathrow Terminals 2 & 3 Underground Station": {
+        "tfl_name": "Heathrow Terminals 2 & 3 Underground Station",
+        "rightmove_identifier": "STATION^5807",
+        "rightmove_name": "London Heathrow Airport Terminals 1, 2 & 3 Station",
+        "rightmove_area": "London Heathrow Airport, Hounslow, Middlesex"
+    },
+    "Hounslow Central Underground Station": {
+        "tfl_name": "Hounslow Central Underground Station",
+        "rightmove_identifier": "STATION^4763",
+        "rightmove_name": "Hounslow Central Station",
+        "rightmove_area": "Hounslow, Middlesex"
+    },
+    "Hounslow East Underground Station": {
+        "tfl_name": "Hounslow East Underground Station",
+        "rightmove_identifier": "STATION^4766",
+        "rightmove_name": "Hounslow East Station",
+        "rightmove_area": "Hounslow, Middlesex"
+    },
+    "Hounslow West Underground Station": {
+        "tfl_name": "Hounslow West Underground Station",
+        "rightmove_identifier": "STATION^4769",
+        "rightmove_name": "Hounslow West Station",
+        "rightmove_area": "Hounslow, Middlesex"
+    },
+    "Holloway Road Underground Station": {
+        "tfl_name": "Holloway Road Underground Station",
+        "rightmove_identifier": "STATION^4670",
+        "rightmove_name": "Holloway Road Station",
+        "rightmove_area": "London"
+    },
+    "Knightsbridge Underground Station": {
+        "tfl_name": "Knightsbridge Underground Station",
+        "rightmove_identifier": "STATION^5288",
+        "rightmove_name": "Knightsbridge Station",
+        "rightmove_area": "London"
+    },
+    "Manor House Underground Station": {
+        "tfl_name": "Manor House Underground Station",
+        "rightmove_identifier": "STATION^6002",
+        "rightmove_name": "Manor House Station",
+        "rightmove_area": "London"
+    },
+    "North Ealing Underground Station": {
+        "tfl_name": "North Ealing Underground Station",
+        "rightmove_identifier": "STATION^6716",
+        "rightmove_name": "North Ealing Station",
+        "rightmove_area": "London"
+    },
+    "Northfields Underground Station": {
+        "tfl_name": "Northfields Underground Station",
+        "rightmove_identifier": "STATION^6773",
+        "rightmove_name": "Northfields Station",
+        "rightmove_area": "London"
+    },
+    "Oakwood Underground Station": {
+        "tfl_name": "Oakwood Underground Station",
+        "rightmove_identifier": "STATION^6857",
+        "rightmove_name": "Oakwood Station",
+        "rightmove_area": "London"
+    },
+    "Osterley Underground Station": {
+        "tfl_name": "Osterley Underground Station",
+        "rightmove_identifier": "STATION^6923",
+        "rightmove_name": "Osterley Station",
+        "rightmove_area": "Isleworth, Middlesex"
+    },
+    "Park Royal Underground Station": {
+        "tfl_name": "Park Royal Underground Station",
+        "rightmove_identifier": "STATION^7031",
+        "rightmove_name": "Park Royal Station",
+        "rightmove_area": "London"
+    },
+    "Russell Square Underground Station": {
+        "tfl_name": "Russell Square Underground Station",
+        "rightmove_identifier": "STATION^7877",
+        "rightmove_name": "Russell Square Station",
+        "rightmove_area": "London"
+    },
+    "South Ealing Underground Station": {
+        "tfl_name": "South Ealing Underground Station",
+        "rightmove_identifier": "STATION^8390",
+        "rightmove_name": "South Ealing Station",
+        "rightmove_area": "London"
+    },
+    "Southgate Underground Station": {
+        "tfl_name": "Southgate Underground Station",
+        "rightmove_identifier": "STATION^8489",
+        "rightmove_name": "Southgate Station",
+        "rightmove_area": "London"
+    },
+    "South Harrow Underground Station": {
+        "tfl_name": "South Harrow Underground Station",
+        "rightmove_identifier": "STATION^8408",
+        "rightmove_name": "South Harrow Station",
+        "rightmove_area": "Harrow, Middlesex"
+    },
+    "Sudbury Hill Underground Station": {
+        "tfl_name": "Sudbury Hill Underground Station",
+        "rightmove_identifier": "STATION^8873",
+        "rightmove_name": "Sudbury Hill Station",
+        "rightmove_area": "London"
+    },
+    "Sudbury Town Underground Station": {
+        "tfl_name": "Sudbury Town Underground Station",
+        "rightmove_identifier": "STATION^8882",
+        "rightmove_name": "Sudbury Town Station",
+        "rightmove_area": "London"
+    },
+    "Turnpike Lane Underground Station": {
+        "tfl_name": "Turnpike Lane Underground Station",
+        "rightmove_identifier": "STATION^9359",
+        "rightmove_name": "Turnpike Lane Station",
+        "rightmove_area": "London"
+    },
+    "Wood Green Underground Station": {
+        "tfl_name": "Wood Green Underground Station",
+        "rightmove_identifier": "STATION^10229",
+        "rightmove_name": "Wood Green Station",
+        "rightmove_area": "London"
+    },
+    "Blackhorse Road Underground Station": {
+        "tfl_name": "Blackhorse Road Underground Station",
+        "rightmove_identifier": "STATION^1055",
+        "rightmove_name": "Blackhorse Road Station",
+        "rightmove_area": "London"
+    },
+    "Brixton Underground Station": {
+        "tfl_name": "Brixton Underground Station",
+        "rightmove_identifier": "STATION^1400",
+        "rightmove_name": "Brixton Station",
+        "rightmove_area": "South East London"
+    },
+    "Highbury & Islington Underground Station": {
+        "tfl_name": "Highbury & Islington Underground Station",
+        "rightmove_identifier": "STATION^4583",
+        "rightmove_name": "Highbury & Islington Station",
+        "rightmove_area": "London"
+    },
+    "Pimlico Underground Station": {
+        "tfl_name": "Pimlico Underground Station",
+        "rightmove_identifier": "STATION^7232",
+        "rightmove_name": "Pimlico Station",
+        "rightmove_area": "London"
+    },
+    "Seven Sisters Underground Station": {
+        "tfl_name": "Seven Sisters Underground Station",
+        "rightmove_identifier": "STATION^8075",
+        "rightmove_name": "Seven Sisters Station",
+        "rightmove_area": "London"
+    },
+    "Tottenham Hale Underground Station": {
+        "tfl_name": "Tottenham Hale Underground Station",
+        "rightmove_identifier": "STATION^9275",
+        "rightmove_name": "Tottenham Hale Station",
+        "rightmove_area": "London"
+    },
+    "Vauxhall Underground Station": {
+        "tfl_name": "Vauxhall Underground Station",
+        "rightmove_identifier": "STATION^9485",
+        "rightmove_name": "Vauxhall Station",
+        "rightmove_area": "London"
+    },
+    "Walthamstow Central Underground Station": {
+        "tfl_name": "Walthamstow Central Underground Station",
+        "rightmove_identifier": "STATION^9557",
+        "rightmove_name": "Walthamstow Central Station",
+        "rightmove_area": "London"
+    }
+}

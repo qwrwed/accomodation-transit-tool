@@ -8,6 +8,7 @@ import {
 
 const outcodeData = require("./rightmove/rightmoveOutcodeData.json"); // https://github.com/ISNIT0/rightmove-outcode-scraper
 const rightmoveStationNameToIdentifier = require("./rightmove/rightmove_name_to_identifier_STATION.json");
+const tflStationNameToRightmoveData = require("./rightmove/tfl_names_to_rm_identifiers.json");
 
 const KM_PER_MILE = 1.609;
 
@@ -98,11 +99,18 @@ const getRightmoveStationHref = ({ station_name }) => {
   if (!station_name) {
     return null;
   }
-  const station_name_rightmove = station_name
-    .replace("Underground Station", "Station")
-    .replace("Rail Station", "Station"); // TODO: more robust mapping
-  const station_identifier =
-    rightmoveStationNameToIdentifier[station_name_rightmove];
+  const tfl_data = tflStationNameToRightmoveData[station_name];
+  let station_identifier;
+  if (tfl_data) {
+    station_identifier = tfl_data.rightmove_identifier;
+  } else {
+    const station_name_rightmove = station_name
+      .replace("Underground Station", "Station")
+      .replace("Rail Station", "Station"); // TODO: more robust mapping
+    station_identifier =
+      rightmoveStationNameToIdentifier[station_name_rightmove];
+  }
+
   if (!station_identifier) {
     return null;
   }
